@@ -4,7 +4,7 @@
 import Algebra_Primitives
 public import Algebra_Linear_Primitives
 public import Dimension_Primitives
-public import RealModule
+public import Real_Primitives
 
 extension Affine {
     /// Two-dimensional affine transformation combining linear transformation and translation.
@@ -261,7 +261,7 @@ extension Affine.Transform where Scalar: FloatingPoint & ExpressibleByIntegerLit
 
 // MARK: - Rotation Factory (Real & BinaryFloatingPoint)
 
-extension Affine.Transform where Scalar: Real & BinaryFloatingPoint {
+extension Affine.Transform where Scalar: Numeric.Real & BinaryFloatingPoint {
     /// Creates counterclockwise rotation transform around origin.
     @inlinable
     public static func rotation(_ angle: Radian<Scalar>) -> Self {
@@ -347,7 +347,7 @@ extension Affine.Transform where Scalar: FloatingPoint & ExpressibleByIntegerLit
     }
 }
 
-extension Affine.Transform where Scalar: Real & BinaryFloatingPoint {
+extension Affine.Transform where Scalar: Numeric.Real & BinaryFloatingPoint {
     /// Returns new transform with additional rotation applied.
     @inlinable
     public static func rotated(_ transform: Self, by angle: Radian<Scalar>) -> Self {

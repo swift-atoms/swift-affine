@@ -3,11 +3,11 @@
 
 import Algebra_Linear_Primitives
 public import Dimension_Primitives
-public import RealModule
+public import Real_Primitives
 
 // MARK: - Polar Coordinates
 
-extension Affine.Point where N == 2, Scalar: Real & BinaryFloatingPoint {
+extension Affine.Point where N == 2, Scalar: Numeric.Real & BinaryFloatingPoint {
     /// Creates point at polar coordinates relative to origin.
     ///
     /// Converts polar coordinates `(r, θ)` to Cartesian coordinates `(x, y)`.
@@ -23,20 +23,20 @@ extension Affine.Point where N == 2, Scalar: Real & BinaryFloatingPoint {
     /// Angular direction from origin to this point in radians.
     @inlinable
     public var angle: Radian<Scalar> {
-        Radian(Scalar.atan2(y: y.rawValue, x: x.rawValue))
+        Radian(Scalar.math.atan2(y.rawValue, x.rawValue))
     }
 
     /// Distance from origin to this point.
     @inlinable
     public var radius: Affine.Distance {
         // sqrt(x² + y²) using raw values since coordinates can't be multiplied
-        Affine.Distance(Scalar.sqrt(x.rawValue * x.rawValue + y.rawValue * y.rawValue))
+        Affine.Distance(Scalar.math.sqrt(x.rawValue * x.rawValue + y.rawValue * y.rawValue))
     }
 }
 
 // MARK: - Rotation
 
-extension Affine.Point where N == 2, Scalar: Real & BinaryFloatingPoint {
+extension Affine.Point where N == 2, Scalar: Numeric.Real & BinaryFloatingPoint {
     /// Rotates point counterclockwise around origin by specified angle.
     @inlinable
     public static func rotated(
