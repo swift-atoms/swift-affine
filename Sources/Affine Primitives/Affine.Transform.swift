@@ -259,16 +259,33 @@ extension Affine.Transform where Scalar: FloatingPoint & ExpressibleByIntegerLit
     }
 }
 
-// MARK: - Rotation Factory (Real & BinaryFloatingPoint)
+// MARK: - Rotation Factory - Double
 
-extension Affine.Transform where Scalar: Numeric.Real & BinaryFloatingPoint {
+extension Affine.Transform where Scalar == Double {
     /// Creates counterclockwise rotation transform around origin.
     @inlinable
     public static func rotation(_ angle: Radian<Scalar>) -> Self {
-        let c = angle.cos.value
-        let s = angle.sin.value
-        return Self(
-            linear: Linear<Scalar, Space>.Matrix(a: c, b: -s, c: s, d: c),
+        Self(
+            linear: Linear<Scalar, Space>.Matrix.rotation(cos: angle.cos.value, sin: angle.sin.value),
+            translation: .zero
+        )
+    }
+
+    /// Creates counterclockwise rotation transform from degrees.
+    @inlinable
+    public static func rotation(_ angle: Degree<Scalar>) -> Self {
+        rotation(angle.radians)
+    }
+}
+
+// MARK: - Rotation Factory - Float
+
+extension Affine.Transform where Scalar == Float {
+    /// Creates counterclockwise rotation transform around origin.
+    @inlinable
+    public static func rotation(_ angle: Radian<Scalar>) -> Self {
+        Self(
+            linear: Linear<Scalar, Space>.Matrix.rotation(cos: angle.cos.value, sin: angle.sin.value),
             translation: .zero
         )
     }
@@ -347,7 +364,33 @@ extension Affine.Transform where Scalar: FloatingPoint & ExpressibleByIntegerLit
     }
 }
 
-extension Affine.Transform where Scalar: Numeric.Real & BinaryFloatingPoint {
+extension Affine.Transform where Scalar == Double {
+    /// Returns new transform with additional rotation applied.
+    @inlinable
+    public static func rotated(_ transform: Self, by angle: Radian<Scalar>) -> Self {
+        concatenating(transform, .rotation(angle))
+    }
+
+    /// Returns new transform with additional rotation applied.
+    @inlinable
+    public func rotated(by angle: Radian<Scalar>) -> Self {
+        Self.rotated(self, by: angle)
+    }
+
+    /// Returns new transform with additional rotation in degrees applied.
+    @inlinable
+    public static func rotated(_ transform: Self, by angle: Degree<Scalar>) -> Self {
+        concatenating(transform, .rotation(angle))
+    }
+
+    /// Returns new transform with additional rotation in degrees applied.
+    @inlinable
+    public func rotated(by angle: Degree<Scalar>) -> Self {
+        Self.rotated(self, by: angle)
+    }
+}
+
+extension Affine.Transform where Scalar == Float {
     /// Returns new transform with additional rotation applied.
     @inlinable
     public static func rotated(_ transform: Self, by angle: Radian<Scalar>) -> Self {
