@@ -72,7 +72,7 @@ struct `Affine Coordinate Tests` {
        @Test
        func `X map`() throws {
            let x = X(3.0)
-           let doubled: Affine<Int, Void>.X = try x.map { Int($0 * 2) }
+           let doubled: Affine<Int, Void>.X = x.map { Int($0 * 2) }
            #expect(doubled == 6)
        }
    }
@@ -134,7 +134,7 @@ struct `Affine Coordinate Tests` {
        @Test
        func `Y map`() throws {
            let y = Y(4.0)
-           let doubled: Affine<Int, Void>.Y = try y.map { Int($0 * 2) }
+           let doubled: Affine<Int, Void>.Y = y.map { Int($0 * 2) }
            #expect(doubled == 8)
        }
    }
