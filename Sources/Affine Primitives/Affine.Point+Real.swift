@@ -5,9 +5,9 @@ import Algebra_Linear_Primitives
 public import Dimension_Primitives
 public import Real_Primitives
 
-// MARK: - Generic TranscendentalFloatingPoint
+// MARK: - Numeric.Transcendental
 
-extension Affine.Point where N == 2, Scalar: TranscendentalFloatingPoint {
+extension Affine.Point where N == 2, Scalar: BinaryFloatingPoint & Numeric.Transcendental {
     /// Creates point at polar coordinates relative to origin.
     @inlinable
     public static func polar(radius: Affine.Distance, angle: Radian<Scalar>) -> Self {
