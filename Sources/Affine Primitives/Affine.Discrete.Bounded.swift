@@ -66,6 +66,7 @@ extension Affine.Discrete {
         /// - Warning: No validation is performed. Use only when the value
         ///   is known to be in bounds.
         @inlinable
+        @_disfavoredOverload
         public init(__unchecked rawValue: Int) {
             self.rawValue = rawValue
         }
@@ -75,6 +76,7 @@ extension Affine.Discrete {
         /// - Note: This initializer traps on invalid values. Use `try Bounded(value)`
         ///   for throwing validation.
         @inlinable
+        @_disfavoredOverload
         public init(integerLiteral value: Int) {
             do {
                 self = try Self(value)
