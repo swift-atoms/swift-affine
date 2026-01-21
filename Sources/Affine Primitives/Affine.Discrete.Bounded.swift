@@ -76,10 +76,11 @@ extension Affine.Discrete {
         ///   for throwing validation.
         @inlinable
         public init(integerLiteral value: Int) {
-            guard value >= 0, value < N else {
+            do {
+                self = try Self(value)
+            } catch {
                 preconditionFailure("Bounded literal \(value) out of bounds for Bounded<\(N)>")
             }
-            self.rawValue = value
         }
 
         @inlinable
