@@ -53,7 +53,7 @@ extension Affine.Discrete {
         /// - Warning: No validation is performed. Use only when the value
         ///   is known to be non-negative.
         @inlinable
-        public init(__unchecked rawValue: Int) {
+        public init(__unchecked: Void, _ rawValue: Int) {
             self.rawValue = rawValue
         }
 
@@ -79,5 +79,12 @@ extension Affine.Discrete.Position {
 extension Affine.Discrete.Position: CustomStringConvertible {
     public var description: String {
         "Position(\(rawValue))"
+    }
+}
+
+extension Affine.Discrete.Position: ExpressibleByIntegerLiteral {
+    public init(integerLiteral value: Int)  {
+        precondition(value >= 0, "Value must not be negative.")
+        self.rawValue = value
     }
 }

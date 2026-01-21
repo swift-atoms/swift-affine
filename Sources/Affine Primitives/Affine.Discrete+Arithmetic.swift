@@ -21,7 +21,7 @@ public func + (
 ) -> Affine.Discrete.Position? {
     let result = lhs.rawValue + rhs.rawValue
     guard result >= 0 else { return nil }
-    return Affine.Discrete.Position(__unchecked: result)
+    return Affine.Discrete.Position(__unchecked: (), result)
 }
 
 /// Advances a position by a displacement (commutative).
@@ -34,7 +34,7 @@ public func + (
 ) -> Affine.Discrete.Position? {
     let result = lhs.rawValue + rhs.rawValue
     guard result >= 0 else { return nil }
-    return Affine.Discrete.Position(__unchecked: result)
+    return Affine.Discrete.Position(__unchecked: (), result)
 }
 
 // MARK: - Position - Displacement → Position? (Point - Vector → Point)
@@ -49,7 +49,7 @@ public func - (
 ) -> Affine.Discrete.Position? {
     let result = lhs.rawValue - rhs.rawValue
     guard result >= 0 else { return nil }
-    return Affine.Discrete.Position(__unchecked: result)
+    return Affine.Discrete.Position(__unchecked: (), result)
 }
 
 // MARK: - Position - Position → Displacement (Point - Point → Vector)

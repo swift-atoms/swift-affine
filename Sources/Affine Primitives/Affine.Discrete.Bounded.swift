@@ -118,6 +118,6 @@ extension Affine.Discrete.Bounded {
     /// This conversion is always safe since bounded values are always non-negative.
     @inlinable
     public var position: Affine.Discrete.Position {
-        Affine.Discrete.Position(__unchecked: rawValue)
+        Affine.Discrete.Position(__unchecked: (), rawValue)
     }
 }
