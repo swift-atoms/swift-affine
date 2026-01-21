@@ -17,19 +17,11 @@ let package = Package(
             targets: ["Affine Primitives"]
         )
     ],
-    dependencies: [
-        .package(path: "../swift-algebra-linear-primitives"),
-        .package(path: "../swift-formatting-primitives"),
-        .package(path: "../swift-numeric-primitives")
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "Affine Primitives",
-            dependencies: [
-                .product(name: "Algebra Linear Primitives", package: "swift-algebra-linear-primitives"),
-                .product(name: "Formatting Primitives", package: "swift-formatting-primitives"),
-                .product(name: "Real Primitives", package: "swift-numeric-primitives")
-            ]
+            dependencies: []
         )
     ],
     swiftLanguageModes: [.v6]

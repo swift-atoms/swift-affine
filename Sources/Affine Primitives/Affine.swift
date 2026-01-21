@@ -1,120 +1,45 @@
-// Affine.swift
-// Affine geometry namespace for affine spaces and transformations.
+// ===----------------------------------------------------------------------===//
 //
-// This module provides type-safe affine geometry primitives.
-// Types are parameterized by their scalar type and coordinate space.
+// This source file is part of the swift-primitives open source project
 //
-// ## Category Theory Perspective
+// Copyright (c) 2024-2026 Coen ten Thije Boonkkamp and the swift-primitives project authors
+// Licensed under Apache License v2.0
 //
-// This module represents the category **Aff** of affine spaces:
-// - Objects: Affine spaces (vector space + forgotten origin)
-// - Morphisms: Affine maps (linear map + translation)
+// See LICENSE for license information
 //
-// Key distinction from Vect:
-// - Vector spaces have a distinguished origin
-// - Affine spaces have no canonical origin
-// - Points in affine space can be translated by vectors
-// - The difference of two points is a vector
-//
-// ## Types
-//
-// - `Point<N>`: A position in N-dimensional affine space
-// - `X`, `Y`, `Z`: Type-safe coordinate functions (projections)
-// - `Translation`: A displacement in affine space
-// - `Transform`: An affine transformation (linear + translation)
-//
-// ## Usage
-//
-// ```swift
-// typealias Point2D = Affine<Double, Void>.Point<2>
-//
-// let p: Point2D = .init(x: 1, y: 2)
-// let q: Point2D = .init(x: 4, y: 6)
-// let v = q - p  // Linear<Double, Void>.Vector<2>
-// ```
+// ===----------------------------------------------------------------------===//
 
-import Algebra_Primitives
-public import Dimension_Primitives
-
-/// Namespace for affine space primitives parameterized by scalar type and coordinate space.
+/// Namespace for affine space primitives.
 ///
-/// Affine spaces represent geometry where points have position but no canonical origin.
-/// This differs from vector spaces which have a distinguished zero point.
-/// The `Space` parameter is a phantom type that distinguishes points in different coordinate systems.
+/// This module provides type-safe discrete affine geometry primitives
+/// for representing positions and displacements in 1-dimensional space.
 ///
-/// ## Example
+/// ## Category Theory Perspective
+///
+/// This module represents the category **Aff** of discrete affine spaces:
+/// - Objects: Non-negative integer positions
+/// - Morphisms: Integer displacements (translations)
+///
+/// Key distinction from linear spaces:
+/// - Positions have no canonical origin for arithmetic
+/// - The difference of two positions is a displacement
+/// - A position plus a displacement yields a position
+///
+/// ## Types
+///
+/// - `Discrete.Position`: An unbounded non-negative position
+/// - `Discrete.Displacement`: A signed offset between positions
+/// - `Discrete.Bounded<N>`: A position bounded to `0..<N`
+///
+/// ## Usage
 ///
 /// ```swift
-/// // Points in different coordinate spaces are type-incompatible
-/// typealias UserPoint = Affine<Double, UserSpace>.Point<2>
-/// typealias DevicePoint = Affine<Double, DeviceSpace>.Point<2>
-///
-/// let p = UserPoint(x: 1, y: 2)
-/// let q = UserPoint(x: 4, y: 6)
-/// let displacement = q - p  // Linear<Double, UserSpace>.Vector<2>
+/// let p = Affine.Discrete.Position(5)!
+/// let d = Affine.Discrete.Displacement(3)
+/// let q = (p + d)!  // Position(8)
+/// let distance = q - p  // Displacement(3)
 /// ```
-public enum Affine<Scalar: ~Copyable, Space>: ~Copyable {}
-
-extension Affine: Copyable where Scalar: Copyable {}
-extension Affine: Sendable where Scalar: Sendable {}
-
-// MARK: - Coordinate Type Aliases
-
-extension Affine {
-    /// Type-safe horizontal coordinate representing absolute position on the x-axis,
-    /// parameterized by coordinate space.
-    ///
-    /// Distinguishes position coordinates from displacement vectors for type safety.
-    public typealias X = Coordinate.X<Space>.Value<Scalar>
-
-    /// Type-safe vertical coordinate representing absolute position on the y-axis,
-    /// parameterized by coordinate space.
-    ///
-    /// Distinguishes position coordinates from displacement vectors for type safety.
-    public typealias Y = Coordinate.Y<Space>.Value<Scalar>
-
-    /// Type-safe depth coordinate representing absolute position on the z-axis,
-    /// parameterized by coordinate space.
-    ///
-    /// Distinguishes position coordinates from displacement vectors for type safety.
-    public typealias Z = Coordinate.Z<Space>.Value<Scalar>
-
-    /// Type-safe homogeneous coordinate for projective transformations,
-    /// parameterized by coordinate space.
-    ///
-    /// Used in 4D homogeneous coordinates where `w=1` represents standard 3D points.
-    public typealias W = Coordinate.W<Space>.Value<Scalar>
-}
-
-// MARK: - Displacement Type Aliases
-
-extension Affine {
-    /// Horizontal displacement component.
-    ///
-    /// See ``Linear/Dx``
-    public typealias Dx = Linear<Scalar, Space>.Dx
-
-    /// Vertical displacement component.
-    ///
-    /// See ``Linear/Dy``
-    public typealias Dy = Linear<Scalar, Space>.Dy
-
-    /// Depth displacement component.
-    ///
-    /// See ``Linear/Dz``
-    public typealias Dz = Linear<Scalar, Space>.Dz
-}
-
-// MARK: - Magnitude Type Aliases
-
-extension Affine {
-    /// Distance between two points (non-directional magnitude).
-    ///
-    /// See ``Dimension/Distance``
-    public typealias Distance = Dimension_Primitives.Distance<Space, Scalar>
-
-    /// Squared distance / area measure in this coordinate space.
-    ///
-    /// See ``Dimension/Area``
-    public typealias Area = Dimension_Primitives.Area<Space>.Value<Scalar>
-}
+///
+/// For continuous affine geometry (points, transforms, translations),
+/// see `Affine_Geometry_Primitives`.
+public enum Affine {}
