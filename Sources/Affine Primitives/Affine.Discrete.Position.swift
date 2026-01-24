@@ -9,6 +9,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Equation_Primitives
+public import Comparison_Primitives
+
 extension Affine.Discrete {
     /// A non-negative position in discrete affine space.
     ///
@@ -57,9 +60,32 @@ extension Affine.Discrete {
             self.rawValue = rawValue
         }
 
+        // Explicit == for Equatable/Equation.Protocol compatibility.
+        @inlinable
+        public static func == (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue == rhs.rawValue
+        }
+
+        // All comparison operators defined explicitly to avoid conflicts between
+        // Swift.Comparable defaults and Comparison.Protocol defaults.
         @inlinable
         public static func < (lhs: Self, rhs: Self) -> Bool {
             lhs.rawValue < rhs.rawValue
+        }
+
+        @inlinable
+        public static func <= (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue <= rhs.rawValue
+        }
+
+        @inlinable
+        public static func > (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue > rhs.rawValue
+        }
+
+        @inlinable
+        public static func >= (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue >= rhs.rawValue
         }
     }
 }
@@ -88,3 +114,10 @@ extension Affine.Discrete.Position: ExpressibleByIntegerLiteral {
         self.rawValue = value
     }
 }
+
+// MARK: - Equation.Protocol, Comparison.Protocol
+
+// Empty conformances work because all operators are defined explicitly above,
+// avoiding conflicts between Swift.Comparable and Comparison.Protocol defaults.
+extension Affine.Discrete.Position: Equation.`Protocol` {}
+extension Affine.Discrete.Position: Comparison.`Protocol` {}

@@ -17,11 +17,17 @@ let package = Package(
             targets: ["Affine Primitives"]
         )
     ],
-    dependencies: [],
+    dependencies: [
+        .package(path: "../swift-equation-primitives"),
+        .package(path: "../swift-comparison-primitives"),
+    ],
     targets: [
         .target(
             name: "Affine Primitives",
-            dependencies: []
+            dependencies: [
+                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+                .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
+            ]
         )
     ],
     swiftLanguageModes: [.v6]

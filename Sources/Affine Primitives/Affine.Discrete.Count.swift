@@ -9,6 +9,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Equation_Primitives
+public import Comparison_Primitives
+
 extension Affine.Discrete {
     /// The cardinality (size) of a discrete range.
     ///
@@ -66,10 +69,45 @@ extension Affine.Discrete {
         public static var zero: Self {
             Self(__unchecked: 0)
         }
+        
+        /// The zero count.
+        @inlinable
+        public static var one: Self {
+            Self(__unchecked: 1)
+        }
+        
+        /// The zero count.
+        @inlinable
+        public static var two: Self {
+            Self(__unchecked: 2)
+        }
 
+        // Explicit == for Equatable/Equation.Protocol compatibility.
+        @inlinable
+        public static func == (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue == rhs.rawValue
+        }
+
+        // All comparison operators defined explicitly to avoid conflicts between
+        // Swift.Comparable defaults and Comparison.Protocol defaults.
         @inlinable
         public static func < (lhs: Self, rhs: Self) -> Bool {
             lhs.rawValue < rhs.rawValue
+        }
+
+        @inlinable
+        public static func <= (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue <= rhs.rawValue
+        }
+
+        @inlinable
+        public static func > (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue > rhs.rawValue
+        }
+
+        @inlinable
+        public static func >= (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue >= rhs.rawValue
         }
     }
 }
@@ -152,3 +190,10 @@ public func > (lhs: Affine.Discrete.Count, rhs: Affine.Discrete.Position) -> Boo
 public func <= (lhs: Affine.Discrete.Count, rhs: Affine.Discrete.Position) -> Bool {
     lhs.rawValue <= rhs.rawValue
 }
+
+// MARK: - Equation.Protocol, Comparison.Protocol
+
+// Empty conformances work because all operators are defined explicitly above,
+// avoiding conflicts between Swift.Comparable and Comparison.Protocol defaults.
+extension Affine.Discrete.Count: Equation.`Protocol` {}
+extension Affine.Discrete.Count: Comparison.`Protocol` {}
