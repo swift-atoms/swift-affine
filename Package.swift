@@ -22,23 +22,29 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(path: "../swift-ordinal-primitives"),
+        .package(path: "../swift-cardinal-primitives"),
         .package(path: "../swift-equation-primitives"),
         .package(path: "../swift-comparison-primitives"),
-        .package(path: "../swift-identity-primitives"),
+        .package(path: "../swift-property-primitives"),
     ],
     targets: [
         .target(
             name: "Affine Primitives",
             dependencies: [
+                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
+                .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
+                .product(name: "Property Primitives", package: "swift-property-primitives"),
             ]
         ),
         .target(
             name: "Affine Primitives Test Support",
             dependencies: [
                 "Affine Primitives",
-                .product(name: "Identity Primitives Test Support", package: "swift-identity-primitives"),
+                .product(name: "Ordinal Primitives Test Support", package: "swift-ordinal-primitives"),
+                .product(name: "Cardinal Primitives Test Support", package: "swift-cardinal-primitives"),
             ],
             path: "Tests/Support"
         ),

@@ -10,47 +10,91 @@
 // ===----------------------------------------------------------------------===//
 
 extension Affine.Discrete {
-    /// A signed displacement between positions in discrete affine space.
+    /// A signed vector (displacement) in discrete affine space.
     ///
-    /// `Displacement` represents the directed distance between two positions.
+    /// `Vector` represents the directed distance between two positions.
     /// Positive values indicate forward movement (toward higher positions),
     /// negative values indicate backward movement.
     ///
     /// ## Semantic Model
     ///
-    /// A displacement is the result of subtracting two positions:
-    /// - `position2 - position1 → displacement`
-    /// - `position1 + displacement → position2`
+    /// In affine geometry, vectors are the result of subtracting two points:
+    /// - `position2 - position1 → vector`
+    /// - `position1 + vector → position2`
+    ///
+    /// Vectors form a group under addition (can be combined, negated,
+    /// have identity 0), while positions do not (no negative positions).
     ///
     /// ## Example
     ///
     /// ```swift
-    /// let forward: Affine.Discrete.Displacement = 5
-    /// let backward: Affine.Discrete.Displacement = -3
-    /// let combined = forward + backward  // Displacement(2)
+    /// let forward: Affine.Discrete.Vector = 5
+    /// let backward: Affine.Discrete.Vector = -3
+    /// let combined = forward + backward  // Vector(2)
     /// ```
-    public struct Displacement: Hashable, Comparable, Sendable {
+    public struct Vector: Hashable, Comparable, Sendable {
         /// The underlying signed value.
         public let rawValue: Int
 
-        /// Creates a displacement with the given signed value.
+        /// Creates a vector with the given signed value.
         @inlinable
         public init(_ rawValue: Int) {
             self.rawValue = rawValue
         }
 
-        
+        /// The zero vector.
+        @inlinable
+        public static var zero: Self { Self(0) }
+
+        @inlinable
+        public static func == (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue == rhs.rawValue
+        }
+
         @inlinable
         public static func < (lhs: Self, rhs: Self) -> Bool {
             lhs.rawValue < rhs.rawValue
         }
+
+        @inlinable
+        public static func <= (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue <= rhs.rawValue
+        }
+
+        @inlinable
+        public static func > (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue > rhs.rawValue
+        }
+
+        @inlinable
+        public static func >= (lhs: Self, rhs: Self) -> Bool {
+            lhs.rawValue >= rhs.rawValue
+        }
     }
+
+    /// Legacy typealias for migration.
+    @available(*, deprecated, renamed: "Vector")
+    public typealias Displacement = Vector
 }
 
 // MARK: - CustomStringConvertible
 
-extension Affine.Discrete.Displacement: CustomStringConvertible {
+extension Affine.Discrete.Vector: CustomStringConvertible {
     public var description: String {
-        "Displacement(\(rawValue))"
+        "Vector(\(rawValue))"
     }
 }
+
+// MARK: - ExpressibleByIntegerLiteral
+
+extension Affine.Discrete.Vector: ExpressibleByIntegerLiteral {
+    @inlinable
+    public init(integerLiteral value: Int) {
+        self.init(value)
+    }
+}
+
+// MARK: - Equation.Protocol, Comparison.Protocol
+
+extension Affine.Discrete.Vector: Equation.`Protocol` {}
+extension Affine.Discrete.Vector: Comparison.`Protocol` {}

@@ -9,85 +9,100 @@
 //
 // ===----------------------------------------------------------------------===//
 
-// MARK: - Position + Displacement → Position? (Point + Vector → Point)
+public import Ordinal_Primitives
+public import Cardinal_Primitives
 
-/// Advances a position by a displacement.
+// MARK: - Position + Vector → Position? (Point + Vector → Point)
+
+/// Advances a position by a vector.
 ///
 /// - Returns: The new position, or `nil` if the result would be negative.
 @inlinable
 public func + (
-    lhs: Affine.Discrete.Position,
-    rhs: Affine.Discrete.Displacement
-) -> Affine.Discrete.Position? {
-    let result = lhs.rawValue + rhs.rawValue
+    lhs: Ordinal.Position,
+    rhs: Affine.Discrete.Vector
+) -> Ordinal.Position? {
+    let result = Int(bitPattern: lhs.rawValue) + rhs.rawValue
     guard result >= 0 else { return nil }
-    return Affine.Discrete.Position(__unchecked: (), result)
+    return Ordinal.Position(UInt(result))
 }
 
-/// Advances a position by a displacement (commutative).
+/// Advances a position by a vector (commutative).
 ///
 /// - Returns: The new position, or `nil` if the result would be negative.
 @inlinable
 public func + (
-    lhs: Affine.Discrete.Displacement,
-    rhs: Affine.Discrete.Position
-) -> Affine.Discrete.Position? {
-    let result = lhs.rawValue + rhs.rawValue
-    guard result >= 0 else { return nil }
-    return Affine.Discrete.Position(__unchecked: (), result)
+    lhs: Affine.Discrete.Vector,
+    rhs: Ordinal.Position
+) -> Ordinal.Position? {
+    rhs + lhs
 }
 
-// MARK: - Position - Displacement → Position? (Point - Vector → Point)
+// MARK: - Position - Vector → Position? (Point - Vector → Point)
 
-/// Retreats a position by a displacement.
+/// Retreats a position by a vector.
 ///
 /// - Returns: The new position, or `nil` if the result would be negative.
 @inlinable
 public func - (
-    lhs: Affine.Discrete.Position,
-    rhs: Affine.Discrete.Displacement
-) -> Affine.Discrete.Position? {
-    let result = lhs.rawValue - rhs.rawValue
+    lhs: Ordinal.Position,
+    rhs: Affine.Discrete.Vector
+) -> Ordinal.Position? {
+    let result = Int(bitPattern: lhs.rawValue) - rhs.rawValue
     guard result >= 0 else { return nil }
-    return Affine.Discrete.Position(__unchecked: (), result)
+    return Ordinal.Position(UInt(result))
 }
 
-// MARK: - Position - Position → Displacement (Point - Point → Vector)
+// MARK: - Position - Position → Vector (Point - Point → Vector)
 
-/// Returns the signed displacement between two positions.
+/// Returns the signed vector between two positions.
 ///
 /// The result is positive if `lhs > rhs`, negative if `lhs < rhs`.
 /// This is the fundamental affine operation: point difference yields a vector.
 @inlinable
 public func - (
-    lhs: Affine.Discrete.Position,
-    rhs: Affine.Discrete.Position
-) -> Affine.Discrete.Displacement {
-    Affine.Discrete.Displacement(lhs.rawValue - rhs.rawValue)
+    lhs: Ordinal.Position,
+    rhs: Ordinal.Position
+) -> Affine.Discrete.Vector {
+    Affine.Discrete.Vector(Int(bitPattern: lhs.rawValue) - Int(bitPattern: rhs.rawValue))
 }
 
-// MARK: - Displacement ± Displacement → Displacement (Vector ± Vector → Vector)
+// MARK: - Vector ± Vector → Vector (Vector ± Vector → Vector)
 
-/// Adds two displacements.
+/// Adds two vectors.
 @inlinable
 public func + (
-    lhs: Affine.Discrete.Displacement,
-    rhs: Affine.Discrete.Displacement
-) -> Affine.Discrete.Displacement {
-    Affine.Discrete.Displacement(lhs.rawValue + rhs.rawValue)
+    lhs: Affine.Discrete.Vector,
+    rhs: Affine.Discrete.Vector
+) -> Affine.Discrete.Vector {
+    Affine.Discrete.Vector(lhs.rawValue + rhs.rawValue)
 }
 
-/// Subtracts two displacements.
+/// Subtracts two vectors.
 @inlinable
 public func - (
-    lhs: Affine.Discrete.Displacement,
-    rhs: Affine.Discrete.Displacement
-) -> Affine.Discrete.Displacement {
-    Affine.Discrete.Displacement(lhs.rawValue - rhs.rawValue)
+    lhs: Affine.Discrete.Vector,
+    rhs: Affine.Discrete.Vector
+) -> Affine.Discrete.Vector {
+    Affine.Discrete.Vector(lhs.rawValue - rhs.rawValue)
 }
 
-/// Negates a displacement.
+/// Negates a vector.
 @inlinable
-public prefix func - (d: Affine.Discrete.Displacement) -> Affine.Discrete.Displacement {
-    Affine.Discrete.Displacement(-d.rawValue)
+public prefix func - (v: Affine.Discrete.Vector) -> Affine.Discrete.Vector {
+    Affine.Discrete.Vector(-v.rawValue)
+}
+
+// MARK: - Compound Assignment
+
+/// Adds a vector to another vector in place.
+@inlinable
+public func += (lhs: inout Affine.Discrete.Vector, rhs: Affine.Discrete.Vector) {
+    lhs = lhs + rhs
+}
+
+/// Subtracts a vector from another vector in place.
+@inlinable
+public func -= (lhs: inout Affine.Discrete.Vector, rhs: Affine.Discrete.Vector) {
+    lhs = lhs - rhs
 }

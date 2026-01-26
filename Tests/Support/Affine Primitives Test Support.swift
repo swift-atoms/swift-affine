@@ -1,25 +1,6 @@
-//
-//  File.swift
-//  swift-affine-primitives
-//
-//  Created by Coen ten Thije Boonkkamp on 26/01/2026.
-//
+public import Affine_Primitives
+@_exported public import Ordinal_Primitives_Test_Support
+@_exported public import Cardinal_Primitives_Test_Support
 
-import Affine_Primitives
-
-// MARK: - ExpressibleByIntegerLiteral
-
-extension Affine.Discrete.Count: ExpressibleByIntegerLiteral {
-    @inlinable
-    public init(integerLiteral value: Int) {
-        precondition(value >= 0, "Count literal cannot be negative")
-        self = try! .init(value)
-    }
-}
-
-extension Affine.Discrete.Displacement: ExpressibleByIntegerLiteral {
-    @inlinable
-    public init(integerLiteral value: Int) {
-        self = .init(value)
-    }
-}
+// Affine.Discrete.Vector already has ExpressibleByIntegerLiteral in the main module.
+// Cardinal.Count and Ordinal.Position get their literals from re-exported test support.

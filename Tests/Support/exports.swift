@@ -6,4 +6,5 @@
 //
 
 @_exported import Affine_Primitives
-@_exported import Identity_Primitives_Test_Support
+@_exported import Cardinal_Primitives_Test_Support
+@_exported import Ordinal_Primitives_Test_Support
