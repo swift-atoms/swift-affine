@@ -29,7 +29,7 @@ extension Affine.Discrete {
     /// let backward: Affine.Discrete.Displacement = -3
     /// let combined = forward + backward  // Displacement(2)
     /// ```
-    public struct Displacement: Hashable, Comparable, Sendable, ExpressibleByIntegerLiteral {
+    public struct Displacement: Hashable, Comparable, Sendable {
         /// The underlying signed value.
         public let rawValue: Int
 
@@ -39,11 +39,7 @@ extension Affine.Discrete {
             self.rawValue = rawValue
         }
 
-        @inlinable
-        public init(integerLiteral value: Int) {
-            self.rawValue = value
-        }
-
+        
         @inlinable
         public static func < (lhs: Self, rhs: Self) -> Bool {
             lhs.rawValue < rhs.rawValue

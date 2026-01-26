@@ -122,16 +122,6 @@ extension Affine.Discrete.Count {
     }
 }
 
-// MARK: - ExpressibleByIntegerLiteral
-
-extension Affine.Discrete.Count: ExpressibleByIntegerLiteral {
-    @inlinable
-    public init(integerLiteral value: Int) {
-        precondition(value >= 0, "Count literal cannot be negative")
-        self.rawValue = value
-    }
-}
-
 // MARK: - CustomStringConvertible
 
 extension Affine.Discrete.Count: CustomStringConvertible {

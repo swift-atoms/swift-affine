@@ -15,11 +15,16 @@ let package = Package(
         .library(
             name: "Affine Primitives",
             targets: ["Affine Primitives"]
-        )
+        ),
+        .library(
+            name: "Affine Primitives Test Support",
+            targets: ["Affine Primitives Test Support"]
+        ),
     ],
     dependencies: [
         .package(path: "../swift-equation-primitives"),
         .package(path: "../swift-comparison-primitives"),
+        .package(path: "../swift-identity-primitives"),
     ],
     targets: [
         .target(
@@ -28,7 +33,22 @@ let package = Package(
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
             ]
-        )
+        ),
+        .target(
+            name: "Affine Primitives Test Support",
+            dependencies: [
+                "Affine Primitives",
+                .product(name: "Identity Primitives Test Support", package: "swift-identity-primitives"),
+            ],
+            path: "Tests/Support"
+        ),
+        .testTarget(
+            name: "Affine Primitives Tests",
+            dependencies: [
+                "Affine Primitives",
+                "Affine Primitives Test Support",
+            ]
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
