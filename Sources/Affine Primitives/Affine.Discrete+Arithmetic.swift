@@ -12,45 +12,60 @@
 public import Ordinal_Primitives
 public import Cardinal_Primitives
 
-// MARK: - Position + Vector → Position? (Point + Vector → Point)
+// MARK: - Position + Vector → Position (Point + Vector → Point)
 
 /// Advances a position by a vector.
 ///
-/// - Returns: The new position, or `nil` if the result would be negative.
+/// - Throws: `Ordinal.Position.Error.overflow` if the result exceeds `UInt.max`.
+/// - Throws: `Ordinal.Position.Error.underflow` if the result would be negative.
 @inlinable
 public func + (
     lhs: Ordinal.Position,
     rhs: Affine.Discrete.Vector
-) -> Ordinal.Position? {
-    let result = Int(bitPattern: lhs.rawValue) + rhs.rawValue
-    guard result >= 0 else { return nil }
-    return Ordinal.Position(UInt(result))
+) throws(Ordinal.Position.Error) -> Ordinal.Position {
+    if rhs.rawValue >= 0 {
+        let (result, overflow) = lhs.rawValue.addingReportingOverflow(UInt(rhs.rawValue))
+        guard !overflow else { throw .overflow }
+        return Ordinal.Position(result)
+    } else {
+        let magnitude = rhs.rawValue.magnitude
+        guard lhs.rawValue >= magnitude else { throw .underflow }
+        return Ordinal.Position(lhs.rawValue - magnitude)
+    }
 }
 
 /// Advances a position by a vector (commutative).
 ///
-/// - Returns: The new position, or `nil` if the result would be negative.
+/// - Throws: `Ordinal.Position.Error.overflow` if the result exceeds `UInt.max`.
+/// - Throws: `Ordinal.Position.Error.underflow` if the result would be negative.
 @inlinable
 public func + (
     lhs: Affine.Discrete.Vector,
     rhs: Ordinal.Position
-) -> Ordinal.Position? {
-    rhs + lhs
+) throws(Ordinal.Position.Error) -> Ordinal.Position {
+    try rhs + lhs
 }
 
-// MARK: - Position - Vector → Position? (Point - Vector → Point)
+// MARK: - Position - Vector → Position (Point - Vector → Point)
 
 /// Retreats a position by a vector.
 ///
-/// - Returns: The new position, or `nil` if the result would be negative.
+/// - Throws: `Ordinal.Position.Error.overflow` if the result exceeds `UInt.max`.
+/// - Throws: `Ordinal.Position.Error.underflow` if the result would be negative.
 @inlinable
 public func - (
     lhs: Ordinal.Position,
     rhs: Affine.Discrete.Vector
-) -> Ordinal.Position? {
-    let result = Int(bitPattern: lhs.rawValue) - rhs.rawValue
-    guard result >= 0 else { return nil }
-    return Ordinal.Position(UInt(result))
+) throws(Ordinal.Position.Error) -> Ordinal.Position {
+    if rhs.rawValue <= 0 {
+        let (result, overflow) = lhs.rawValue.addingReportingOverflow(rhs.rawValue.magnitude)
+        guard !overflow else { throw .overflow }
+        return Ordinal.Position(result)
+    } else {
+        let magnitude = UInt(rhs.rawValue)
+        guard lhs.rawValue >= magnitude else { throw .underflow }
+        return Ordinal.Position(lhs.rawValue - magnitude)
+    }
 }
 
 // MARK: - Position - Position → Vector (Point - Point → Vector)
@@ -59,12 +74,27 @@ public func - (
 ///
 /// The result is positive if `lhs > rhs`, negative if `lhs < rhs`.
 /// This is the fundamental affine operation: point difference yields a vector.
+///
+/// - Throws: `Affine.Discrete.Vector.Error.unrepresentable` if the difference exceeds
+///   the representable range of `Int` (positions more than ~9.2 quintillion apart).
 @inlinable
 public func - (
     lhs: Ordinal.Position,
     rhs: Ordinal.Position
-) -> Affine.Discrete.Vector {
-    Affine.Discrete.Vector(Int(bitPattern: lhs.rawValue) - Int(bitPattern: rhs.rawValue))
+) throws(Affine.Discrete.Vector.Error) -> Affine.Discrete.Vector {
+    if lhs.rawValue >= rhs.rawValue {
+        let difference = lhs.rawValue - rhs.rawValue
+        guard difference <= UInt(Int.max) else { throw .unrepresentable }
+        return Affine.Discrete.Vector(Int(difference))
+    } else {
+        let difference = rhs.rawValue - lhs.rawValue
+        // Int.min.magnitude == UInt(Int.max) + 1
+        guard difference <= UInt(Int.max) + 1 else { throw .unrepresentable }
+        if difference == UInt(Int.max) + 1 {
+            return Affine.Discrete.Vector(Int.min)
+        }
+        return Affine.Discrete.Vector(-Int(difference))
+    }
 }
 
 // MARK: - Vector ± Vector → Vector (Vector ± Vector → Vector)
