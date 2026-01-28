@@ -16,33 +16,33 @@ public import Cardinal_Primitives
 
 /// Advances a position by a vector.
 ///
-/// - Throws: `Ordinal.Position.Error.overflow` if the result exceeds `UInt.max`.
-/// - Throws: `Ordinal.Position.Error.underflow` if the result would be negative.
+/// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
+/// - Throws: `Ordinal.Error.underflow` if the result would be negative.
 @inlinable
 public func + (
-    lhs: Ordinal.Position,
+    lhs: Ordinal,
     rhs: Affine.Discrete.Vector
-) throws(Ordinal.Position.Error) -> Ordinal.Position {
+) throws(Ordinal.Error) -> Ordinal {
     if rhs.rawValue >= 0 {
         let (result, overflow) = lhs.rawValue.addingReportingOverflow(UInt(rhs.rawValue))
         guard !overflow else { throw .overflow }
-        return Ordinal.Position(result)
+        return Ordinal(result)
     } else {
         let magnitude = rhs.rawValue.magnitude
         guard lhs.rawValue >= magnitude else { throw .underflow }
-        return Ordinal.Position(lhs.rawValue - magnitude)
+        return Ordinal(lhs.rawValue - magnitude)
     }
 }
 
 /// Advances a position by a vector (commutative).
 ///
-/// - Throws: `Ordinal.Position.Error.overflow` if the result exceeds `UInt.max`.
-/// - Throws: `Ordinal.Position.Error.underflow` if the result would be negative.
+/// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
+/// - Throws: `Ordinal.Error.underflow` if the result would be negative.
 @inlinable
 public func + (
     lhs: Affine.Discrete.Vector,
-    rhs: Ordinal.Position
-) throws(Ordinal.Position.Error) -> Ordinal.Position {
+    rhs: Ordinal
+) throws(Ordinal.Error) -> Ordinal {
     try rhs + lhs
 }
 
@@ -50,21 +50,21 @@ public func + (
 
 /// Retreats a position by a vector.
 ///
-/// - Throws: `Ordinal.Position.Error.overflow` if the result exceeds `UInt.max`.
-/// - Throws: `Ordinal.Position.Error.underflow` if the result would be negative.
+/// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
+/// - Throws: `Ordinal.Error.underflow` if the result would be negative.
 @inlinable
 public func - (
-    lhs: Ordinal.Position,
+    lhs: Ordinal,
     rhs: Affine.Discrete.Vector
-) throws(Ordinal.Position.Error) -> Ordinal.Position {
+) throws(Ordinal.Error) -> Ordinal {
     if rhs.rawValue <= 0 {
         let (result, overflow) = lhs.rawValue.addingReportingOverflow(rhs.rawValue.magnitude)
         guard !overflow else { throw .overflow }
-        return Ordinal.Position(result)
+        return Ordinal(result)
     } else {
         let magnitude = UInt(rhs.rawValue)
         guard lhs.rawValue >= magnitude else { throw .underflow }
-        return Ordinal.Position(lhs.rawValue - magnitude)
+        return Ordinal(lhs.rawValue - magnitude)
     }
 }
 
@@ -79,8 +79,8 @@ public func - (
 ///   the representable range of `Int` (positions more than ~9.2 quintillion apart).
 @inlinable
 public func - (
-    lhs: Ordinal.Position,
-    rhs: Ordinal.Position
+    lhs: Ordinal,
+    rhs: Ordinal
 ) throws(Affine.Discrete.Vector.Error) -> Affine.Discrete.Vector {
     if lhs.rawValue >= rhs.rawValue {
         let difference = lhs.rawValue - rhs.rawValue
@@ -135,4 +135,52 @@ public func += (lhs: inout Affine.Discrete.Vector, rhs: Affine.Discrete.Vector) 
 @inlinable
 public func -= (lhs: inout Affine.Discrete.Vector, rhs: Affine.Discrete.Vector) {
     lhs = lhs - rhs
+}
+
+// MARK: - Vector ↔ Count Comparisons
+
+/// Checks if a vector is less than a count.
+///
+/// This compares a signed displacement to an unsigned magnitude.
+/// Useful for bounds checking where negative vectors are always out of bounds.
+@inlinable
+public func < (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
+    lhs.rawValue < Int(rhs.rawValue)
+}
+
+@inlinable
+public func <= (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
+    lhs.rawValue <= Int(rhs.rawValue)
+}
+
+@inlinable
+public func > (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
+    lhs.rawValue > Int(rhs.rawValue)
+}
+
+@inlinable
+public func >= (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
+    lhs.rawValue >= Int(rhs.rawValue)
+}
+
+// Reverse direction
+
+@inlinable
+public func < (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
+    Int(lhs.rawValue) < rhs.rawValue
+}
+
+@inlinable
+public func <= (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
+    Int(lhs.rawValue) <= rhs.rawValue
+}
+
+@inlinable
+public func > (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
+    Int(lhs.rawValue) > rhs.rawValue
+}
+
+@inlinable
+public func >= (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
+    Int(lhs.rawValue) >= rhs.rawValue
 }
