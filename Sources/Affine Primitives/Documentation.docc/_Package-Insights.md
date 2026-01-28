@@ -71,6 +71,24 @@ Mathematically, a ratio is a morphism between domains. The operator signature en
 
 ---
 
+## The @_disfavoredOverload Pattern for Protocol Conformance Conflicts
+
+**Date**: 2026-01-27
+
+**Context**: Diagnosing why `Self(8)` failed for `Ratio<UInt8, Bit>` while `Self.init(8)` worked.
+
+When a type has both an explicit initializer `init(_ factor: Int)` and an `ExpressibleByIntegerLiteral` conformance with a same-domain constraint `where From == To`, Swift's overload resolution can fail unexpectedly. The expression `Self(8)` in a cross-domain context attempts to use the literal conformance first, hits the constraint, and fails—even though the explicit initializer would work perfectly.
+
+The fix is `@_disfavoredOverload` on `init(integerLiteral:)`. This tells Swift: "when both overloads apply, prefer the other one." The literal conformance becomes a fallback for actual literal contexts (`let r: Ratio<T, T> = 2`) while explicit calls go to the primary initializer.
+
+`@_disfavoredOverload` is an underscored attribute—not officially stable. But it's widely used in the standard library and is the canonical solution for this exact problem. When the choice is between an underscored attribute and requiring special call-site syntax everywhere, the attribute wins. Infrastructure code can accept implementation-detail attributes that application code should avoid.
+
+Without `@_disfavoredOverload`, every cross-domain ratio initialization would need `.init(8)` instead of `(8)`. The attribute eliminates this by making both syntaxes work, preserving the semantic distinction (literals only for same-domain) while removing the call-site ceremony.
+
+**Applies to**: `Affine.Discrete.Ratio` initializers, `@_disfavoredOverload` usage, overload resolution control.
+
+---
+
 ## Topics
 
 ### Related Documents
