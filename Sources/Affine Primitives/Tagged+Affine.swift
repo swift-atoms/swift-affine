@@ -44,13 +44,17 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
 extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
     /// Creates a tagged vector from a vector.
     @inlinable
-    public init(_ vector: Affine.Discrete.Vector) {
+    public init(
+        _ vector: Affine.Discrete.Vector
+    ) {
         self.init(__unchecked: (), vector)
     }
 
     /// Creates a tagged vector with the given signed value.
     @inlinable
-    public init(_ rawValue: Int) {
+    public init(
+        _ rawValue: Int
+    ) {
         self.init(__unchecked: (), Affine.Discrete.Vector(rawValue))
     }
 
@@ -81,7 +85,9 @@ extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
     ///
     /// - Throws: `Cardinal.Error.negativeSource` if vector is negative.
     @inlinable
-    public init(_ offset: Tagged<Tag, Affine.Discrete.Vector>) throws(Cardinal.Error) {
+    public init(
+        _ offset: Tagged<Tag, Affine.Discrete.Vector>
+    ) throws(Cardinal.Error) {
         guard offset.rawValue.rawValue >= 0 else {
             throw .negativeSource(offset.rawValue.rawValue)
         }
@@ -93,7 +99,10 @@ extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
     /// - Warning: No validation is performed. Use only when the vector is known
     ///   to be non-negative.
     @inlinable
-    public init(__unchecked: Void, _ offset: Tagged<Tag, Affine.Discrete.Vector>) {
+    public init(
+        __unchecked: Void,
+        _ offset: Tagged<Tag, Affine.Discrete.Vector>
+    ) {
         assert(offset.rawValue.rawValue >= 0, "Vector must be non-negative for unchecked Cardinal conversion")
         self.init(__unchecked: (), Cardinal(UInt(offset.rawValue.rawValue)))
     }
