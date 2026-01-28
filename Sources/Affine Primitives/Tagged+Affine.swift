@@ -23,6 +23,82 @@ public import Cardinal_Primitives
 // - Vector + Vector → Vector (vector addition)
 // - Vector - Vector → Vector (vector subtraction)
 
+// MARK: - Tagged<Tag, Vector> Properties and Constants
+
+extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
+    /// The underlying vector (displacement).
+    @inlinable
+    public var vector: Affine.Discrete.Vector { rawValue }
+
+    /// The zero offset (no displacement).
+    @inlinable
+    public static var zero: Self { Self(__unchecked: (), .zero) }
+
+    /// The unit offset (displacement of 1).
+    @inlinable
+    public static var one: Self { Self(__unchecked: (), Affine.Discrete.Vector(1)) }
+}
+
+// MARK: - Tagged<Tag, Vector> Construction
+
+extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
+    /// Creates a tagged vector from a vector.
+    @inlinable
+    public init(_ vector: Affine.Discrete.Vector) {
+        self.init(__unchecked: (), vector)
+    }
+
+    /// Creates a tagged vector with the given signed value.
+    @inlinable
+    public init(_ rawValue: Int) {
+        self.init(__unchecked: (), Affine.Discrete.Vector(rawValue))
+    }
+
+    /// Creates a tagged vector from a tagged cardinal.
+    ///
+    /// This is a total operation since cardinals are always non-negative.
+    @inlinable
+    public init<T: ~Copyable>(_ count: Tagged<T, Cardinal>) {
+        self.init(__unchecked: (), Affine.Discrete.Vector(Int(count.rawValue.rawValue)))
+    }
+
+    /// Creates a tagged vector representing the displacement from origin to position.
+    ///
+    /// This is the canonical affine decomposition: `position = origin + offset`.
+    ///
+    /// - Throws: `Affine.Discrete.Vector.Error.unrepresentable` if the position
+    ///   exceeds `Int.max` and cannot be represented as a signed displacement.
+    @inlinable
+    public init(_ index: Tagged<Tag, Ordinal>) throws(Affine.Discrete.Vector.Error) {
+        self = try index - .zero
+    }
+}
+
+// MARK: - Tagged<Tag, Cardinal> from Tagged<Tag, Vector> Conversion
+
+extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
+    /// Creates a tagged cardinal from a non-negative tagged vector.
+    ///
+    /// - Throws: `Cardinal.Error.negativeSource` if vector is negative.
+    @inlinable
+    public init(_ offset: Tagged<Tag, Affine.Discrete.Vector>) throws(Cardinal.Error) {
+        guard offset.rawValue.rawValue >= 0 else {
+            throw .negativeSource(offset.rawValue.rawValue)
+        }
+        self.init(__unchecked: (), Cardinal(UInt(offset.rawValue.rawValue)))
+    }
+
+    /// Creates a tagged cardinal from a tagged vector without validation.
+    ///
+    /// - Warning: No validation is performed. Use only when the vector is known
+    ///   to be non-negative.
+    @inlinable
+    public init(__unchecked: Void, _ offset: Tagged<Tag, Affine.Discrete.Vector>) {
+        assert(offset.rawValue.rawValue >= 0, "Vector must be non-negative for unchecked Cardinal conversion")
+        self.init(__unchecked: (), Cardinal(UInt(offset.rawValue.rawValue)))
+    }
+}
+
 // MARK: - Tagged<Tag, Ordinal> ± Tagged<Tag, Vector> → Tagged<Tag, Ordinal>
 
 /// Advances a tagged ordinal by a tagged vector.
