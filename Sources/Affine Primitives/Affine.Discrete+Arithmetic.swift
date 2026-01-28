@@ -139,48 +139,58 @@ public func -= (lhs: inout Affine.Discrete.Vector, rhs: Affine.Discrete.Vector) 
 
 // MARK: - Vector ↔ Count Comparisons
 
-/// Checks if a vector is less than a count.
+/// Cross-type comparisons between vectors and cardinals.
 ///
-/// This compares a signed displacement to an unsigned magnitude.
-/// Useful for bounds checking where negative vectors are always out of bounds.
+/// These operators are disfavored so that same-type comparisons
+/// (Cardinal < Cardinal, Vector < Vector) are preferred during type inference.
+/// This prevents ambiguity when using integer literals.
+
 @inlinable
+@_disfavoredOverload
 public func < (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
     lhs.rawValue < Int(rhs.rawValue)
 }
 
 @inlinable
+@_disfavoredOverload
 public func <= (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
     lhs.rawValue <= Int(rhs.rawValue)
 }
 
 @inlinable
+@_disfavoredOverload
 public func > (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
     lhs.rawValue > Int(rhs.rawValue)
 }
 
 @inlinable
+@_disfavoredOverload
 public func >= (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
     lhs.rawValue >= Int(rhs.rawValue)
 }
 
-// Reverse direction
+// Reverse direction (Cardinal ↔ Vector)
 
 @inlinable
+@_disfavoredOverload
 public func < (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
     Int(lhs.rawValue) < rhs.rawValue
 }
 
 @inlinable
+@_disfavoredOverload
 public func <= (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
     Int(lhs.rawValue) <= rhs.rawValue
 }
 
 @inlinable
+@_disfavoredOverload
 public func > (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
     Int(lhs.rawValue) > rhs.rawValue
 }
 
 @inlinable
+@_disfavoredOverload
 public func >= (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
     Int(lhs.rawValue) >= rhs.rawValue
 }
