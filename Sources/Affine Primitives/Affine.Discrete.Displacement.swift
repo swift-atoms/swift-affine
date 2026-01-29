@@ -45,6 +45,10 @@ extension Affine.Discrete {
         /// The zero vector.
         @inlinable
         public static var zero: Self { Self(0) }
+        
+        /// The zero vector.
+        @inlinable
+        public static var one: Self { Self(1) }
 
         @inlinable
         public static func == (lhs: Self, rhs: Self) -> Bool {

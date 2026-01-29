@@ -32,11 +32,11 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
 
     /// The zero offset (no displacement).
     @inlinable
-    public static var zero: Self { Self(__unchecked: (), .zero) }
+    public static var zero: Self { Self(__unchecked: (), Affine.Discrete.Vector.zero) }
 
     /// The unit offset (displacement of 1).
     @inlinable
-    public static var one: Self { Self(__unchecked: (), Affine.Discrete.Vector(1)) }
+    public static var one: Self { Self(__unchecked: (), Affine.Discrete.Vector.one) }
 }
 
 // MARK: - Tagged<Tag, Vector> Construction
@@ -75,6 +75,21 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
     @inlinable
     public init(_ index: Tagged<Tag, Ordinal>) throws(Affine.Discrete.Vector.Error) {
         self = try index - .zero
+    }
+
+    /// Creates a tagged vector representing displacement from origin, without validation.
+    ///
+    /// Use this initializer when the index is known to be ≤ `Int.max` by construction
+    /// (e.g., indices derived from bounded containers with `Int` capacity).
+    ///
+    /// - Warning: If `index > Int.max`, the resulting offset will be incorrect
+    ///   (negative due to signed/unsigned bit reinterpretation). Only use when
+    ///   the caller guarantees the index is representable.
+    @inlinable
+    public init(__unchecked: Void, _ ordinal: Tagged<Tag, Ordinal>) {
+        assert(ordinal.rawValue.rawValue <= UInt(Int.max),
+               "Ordinal exceeds Int.max; cannot represent as signed Vector")
+        self.init(__unchecked: (), Affine.Discrete.Vector(Int(bitPattern: ordinal.rawValue.rawValue)))
     }
 }
 

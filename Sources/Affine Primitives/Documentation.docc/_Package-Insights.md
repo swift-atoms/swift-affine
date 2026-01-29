@@ -50,7 +50,7 @@ Auditing ratio usage reveals a pattern: all cross-domain ratios already use expl
 
 **Context**: Deciding where to define `Tagged<From, Cardinal> * Ratio<From, To> → Tagged<To, Cardinal>`.
 
-Ratio scaling changes phantom types: `Index<UInt8>.Count * bitsPerByte` produces `Index<Bit>.Count`. The operation transforms the domain from `From` to `To`. Where does this belong?
+Ratio scaling changes phantom types: `Memory.Address.Count * bitsPerByte` produces `Index<Bit>.Count`. The operation transforms the domain from `From` to `To`. Where does this belong?
 
 Not in Cardinal Primitives—Cardinal knows nothing about ratios. Not in Index Primitives—we want no arithmetic there. The answer: Affine Primitives, which already owns `Affine.Discrete.Ratio`.
 

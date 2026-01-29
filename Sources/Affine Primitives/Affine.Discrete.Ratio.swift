@@ -27,7 +27,7 @@ extension Affine.Discrete {
     ///
     /// ```swift
     /// let bitsPerByte = Affine.Discrete.Ratio<UInt8, Bit>(8)
-    /// let byteOffset: Index<UInt8>.Offset = Index<UInt8>.Offset(2)
+    /// let byteOffset: Index<Memory>.Offset = Index<Memory>.Offset(2)
     /// let bitOffset = byteOffset * bitsPerByte  // Index<Bit>.Offset with value 16
     /// ```
     ///
