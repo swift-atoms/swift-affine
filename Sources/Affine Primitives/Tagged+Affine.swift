@@ -62,7 +62,9 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
     ///
     /// This is a total operation since cardinals are always non-negative.
     @inlinable
-    public init<T: ~Copyable>(_ count: Tagged<T, Cardinal>) {
+    public init<T: ~Copyable>(
+        _ count: Tagged<T, Cardinal>
+    ) {
         self.init(__unchecked: (), Affine.Discrete.Vector(Int(count.rawValue.rawValue)))
     }
 
@@ -73,8 +75,10 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
     /// - Throws: `Affine.Discrete.Vector.Error.unrepresentable` if the position
     ///   exceeds `Int.max` and cannot be represented as a signed displacement.
     @inlinable
-    public init(_ index: Tagged<Tag, Ordinal>) throws(Affine.Discrete.Vector.Error) {
-        self = try index - .zero
+    public init(
+        _ index: some Ordinal.`Protocol`
+    ) throws(Affine.Discrete.Vector.Error) {
+        self.init(__unchecked: (), try index.ordinal - Ordinal.zero)
     }
 
     /// Creates a tagged vector representing displacement from origin, without validation.
@@ -86,10 +90,13 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
     ///   (negative due to signed/unsigned bit reinterpretation). Only use when
     ///   the caller guarantees the index is representable.
     @inlinable
-    public init(__unchecked: Void, _ ordinal: Tagged<Tag, Ordinal>) {
-        assert(ordinal.rawValue.rawValue <= UInt(Int.max),
+    public init(
+        __unchecked: Void,
+        _ ordinal: some Ordinal.`Protocol`
+    ) {
+        assert(ordinal.ordinal.rawValue <= UInt(Int.max),
                "Ordinal exceeds Int.max; cannot represent as signed Vector")
-        self.init(__unchecked: (), Affine.Discrete.Vector(Int(bitPattern: ordinal.rawValue.rawValue)))
+        self.init(__unchecked: (), Affine.Discrete.Vector(Int(bitPattern: ordinal.ordinal.rawValue)))
     }
 }
 
@@ -123,114 +130,19 @@ extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
     }
 }
 
-// MARK: - Tagged<Tag, Ordinal> ± Tagged<Tag, Vector> → Tagged<Tag, Ordinal>
+// MARK: - Ordinal.Protocol - Ordinal.Protocol → Tagged<Tag, Vector>
 
-/// Advances a tagged ordinal by a tagged vector.
-///
-/// - Throws: `Ordinal.Error` if the result would overflow or underflow.
-@inlinable
-public func + <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Ordinal>,
-    rhs: Tagged<Tag, Affine.Discrete.Vector>
-) throws(Ordinal.Error) -> Tagged<Tag, Ordinal> {
-    Tagged<Tag, Ordinal>(__unchecked: (), try lhs.rawValue + rhs.rawValue)
-}
-
-/// Advances a tagged ordinal by a tagged vector (commutative).
-///
-/// - Throws: `Ordinal.Error` if the result would overflow or underflow.
-@inlinable
-public func + <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Affine.Discrete.Vector>,
-    rhs: Tagged<Tag, Ordinal>
-) throws(Ordinal.Error) -> Tagged<Tag, Ordinal> {
-    try rhs + lhs
-}
-
-/// Retreats a tagged ordinal by a tagged vector.
-///
-/// - Throws: `Ordinal.Error` if the result would overflow or underflow.
-@inlinable
-public func - <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Ordinal>,
-    rhs: Tagged<Tag, Affine.Discrete.Vector>
-) throws(Ordinal.Error) -> Tagged<Tag, Ordinal> {
-    Tagged<Tag, Ordinal>(__unchecked: (), try lhs.rawValue - rhs.rawValue)
-}
-
-// MARK: - Tagged<Tag, Ordinal> - Tagged<Tag, Ordinal> → Tagged<Tag, Vector>
-
-/// Returns the signed displacement between two tagged ordinals.
+/// Returns the signed displacement between two ordinals.
 ///
 /// The result is positive if `lhs > rhs`, negative if `lhs < rhs`.
 ///
 /// - Throws: `Affine.Discrete.Vector.Error` if the difference is unrepresentable.
 @inlinable
 public func - <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Ordinal>,
-    rhs: Tagged<Tag, Ordinal>
+    lhs: some Ordinal.`Protocol`,
+    rhs: some Ordinal.`Protocol`
 ) throws(Affine.Discrete.Vector.Error) -> Tagged<Tag, Affine.Discrete.Vector> {
-    Tagged<Tag, Affine.Discrete.Vector>(__unchecked: (), try lhs.rawValue - rhs.rawValue)
-}
-
-// MARK: - Tagged<Tag, Vector> ± Tagged<Tag, Vector> → Tagged<Tag, Vector>
-
-extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
-    /// Adds two tagged vectors.
-    @inlinable
-    public static func + (lhs: Self, rhs: Self) -> Self {
-        Self(__unchecked: (), lhs.rawValue + rhs.rawValue)
-    }
-
-    /// Subtracts two tagged vectors.
-    @inlinable
-    public static func - (lhs: Self, rhs: Self) -> Self {
-        Self(__unchecked: (), lhs.rawValue - rhs.rawValue)
-    }
-
-    /// Adds a tagged vector in place.
-    @inlinable
-    public static func += (lhs: inout Self, rhs: Self) {
-        lhs = lhs + rhs
-    }
-
-    /// Subtracts a tagged vector in place.
-    @inlinable
-    public static func -= (lhs: inout Self, rhs: Self) {
-        lhs = lhs - rhs
-    }
-}
-
-/// Negates a tagged vector.
-@inlinable
-public prefix func - <Tag: ~Copyable>(
-    v: Tagged<Tag, Affine.Discrete.Vector>
-) -> Tagged<Tag, Affine.Discrete.Vector> {
-    Tagged<Tag, Affine.Discrete.Vector>(__unchecked: (), -v.rawValue)
-}
-
-// MARK: - Compound Assignment for Ordinal ± Vector
-
-/// Advances a tagged ordinal by a tagged vector in place.
-///
-/// - Throws: `Ordinal.Error` if the result would overflow or underflow.
-@inlinable
-public func += <Tag: ~Copyable>(
-    lhs: inout Tagged<Tag, Ordinal>,
-    rhs: Tagged<Tag, Affine.Discrete.Vector>
-) throws(Ordinal.Error) {
-    lhs = try lhs + rhs
-}
-
-/// Retreats a tagged ordinal by a tagged vector in place.
-///
-/// - Throws: `Ordinal.Error` if the result would overflow or underflow.
-@inlinable
-public func -= <Tag: ~Copyable>(
-    lhs: inout Tagged<Tag, Ordinal>,
-    rhs: Tagged<Tag, Affine.Discrete.Vector>
-) throws(Ordinal.Error) {
-    lhs = try lhs - rhs
+    Tagged<Tag, Affine.Discrete.Vector>(__unchecked: (), try lhs.ordinal - rhs.ordinal)
 }
 
 // MARK: - Tagged<Tag, Vector> ↔ Tagged<Tag, Cardinal> Comparisons

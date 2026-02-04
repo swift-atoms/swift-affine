@@ -16,21 +16,24 @@ public import Cardinal_Primitives
 
 /// Advances a position by a vector.
 ///
+/// Generic over both `Ordinal.Protocol` and `Affine.Discrete.Vector.Protocol`,
+/// so this single definition handles bare types and their `Tagged` wrappers.
+///
 /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
 /// - Throws: `Ordinal.Error.underflow` if the result would be negative.
 @inlinable
-public func + (
-    lhs: Ordinal,
-    rhs: Affine.Discrete.Vector
-) throws(Ordinal.Error) -> Ordinal {
-    if rhs.rawValue >= 0 {
-        let (result, overflow) = lhs.rawValue.addingReportingOverflow(UInt(rhs.rawValue))
+public func + <O: Ordinal.`Protocol`>(
+    lhs: O,
+    rhs: some Affine.Discrete.Vector.`Protocol`
+) throws(Ordinal.Error) -> O {
+    if rhs.vector.rawValue >= 0 {
+        let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(UInt(rhs.vector.rawValue))
         guard !overflow else { throw .overflow }
-        return Ordinal(result)
+        return O(Ordinal(result))
     } else {
-        let magnitude = rhs.rawValue.magnitude
-        guard lhs.rawValue >= magnitude else { throw .underflow }
-        return Ordinal(lhs.rawValue - magnitude)
+        let magnitude = rhs.vector.rawValue.magnitude
+        guard lhs.ordinal.rawValue >= magnitude else { throw .underflow }
+        return O(Ordinal(lhs.ordinal.rawValue - magnitude))
     }
 }
 
@@ -39,10 +42,10 @@ public func + (
 /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
 /// - Throws: `Ordinal.Error.underflow` if the result would be negative.
 @inlinable
-public func + (
-    lhs: Affine.Discrete.Vector,
-    rhs: Ordinal
-) throws(Ordinal.Error) -> Ordinal {
+public func + <O: Ordinal.`Protocol`>(
+    lhs: some Affine.Discrete.Vector.`Protocol`,
+    rhs: O
+) throws(Ordinal.Error) -> O {
     try rhs + lhs
 }
 
@@ -50,21 +53,24 @@ public func + (
 
 /// Retreats a position by a vector.
 ///
+/// Generic over both `Ordinal.Protocol` and `Affine.Discrete.Vector.Protocol`,
+/// so this single definition handles bare types and their `Tagged` wrappers.
+///
 /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
 /// - Throws: `Ordinal.Error.underflow` if the result would be negative.
 @inlinable
-public func - (
-    lhs: Ordinal,
-    rhs: Affine.Discrete.Vector
-) throws(Ordinal.Error) -> Ordinal {
-    if rhs.rawValue <= 0 {
-        let (result, overflow) = lhs.rawValue.addingReportingOverflow(rhs.rawValue.magnitude)
+public func - <O: Ordinal.`Protocol`>(
+    lhs: O,
+    rhs: some Affine.Discrete.Vector.`Protocol`
+) throws(Ordinal.Error) -> O {
+    if rhs.vector.rawValue <= 0 {
+        let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(rhs.vector.rawValue.magnitude)
         guard !overflow else { throw .overflow }
-        return Ordinal(result)
+        return O(Ordinal(result))
     } else {
-        let magnitude = UInt(rhs.rawValue)
-        guard lhs.rawValue >= magnitude else { throw .underflow }
-        return Ordinal(lhs.rawValue - magnitude)
+        let magnitude = UInt(rhs.vector.rawValue)
+        guard lhs.ordinal.rawValue >= magnitude else { throw .underflow }
+        return O(Ordinal(lhs.ordinal.rawValue - magnitude))
     }
 }
 
@@ -79,15 +85,15 @@ public func - (
 ///   the representable range of `Int` (positions more than ~9.2 quintillion apart).
 @inlinable
 public func - (
-    lhs: Ordinal,
-    rhs: Ordinal
+    lhs: some Ordinal.`Protocol`,
+    rhs: some Ordinal.`Protocol`
 ) throws(Affine.Discrete.Vector.Error) -> Affine.Discrete.Vector {
-    if lhs.rawValue >= rhs.rawValue {
-        let difference = lhs.rawValue - rhs.rawValue
+    if lhs.ordinal.rawValue >= rhs.ordinal.rawValue {
+        let difference = lhs.ordinal.rawValue - rhs.ordinal.rawValue
         guard difference <= UInt(Int.max) else { throw .unrepresentable }
         return Affine.Discrete.Vector(Int(difference))
     } else {
-        let difference = rhs.rawValue - lhs.rawValue
+        let difference = rhs.ordinal.rawValue - lhs.ordinal.rawValue
         // Int.min.magnitude == UInt(Int.max) + 1
         guard difference <= UInt(Int.max) + 1 else { throw .unrepresentable }
         if difference == UInt(Int.max) + 1 {
@@ -97,44 +103,28 @@ public func - (
     }
 }
 
-// MARK: - Vector ± Vector → Vector (Vector ± Vector → Vector)
+// MARK: - Compound Assignment for Ordinal ± Vector
 
-/// Adds two vectors.
+/// Advances an ordinal by a vector in place.
+///
+/// - Throws: `Ordinal.Error` if the result would overflow or underflow.
 @inlinable
-public func + (
-    lhs: Affine.Discrete.Vector,
-    rhs: Affine.Discrete.Vector
-) -> Affine.Discrete.Vector {
-    Affine.Discrete.Vector(lhs.rawValue + rhs.rawValue)
+public func += <O: Ordinal.`Protocol`>(
+    lhs: inout O,
+    rhs: some Affine.Discrete.Vector.`Protocol`
+) throws(Ordinal.Error) {
+    lhs = try lhs + rhs
 }
 
-/// Subtracts two vectors.
+/// Retreats an ordinal by a vector in place.
+///
+/// - Throws: `Ordinal.Error` if the result would overflow or underflow.
 @inlinable
-public func - (
-    lhs: Affine.Discrete.Vector,
-    rhs: Affine.Discrete.Vector
-) -> Affine.Discrete.Vector {
-    Affine.Discrete.Vector(lhs.rawValue - rhs.rawValue)
-}
-
-/// Negates a vector.
-@inlinable
-public prefix func - (v: Affine.Discrete.Vector) -> Affine.Discrete.Vector {
-    Affine.Discrete.Vector(-v.rawValue)
-}
-
-// MARK: - Compound Assignment
-
-/// Adds a vector to another vector in place.
-@inlinable
-public func += (lhs: inout Affine.Discrete.Vector, rhs: Affine.Discrete.Vector) {
-    lhs = lhs + rhs
-}
-
-/// Subtracts a vector from another vector in place.
-@inlinable
-public func -= (lhs: inout Affine.Discrete.Vector, rhs: Affine.Discrete.Vector) {
-    lhs = lhs - rhs
+public func -= <O: Ordinal.`Protocol`>(
+    lhs: inout O,
+    rhs: some Affine.Discrete.Vector.`Protocol`
+) throws(Ordinal.Error) {
+    lhs = try lhs - rhs
 }
 
 // MARK: - Vector ↔ Count Comparisons
@@ -147,50 +137,74 @@ public func -= (lhs: inout Affine.Discrete.Vector, rhs: Affine.Discrete.Vector) 
 
 @inlinable
 @_disfavoredOverload
-public func < (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
-    lhs.rawValue < Int(rhs.rawValue)
+public func < (
+    lhs: Affine.Discrete.Vector,
+    rhs: some Cardinal.`Protocol`
+) -> Bool {
+    lhs.rawValue < Int(rhs.cardinal.rawValue)
 }
 
 @inlinable
 @_disfavoredOverload
-public func <= (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
-    lhs.rawValue <= Int(rhs.rawValue)
+public func <= (
+    lhs: Affine.Discrete.Vector,
+    rhs: some Cardinal.`Protocol`
+) -> Bool {
+    lhs.rawValue <= Int(rhs.cardinal.rawValue)
 }
 
 @inlinable
 @_disfavoredOverload
-public func > (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
-    lhs.rawValue > Int(rhs.rawValue)
+public func > (
+    lhs: Affine.Discrete.Vector,
+    rhs: some Cardinal.`Protocol`
+) -> Bool {
+    lhs.rawValue > Int(rhs.cardinal.rawValue)
 }
 
 @inlinable
 @_disfavoredOverload
-public func >= (lhs: Affine.Discrete.Vector, rhs: Cardinal) -> Bool {
-    lhs.rawValue >= Int(rhs.rawValue)
+public func >= (
+    lhs: Affine.Discrete.Vector,
+    rhs: some Cardinal.`Protocol`
+) -> Bool {
+    lhs.rawValue >= Int(rhs.cardinal.rawValue)
 }
 
 // Reverse direction (Cardinal ↔ Vector)
 
 @inlinable
 @_disfavoredOverload
-public func < (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
-    Int(lhs.rawValue) < rhs.rawValue
+public func < (
+    lhs: some Cardinal.`Protocol`,
+    rhs: Affine.Discrete.Vector
+) -> Bool {
+    Int(lhs.cardinal.rawValue) < rhs.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func <= (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
-    Int(lhs.rawValue) <= rhs.rawValue
+public func <= (
+    lhs: some Cardinal.`Protocol`,
+    rhs: Affine.Discrete.Vector
+) -> Bool {
+    Int(lhs.cardinal.rawValue) <= rhs.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func > (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
-    Int(lhs.rawValue) > rhs.rawValue
+public func > (
+    lhs: some Cardinal.`Protocol`,
+    rhs: Affine.Discrete.Vector
+) -> Bool {
+    Int(lhs.cardinal.rawValue) > rhs.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func >= (lhs: Cardinal, rhs: Affine.Discrete.Vector) -> Bool {
-    Int(lhs.rawValue) >= rhs.rawValue
+public func >= (
+    lhs: some Cardinal.`Protocol`,
+    rhs: Affine.Discrete.Vector
+) -> Bool {
+    Int(lhs.cardinal.rawValue) >= rhs.rawValue
 }

@@ -93,6 +93,7 @@ extension Affine.Discrete.Vector: CustomStringConvertible {
 
 extension Affine.Discrete.Vector: ExpressibleByIntegerLiteral {
     @inlinable
+    @_disfavoredOverload
     public init(integerLiteral value: Int) {
         self.init(value)
     }
