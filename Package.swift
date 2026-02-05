@@ -17,6 +17,10 @@ let package = Package(
             targets: ["Affine Primitives"]
         ),
         .library(
+            name: "Affine Primitives Standard Library Integration",
+            targets: ["Affine Primitives Standard Library Integration"]
+        ),
+        .library(
             name: "Affine Primitives Test Support",
             targets: ["Affine Primitives Test Support"]
         ),
@@ -37,6 +41,12 @@ let package = Package(
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
+            ]
+        ),
+        .target(
+            name: "Affine Primitives Standard Library Integration",
+            dependencies: [
+                "Affine Primitives",
             ]
         ),
         .target(

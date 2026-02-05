@@ -23,6 +23,39 @@ public import Cardinal_Primitives
 // - Vector + Vector → Vector (vector addition)
 // - Vector - Vector → Vector (vector subtraction)
 
+// MARK: - Tagged<Tag, Ordinal>.Offset Typealias
+
+extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
+    /// The displacement type for this tagged ordinal.
+    ///
+    /// Wraps `Affine.Discrete.Vector` to maintain phantom type safety.
+    ///
+    /// ## Semantic Model
+    ///
+    /// An offset is the result of subtracting two ordinal positions:
+    /// - `position2 - position1 → offset`
+    /// - `position1 + offset → position2`
+    ///
+    /// ## Tagged Functor
+    ///
+    /// As a Tagged typealias, `Offset` gains:
+    /// - `retag(_:)` for zero-cost cross-domain conversion
+    /// - `map(_:)` for value transformation
+    /// - Automatic `Equatable`, `Hashable`, `Comparable`, `Sendable` conformances
+    ///
+    /// ## Example
+    ///
+    /// ```swift
+    /// let forward = Tagged<Element, Ordinal>.Offset(5)
+    /// let backward = Tagged<Element, Ordinal>.Offset(-3)
+    /// let combined = forward + backward  // Offset(2)
+    ///
+    /// // Cross-domain conversion via retag
+    /// let other: Tagged<Other, Ordinal>.Offset = forward.retag(Other.self)
+    /// ```
+    public typealias Offset = Tagged<Tag, Affine.Discrete.Vector>
+}
+
 // MARK: - Tagged<Tag, Vector> Properties and Constants
 
 extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
@@ -97,6 +130,31 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
         assert(ordinal.ordinal.rawValue <= UInt(Int.max),
                "Ordinal exceeds Int.max; cannot represent as signed Vector")
         self.init(__unchecked: (), Affine.Discrete.Vector(Int(bitPattern: ordinal.ordinal.rawValue)))
+    }
+
+    /// Creates an offset representing the distance from zero to the given position.
+    ///
+    /// This explicitly encodes the assumption that the offset is measured from
+    /// the zero position, making the origin clear at call sites.
+    ///
+    /// ## Affine Semantics
+    ///
+    /// A position (ordinal) is a point in affine space, not a vector. It becomes
+    /// a vector only when measured relative to an origin. This initializer makes
+    /// that "from zero" assumption explicit:
+    ///
+    /// ```swift
+    /// let position: Ordinal = ...
+    /// let offset = Tagged<Element, Ordinal>.Offset(fromZero: position)
+    ///
+    /// let taggedPosition: Tagged<Element, Ordinal> = ...
+    /// let taggedOffset = Tagged<Element, Ordinal>.Offset(fromZero: taggedPosition)
+    /// ```
+    ///
+    /// - Parameter position: The ordinal position to convert to an offset from zero.
+    @inlinable
+    public init(fromZero position: some Ordinal.`Protocol`) {
+        self.init(Affine.Discrete.Vector(Int(bitPattern: position.ordinal.rawValue)))
     }
 }
 
