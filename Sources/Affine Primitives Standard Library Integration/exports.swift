@@ -1,1 +1,1 @@
-@_exported import Affine_Primitives
+@_exported public import Affine_Primitives_Core

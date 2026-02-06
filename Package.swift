@@ -34,7 +34,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Affine Primitives",
+            name: "Affine Primitives Core",
             dependencies: [
                 .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
@@ -46,7 +46,14 @@ let package = Package(
         .target(
             name: "Affine Primitives Standard Library Integration",
             dependencies: [
-                "Affine Primitives",
+                "Affine Primitives Core",
+            ]
+        ),
+        .target(
+            name: "Affine Primitives",
+            dependencies: [
+                "Affine Primitives Core",
+                "Affine Primitives Standard Library Integration",
             ]
         ),
         .target(
