@@ -158,6 +158,33 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
     }
 }
 
+// MARK: - Tagged<Tag, Ordinal> - Tagged<Tag, Vector> → Tagged<Tag, Ordinal>
+
+extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
+    /// Retreats a tagged ordinal by a tagged vector.
+    ///
+    /// This is the concrete operator for the affine retreat `Point - Vector → Point`.
+    /// It delegates to the generic affine operator (`Affine.Discrete+Arithmetic.swift`)
+    /// but provides the exact `Tagged<Tag, Affine.Discrete.Vector>` type so that
+    /// `.one` resolves unambiguously to `Tagged<Tag, Affine.Discrete.Vector>.one`.
+    ///
+    /// - Throws: `Ordinal.Error.underflow` if the result would be negative.
+    /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
+    @inlinable
+    public static func - (lhs: Self, rhs: Tagged<Tag, Affine.Discrete.Vector>) throws(Ordinal.Error) -> Self {
+        try Self(lhs.ordinal - rhs.vector)
+    }
+
+    /// Retreats a tagged ordinal by a tagged vector in place.
+    ///
+    /// - Throws: `Ordinal.Error.underflow` if the result would be negative.
+    /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
+    @inlinable
+    public static func -= (lhs: inout Self, rhs: Tagged<Tag, Affine.Discrete.Vector>) throws(Ordinal.Error) {
+        lhs = try lhs - rhs
+    }
+}
+
 // MARK: - Tagged<Tag, Cardinal> from Tagged<Tag, Vector> Conversion
 
 extension Tagged where RawValue == Cardinal, Tag: ~Copyable {

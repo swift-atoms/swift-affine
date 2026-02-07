@@ -112,6 +112,14 @@ extension UnsafeMutablePointer {
     ) {
         unsafe self.initialize(repeating: repeatedValue, count: Int(bitPattern: count.count))
     }
+    
+    @inlinable
+    public func initialize(
+        from source: UnsafePointer<Pointee>,
+        count: Tagged<Pointee, Ordinal>.Count
+    ) {
+        self.initialize(from: source, count: Int(bitPattern: count))
+    }
 
     /// Updates this pointer's initialized memory with the specified number
     /// of consecutive copies of the given value.
