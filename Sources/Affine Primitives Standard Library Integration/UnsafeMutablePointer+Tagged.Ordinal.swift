@@ -81,6 +81,35 @@ extension UnsafeMutablePointer where Pointee: ~Copyable {
     }
 }
 
+// MARK: - UnsafeMutablePointer Swap
+
+extension UnsafeMutablePointer where Pointee: ~Copyable {
+    /// Swaps elements at two typed indices.
+    ///
+    /// Performs a move-based swap of the elements at positions `i` and `j`.
+    /// Both positions must point to initialized memory.
+    ///
+    /// ```swift
+    /// ptr.swap(parentIndex, childIndex)
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - i: The first typed index.
+    ///   - j: The second typed index.
+    /// - Precondition: Both indices must point to initialized memory.
+    @inlinable
+    public func swap(
+        _ i: Tagged<Pointee, Ordinal>,
+        _ j: Tagged<Pointee, Ordinal>
+    ) {
+        let ptrI = unsafe self + Tagged<Pointee, Ordinal>.Offset(__unchecked: (), i)
+        let ptrJ = unsafe self + Tagged<Pointee, Ordinal>.Offset(__unchecked: (), j)
+        let temp = unsafe ptrI.move()
+        unsafe ptrI.initialize(to: ptrJ.move())
+        unsafe ptrJ.initialize(to: temp)
+    }
+}
+
 // MARK: - UnsafeMutablePointer Allocation
 
 extension UnsafeMutablePointer {
@@ -113,12 +142,18 @@ extension UnsafeMutablePointer {
         unsafe self.initialize(repeating: repeatedValue, count: Int(bitPattern: count.count))
     }
     
+    /// Initializes this pointer's memory by copying the specified number of
+    /// consecutive values from the given pointer.
+    ///
+    /// - Parameters:
+    ///   - source: A pointer to the values to copy.
+    ///   - count: The number of consecutive values to initialize.
     @inlinable
     public func initialize(
         from source: UnsafePointer<Pointee>,
         count: Tagged<Pointee, Ordinal>.Count
     ) {
-        self.initialize(from: source, count: Int(bitPattern: count))
+        unsafe self.initialize(from: source, count: Int(bitPattern: count.count))
     }
 
     /// Updates this pointer's initialized memory with the specified number
