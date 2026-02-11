@@ -74,6 +74,15 @@ extension Affine.Discrete {
         public static func >= (lhs: Self, rhs: Self) -> Bool {
             lhs.rawValue >= rhs.rawValue
         }
+
+        /// The absolute value of this displacement as a cardinal quantity.
+        ///
+        /// Maps ℤ → ℕ: the magnitude of a vector is the unsigned distance
+        /// it represents, stripping direction information.
+        @inlinable
+        public var magnitude: Cardinal {
+            Cardinal(rawValue.magnitude)
+        }
     }
 
     /// Legacy typealias for migration.

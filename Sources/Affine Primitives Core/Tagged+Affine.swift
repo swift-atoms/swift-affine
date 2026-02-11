@@ -70,6 +70,18 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
     /// The unit offset (displacement of 1).
     @inlinable
     public static var one: Self { Self(__unchecked: (), Affine.Discrete.Vector.one) }
+
+    /// The magnitude of this offset as a tagged cardinal.
+    ///
+    /// Preserves the phantom tag: the magnitude of a bit displacement
+    /// is a bit count, the magnitude of an element displacement is an
+    /// element count.
+    ///
+    /// Same-Tag identity is enforced structurally by the type system.
+    @inlinable
+    public var magnitude: Tagged<Tag, Cardinal> {
+        .init(__unchecked: (), Cardinal(vector.rawValue.magnitude))
+    }
 }
 
 // MARK: - Tagged<Tag, Vector> Construction
