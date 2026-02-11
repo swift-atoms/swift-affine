@@ -52,6 +52,17 @@ extension Affine.Discrete.Vector: Affine.Discrete.Vector.`Protocol` {
 
 extension Tagged: Affine.Discrete.Vector.`Protocol` where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {}
 
+// MARK: - Constants
+
+extension Affine.Discrete.Vector.`Protocol` {
+    /// The zero vector (additive identity).
+    ///
+    /// Available at the affine layer because `.zero` is the group identity
+    /// for the additive group structure fundamental to affine space.
+    @inlinable
+    public static var zero: Self { Self(Affine.Discrete.Vector(0)) }
+}
+
 // MARK: - Arithmetic
 
 extension Affine.Discrete.Vector.`Protocol` {

@@ -42,13 +42,8 @@ extension Affine.Discrete {
             self.rawValue = rawValue
         }
 
-        /// The zero vector.
-        @inlinable
-        public static var zero: Self { Self(0) }
-        
-        /// The zero vector.
-        @inlinable
-        public static var one: Self { Self(1) }
+        // .zero provided via Affine.Discrete.Vector.Protocol extension (this file's protocol).
+        // .one provided via Affine.Discrete.Vector.Protocol extension (swift-algebra-affine-primitives).
 
         @inlinable
         public static func == (lhs: Self, rhs: Self) -> Bool {

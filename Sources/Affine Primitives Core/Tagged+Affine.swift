@@ -63,13 +63,8 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
     @inlinable
     public var vector: Affine.Discrete.Vector { rawValue }
 
-    /// The zero offset (no displacement).
-    @inlinable
-    public static var zero: Self { Self(__unchecked: (), Affine.Discrete.Vector.zero) }
-
-    /// The unit offset (displacement of 1).
-    @inlinable
-    public static var one: Self { Self(__unchecked: (), Affine.Discrete.Vector.one) }
+    // .zero provided via Affine.Discrete.Vector.Protocol extension (Affine.Discrete.Vector.Protocol.swift).
+    // .one provided via Affine.Discrete.Vector.Protocol extension (swift-algebra-affine-primitives).
 
     /// The magnitude of this offset as a tagged cardinal.
     ///
@@ -177,8 +172,7 @@ extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     ///
     /// This is the concrete operator for the affine retreat `Point - Vector → Point`.
     /// It delegates to the generic affine operator (`Affine.Discrete+Arithmetic.swift`)
-    /// but provides the exact `Tagged<Tag, Affine.Discrete.Vector>` type so that
-    /// `.one` resolves unambiguously to `Tagged<Tag, Affine.Discrete.Vector>.one`.
+    /// and provides the exact `Tagged<Tag, Affine.Discrete.Vector>` parameter type.
     ///
     /// - Throws: `Ordinal.Error.underflow` if the result would be negative.
     /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
