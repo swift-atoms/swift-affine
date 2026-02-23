@@ -26,6 +26,14 @@ extension Affine.Discrete.Vector {
     /// }
     /// ```
     public protocol `Protocol` {
+        /// The domain that scopes this vector displacement.
+        ///
+        /// For bare `Affine.Discrete.Vector`, `Domain` is `Never` (unscoped).
+        /// For `Tagged<Tag, Affine.Discrete.Vector>`, `Domain` is `Tag`,
+        /// enabling cross-type operators to enforce same-tag safety via
+        /// `where V.Domain == C.Domain`.
+        associatedtype Domain: ~Copyable
+
         /// The underlying vector value.
         var vector: Affine.Discrete.Vector { get }
 
@@ -37,6 +45,9 @@ extension Affine.Discrete.Vector {
 // MARK: - Vector Conformance
 
 extension Affine.Discrete.Vector: Affine.Discrete.Vector.`Protocol` {
+    /// Bare vectors are unscoped.
+    public typealias Domain = Never
+
     /// Returns self.
     @inlinable
     public var vector: Affine.Discrete.Vector { self }
@@ -50,7 +61,10 @@ extension Affine.Discrete.Vector: Affine.Discrete.Vector.`Protocol` {
 
 // MARK: - Tagged Conformance
 
-extension Tagged: Affine.Discrete.Vector.`Protocol` where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {}
+extension Tagged: Affine.Discrete.Vector.`Protocol` where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
+    /// The phantom type is the domain.
+    public typealias Domain = Tag
+}
 
 // MARK: - Constants
 

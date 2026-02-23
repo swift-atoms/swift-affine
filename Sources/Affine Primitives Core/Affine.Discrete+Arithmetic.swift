@@ -131,80 +131,77 @@ public func -= <O: Ordinal.`Protocol`>(
 
 /// Cross-type comparisons between vectors and cardinals.
 ///
+/// Generic over both `Affine.Discrete.Vector.Protocol` and `Cardinal.Protocol`
+/// with `V.Domain == C.Domain`, so a single definition handles:
+/// - Bare: `Affine.Discrete.Vector` ↔ `Cardinal` (Domain = Never)
+/// - Tagged: `Tagged<Tag, Vector>` ↔ `Tagged<Tag, Cardinal>` (Domain = Tag)
+///
 /// These operators are disfavored so that same-type comparisons
 /// (Cardinal < Cardinal, Vector < Vector) are preferred during type inference.
 /// This prevents ambiguity when using integer literals.
 
 @inlinable
 @_disfavoredOverload
-public func < (
-    lhs: Affine.Discrete.Vector,
-    rhs: some Cardinal.`Protocol`
-) -> Bool {
-    lhs.rawValue < Int(rhs.cardinal.rawValue)
+public func < <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: V, rhs: C
+) -> Bool where V.Domain == C.Domain {
+    lhs.vector.rawValue < Int(rhs.cardinal.rawValue)
 }
 
 @inlinable
 @_disfavoredOverload
-public func <= (
-    lhs: Affine.Discrete.Vector,
-    rhs: some Cardinal.`Protocol`
-) -> Bool {
-    lhs.rawValue <= Int(rhs.cardinal.rawValue)
+public func <= <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: V, rhs: C
+) -> Bool where V.Domain == C.Domain {
+    lhs.vector.rawValue <= Int(rhs.cardinal.rawValue)
 }
 
 @inlinable
 @_disfavoredOverload
-public func > (
-    lhs: Affine.Discrete.Vector,
-    rhs: some Cardinal.`Protocol`
-) -> Bool {
-    lhs.rawValue > Int(rhs.cardinal.rawValue)
+public func > <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: V, rhs: C
+) -> Bool where V.Domain == C.Domain {
+    lhs.vector.rawValue > Int(rhs.cardinal.rawValue)
 }
 
 @inlinable
 @_disfavoredOverload
-public func >= (
-    lhs: Affine.Discrete.Vector,
-    rhs: some Cardinal.`Protocol`
-) -> Bool {
-    lhs.rawValue >= Int(rhs.cardinal.rawValue)
+public func >= <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: V, rhs: C
+) -> Bool where V.Domain == C.Domain {
+    lhs.vector.rawValue >= Int(rhs.cardinal.rawValue)
 }
 
 // Reverse direction (Cardinal ↔ Vector)
 
 @inlinable
 @_disfavoredOverload
-public func < (
-    lhs: some Cardinal.`Protocol`,
-    rhs: Affine.Discrete.Vector
-) -> Bool {
-    Int(lhs.cardinal.rawValue) < rhs.rawValue
+public func < <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
+    lhs: C, rhs: V
+) -> Bool where C.Domain == V.Domain {
+    Int(lhs.cardinal.rawValue) < rhs.vector.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func <= (
-    lhs: some Cardinal.`Protocol`,
-    rhs: Affine.Discrete.Vector
-) -> Bool {
-    Int(lhs.cardinal.rawValue) <= rhs.rawValue
+public func <= <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
+    lhs: C, rhs: V
+) -> Bool where C.Domain == V.Domain {
+    Int(lhs.cardinal.rawValue) <= rhs.vector.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func > (
-    lhs: some Cardinal.`Protocol`,
-    rhs: Affine.Discrete.Vector
-) -> Bool {
-    Int(lhs.cardinal.rawValue) > rhs.rawValue
+public func > <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
+    lhs: C, rhs: V
+) -> Bool where C.Domain == V.Domain {
+    Int(lhs.cardinal.rawValue) > rhs.vector.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func >= (
-    lhs: some Cardinal.`Protocol`,
-    rhs: Affine.Discrete.Vector
-) -> Bool {
-    Int(lhs.cardinal.rawValue) >= rhs.rawValue
+public func >= <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
+    lhs: C, rhs: V
+) -> Bool where C.Domain == V.Domain {
+    Int(lhs.cardinal.rawValue) >= rhs.vector.rawValue
 }

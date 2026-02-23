@@ -236,77 +236,7 @@ public func - <Tag: ~Copyable>(
     Tagged<Tag, Affine.Discrete.Vector>(__unchecked: (), try lhs.ordinal - rhs.ordinal)
 }
 
-// MARK: - Tagged<Tag, Vector> ↔ Tagged<Tag, Cardinal> Comparisons
-
-/// Checks if a tagged vector is less than a tagged cardinal.
-///
-/// This compares a signed displacement to an unsigned magnitude.
-/// Useful for bounds checking where negative vectors are always out of bounds.
-@inlinable
-public func < <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Affine.Discrete.Vector>,
-    rhs: Tagged<Tag, Cardinal>
-) -> Bool {
-    lhs.rawValue < rhs.rawValue  // Delegates to Vector < Cardinal
-}
-
-@inlinable
-public func <= <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Affine.Discrete.Vector>,
-    rhs: Tagged<Tag, Cardinal>
-) -> Bool {
-    lhs.rawValue <= rhs.rawValue
-}
-
-@inlinable
-public func > <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Affine.Discrete.Vector>,
-    rhs: Tagged<Tag, Cardinal>
-) -> Bool {
-    lhs.rawValue > rhs.rawValue
-}
-
-@inlinable
-public func >= <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Affine.Discrete.Vector>,
-    rhs: Tagged<Tag, Cardinal>
-) -> Bool {
-    lhs.rawValue >= rhs.rawValue
-}
-
-// Reverse direction
-
-@inlinable
-public func < <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Cardinal>,
-    rhs: Tagged<Tag, Affine.Discrete.Vector>
-) -> Bool {
-    lhs.rawValue < rhs.rawValue  // Delegates to Cardinal < Vector
-}
-
-@inlinable
-public func <= <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Cardinal>,
-    rhs: Tagged<Tag, Affine.Discrete.Vector>
-) -> Bool {
-    lhs.rawValue <= rhs.rawValue
-}
-
-@inlinable
-public func > <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Cardinal>,
-    rhs: Tagged<Tag, Affine.Discrete.Vector>
-) -> Bool {
-    lhs.rawValue > rhs.rawValue
-}
-
-@inlinable
-public func >= <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Cardinal>,
-    rhs: Tagged<Tag, Affine.Discrete.Vector>
-) -> Bool {
-    lhs.rawValue >= rhs.rawValue
-}
+// Vector ↔ Cardinal comparisons unified via Domain in Affine.Discrete+Arithmetic.swift.
 
 // MARK: - Tagged<From, Cardinal> * Ratio<From, To> → Tagged<To, Cardinal>
 
