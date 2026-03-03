@@ -9,11 +9,6 @@ applies_to: [swift-affine-primitives]
 normative: false
 ---
 -->
-
-@Metadata {
-    @TitleHeading("Affine Primitives")
-}
-
 Design decisions, implementation patterns, and lessons learned specific to this package.
 
 ## Overview
@@ -89,9 +84,7 @@ Without `@_disfavoredOverload`, every cross-domain ratio initialization would ne
 
 ---
 
-## Topics
+## Related
 
-### Related Documents
-
-- <doc:Affine-Discrete-Ratio>
-- <doc:Affine-Discrete-Vector>
+- Affine-Discrete-Ratio
+- Affine-Discrete-Vector
