@@ -33,6 +33,8 @@ let package = Package(
         .package(path: "../swift-property-primitives"),
     ],
     targets: [
+
+        // MARK: - Core
         .target(
             name: "Affine Primitives Core",
             dependencies: [
@@ -43,12 +45,16 @@ let package = Package(
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
             ]
         ),
+
+        // MARK: - StdLib Integration
         .target(
             name: "Affine Primitives Standard Library Integration",
             dependencies: [
                 "Affine Primitives Core",
             ]
         ),
+
+        // MARK: - Umbrella
         .target(
             name: "Affine Primitives",
             dependencies: [
@@ -56,6 +62,8 @@ let package = Package(
                 "Affine Primitives Standard Library Integration",
             ]
         ),
+
+        // MARK: - Test Support
         .target(
             name: "Affine Primitives Test Support",
             dependencies: [
@@ -65,6 +73,8 @@ let package = Package(
             ],
             path: "Tests/Support"
         ),
+
+        // MARK: - Tests
         .testTarget(
             name: "Affine Primitives Tests",
             dependencies: [
