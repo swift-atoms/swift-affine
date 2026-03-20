@@ -20,7 +20,7 @@ public func + <Pointee: ~Copyable>(
     lhs: UnsafeMutablePointer<Pointee>,
     rhs: Tagged<Pointee, Ordinal>.Offset
 ) -> UnsafeMutablePointer<Pointee> {
-    unsafe lhs.advanced(by: Int(rhs.rawValue.rawValue))
+    unsafe lhs.advanced(by: Int(bitPattern: rhs))
 }
 
 /// Advances a mutable pointer by a typed element offset.
@@ -29,7 +29,7 @@ public func + <Pointee: ~Copyable>(
     lhs: Tagged<Pointee, Ordinal>.Offset,
     rhs: UnsafeMutablePointer<Pointee>
 ) -> UnsafeMutablePointer<Pointee> {
-    unsafe rhs.advanced(by: Int(lhs.rawValue.rawValue))
+    unsafe rhs.advanced(by: Int(bitPattern: lhs))
 }
 
 /// Retreats a mutable pointer by a typed element offset.
@@ -38,7 +38,7 @@ public func - <Pointee: ~Copyable>(
     lhs: UnsafeMutablePointer<Pointee>,
     rhs: Tagged<Pointee, Ordinal>.Offset
 ) -> UnsafeMutablePointer<Pointee> {
-    unsafe lhs.advanced(by: -Int(rhs.rawValue.rawValue))
+    unsafe lhs.advanced(by: -Int(bitPattern: rhs))
 }
 
 /// Computes the typed element distance between two mutable pointers.
