@@ -105,7 +105,7 @@ extension Tagged where RawValue == Affine.Discrete.Vector, Tag: ~Copyable {
     public init<T: ~Copyable>(
         _ count: Tagged<T, Cardinal>
     ) {
-        self.init(__unchecked: (), Affine.Discrete.Vector(Int(count.rawValue.rawValue)))
+        self.init(__unchecked: (), Affine.Discrete.Vector(Int(bitPattern: count.cardinal)))
     }
 
     /// Creates a tagged vector representing the displacement from origin to position.
@@ -201,10 +201,10 @@ extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
     public init(
         _ offset: Tagged<Tag, Affine.Discrete.Vector>
     ) throws(Cardinal.Error) {
-        guard offset.rawValue.rawValue >= 0 else {
-            throw .negativeSource(offset.rawValue.rawValue)
+        guard offset.vector.rawValue >= 0 else {
+            throw .negativeSource(offset.vector.rawValue)
         }
-        self.init(__unchecked: (), Cardinal(UInt(offset.rawValue.rawValue)))
+        self.init(__unchecked: (), Cardinal(UInt(offset.vector.rawValue)))
     }
 
     /// Creates a tagged cardinal from a tagged vector without validation.
@@ -216,8 +216,8 @@ extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
         __unchecked: Void,
         _ offset: Tagged<Tag, Affine.Discrete.Vector>
     ) {
-        assert(offset.rawValue.rawValue >= 0, "Vector must be non-negative for unchecked Cardinal conversion")
-        self.init(__unchecked: (), Cardinal(UInt(offset.rawValue.rawValue)))
+        assert(offset.vector.rawValue >= 0, "Vector must be non-negative for unchecked Cardinal conversion")
+        self.init(__unchecked: (), Cardinal(UInt(offset.vector.rawValue)))
     }
 }
 
@@ -251,7 +251,7 @@ public func * <From: ~Copyable, To: ~Copyable>(
     lhs: Tagged<From, Cardinal>,
     rhs: Affine.Discrete.Ratio<From, To>
 ) -> Tagged<To, Cardinal> {
-    let result = Int(lhs.rawValue.rawValue) * rhs.factor
+    let result = Int(bitPattern: lhs.cardinal) * rhs.factor
     precondition(result >= 0, "Scaled cardinal must be non-negative")
     return Tagged<To, Cardinal>(__unchecked: (), Cardinal(UInt(result)))
 }
@@ -276,7 +276,7 @@ public func * <From: ~Copyable, To: ~Copyable>(
     lhs: Tagged<From, Affine.Discrete.Vector>,
     rhs: Affine.Discrete.Ratio<From, To>
 ) -> Tagged<To, Affine.Discrete.Vector> {
-    Tagged<To, Affine.Discrete.Vector>(__unchecked: (), Affine.Discrete.Vector(lhs.rawValue.rawValue * rhs.factor))
+    Tagged<To, Affine.Discrete.Vector>(__unchecked: (), Affine.Discrete.Vector(lhs.vector.rawValue * rhs.factor))
 }
 
 /// Scales a tagged vector from one domain to another (commutative).
