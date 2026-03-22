@@ -10,7 +10,7 @@
 // ===----------------------------------------------------------------------===//
 
 public import Ordinal_Primitives
-public import Cardinal_Primitives
+internal import Cardinal_Primitives
 
 // MARK: - Position + Vector → Position (Point + Vector → Point)
 

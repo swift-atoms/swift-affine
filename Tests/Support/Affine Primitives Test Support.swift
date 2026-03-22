@@ -1,4 +1,4 @@
-public import Affine_Primitives
+internal import Affine_Primitives
 @_exported public import Ordinal_Primitives_Test_Support
 @_exported public import Cardinal_Primitives_Test_Support
 
