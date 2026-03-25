@@ -66,7 +66,7 @@ extension UnsafePointer where Pointee: ~Copyable {
     /// - Parameter index: A typed index into the pointer's memory.
     /// - Returns: The element at the specified index.
     /// - Note: Converts index to offset from zero: `self + (index - .zero)`.
-    @inlinable @inline(__always)
+    @inlinable @inline(always)
     public subscript(index: Tagged<Pointee, Ordinal>) -> Pointee {
         @_transparent
         unsafeAddress {
