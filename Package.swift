@@ -17,6 +17,10 @@ let package = Package(
             targets: ["Affine Primitives"]
         ),
         .library(
+            name: "Affine Primitives Core",
+            targets: ["Affine Primitives Core"]
+        ),
+        .library(
             name: "Affine Primitives Standard Library Integration",
             targets: ["Affine Primitives Standard Library Integration"]
         ),
