@@ -12,6 +12,11 @@ let package = Package(
         .visionOS(.v26)
     ],
     products: [
+        // MARK: - Namespace
+        .library(
+            name: "Affine Namespace",
+            targets: ["Affine Namespace"]
+        ),
         .library(
             name: "Affine Primitives",
             targets: ["Affine Primitives"]
@@ -38,10 +43,17 @@ let package = Package(
     ],
     targets: [
 
+        // MARK: - Namespace
+        .target(
+            name: "Affine Namespace",
+            dependencies: []
+        ),
+
         // MARK: - Core
         .target(
             name: "Affine Primitives Core",
             dependencies: [
+                "Affine Namespace",
                 .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
@@ -62,6 +74,7 @@ let package = Package(
         .target(
             name: "Affine Primitives",
             dependencies: [
+                "Affine Namespace",
                 "Affine Primitives Core",
                 "Affine Primitives Standard Library Integration",
             ]
