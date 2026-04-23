@@ -1,7 +1,7 @@
 // Affine.Discrete.Vector.Protocol.swift
 // Abstraction over types that carry a discrete affine vector.
 
-public import Identity_Primitives
+public import Tagged_Primitives
 
 // MARK: - Protocol
 
