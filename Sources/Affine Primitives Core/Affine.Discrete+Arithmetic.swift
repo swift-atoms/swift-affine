@@ -9,6 +9,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
 public import Ordinal_Primitives
 internal import Cardinal_Primitives
 
@@ -24,7 +25,7 @@ internal import Cardinal_Primitives
 @inlinable
 public func + <O: Ordinal.`Protocol`>(
     lhs: O,
-    rhs: some Affine.Discrete.Vector.`Protocol`
+    rhs: some Carrier<Affine.Discrete.Vector>
 ) throws(Ordinal.Error) -> O {
     if rhs.vector.rawValue >= 0 {
         let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(UInt(rhs.vector.rawValue))
@@ -43,7 +44,7 @@ public func + <O: Ordinal.`Protocol`>(
 /// - Throws: `Ordinal.Error.underflow` if the result would be negative.
 @inlinable
 public func + <O: Ordinal.`Protocol`>(
-    lhs: some Affine.Discrete.Vector.`Protocol`,
+    lhs: some Carrier<Affine.Discrete.Vector>,
     rhs: O
 ) throws(Ordinal.Error) -> O {
     try rhs + lhs
@@ -61,7 +62,7 @@ public func + <O: Ordinal.`Protocol`>(
 @inlinable
 public func - <O: Ordinal.`Protocol`>(
     lhs: O,
-    rhs: some Affine.Discrete.Vector.`Protocol`
+    rhs: some Carrier<Affine.Discrete.Vector>
 ) throws(Ordinal.Error) -> O {
     if rhs.vector.rawValue <= 0 {
         let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(rhs.vector.rawValue.magnitude)
@@ -111,7 +112,7 @@ public func - (
 @inlinable
 public func += <O: Ordinal.`Protocol`>(
     lhs: inout O,
-    rhs: some Affine.Discrete.Vector.`Protocol`
+    rhs: some Carrier<Affine.Discrete.Vector>
 ) throws(Ordinal.Error) {
     lhs = try lhs + rhs
 }
@@ -122,7 +123,7 @@ public func += <O: Ordinal.`Protocol`>(
 @inlinable
 public func -= <O: Ordinal.`Protocol`>(
     lhs: inout O,
-    rhs: some Affine.Discrete.Vector.`Protocol`
+    rhs: some Carrier<Affine.Discrete.Vector>
 ) throws(Ordinal.Error) {
     lhs = try lhs - rhs
 }
@@ -142,7 +143,7 @@ public func -= <O: Ordinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func < <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
+public func < <V: Carrier<Affine.Discrete.Vector>, C: Carrier<Cardinal>>(
     lhs: V, rhs: C
 ) -> Bool where V.Domain == C.Domain {
     lhs.vector.rawValue < Int(rhs.cardinal.rawValue)
@@ -150,7 +151,7 @@ public func < <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func <= <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
+public func <= <V: Carrier<Affine.Discrete.Vector>, C: Carrier<Cardinal>>(
     lhs: V, rhs: C
 ) -> Bool where V.Domain == C.Domain {
     lhs.vector.rawValue <= Int(rhs.cardinal.rawValue)
@@ -158,7 +159,7 @@ public func <= <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func > <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
+public func > <V: Carrier<Affine.Discrete.Vector>, C: Carrier<Cardinal>>(
     lhs: V, rhs: C
 ) -> Bool where V.Domain == C.Domain {
     lhs.vector.rawValue > Int(rhs.cardinal.rawValue)
@@ -166,7 +167,7 @@ public func > <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func >= <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
+public func >= <V: Carrier<Affine.Discrete.Vector>, C: Carrier<Cardinal>>(
     lhs: V, rhs: C
 ) -> Bool where V.Domain == C.Domain {
     lhs.vector.rawValue >= Int(rhs.cardinal.rawValue)
@@ -176,7 +177,7 @@ public func >= <V: Affine.Discrete.Vector.`Protocol`, C: Cardinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func < <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
+public func < <C: Carrier<Cardinal>, V: Carrier<Affine.Discrete.Vector>>(
     lhs: C, rhs: V
 ) -> Bool where C.Domain == V.Domain {
     Int(lhs.cardinal.rawValue) < rhs.vector.rawValue
@@ -184,7 +185,7 @@ public func < <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func <= <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
+public func <= <C: Carrier<Cardinal>, V: Carrier<Affine.Discrete.Vector>>(
     lhs: C, rhs: V
 ) -> Bool where C.Domain == V.Domain {
     Int(lhs.cardinal.rawValue) <= rhs.vector.rawValue
@@ -192,7 +193,7 @@ public func <= <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func > <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
+public func > <C: Carrier<Cardinal>, V: Carrier<Affine.Discrete.Vector>>(
     lhs: C, rhs: V
 ) -> Bool where C.Domain == V.Domain {
     Int(lhs.cardinal.rawValue) > rhs.vector.rawValue
@@ -200,7 +201,7 @@ public func > <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func >= <C: Cardinal.`Protocol`, V: Affine.Discrete.Vector.`Protocol`>(
+public func >= <C: Carrier<Cardinal>, V: Carrier<Affine.Discrete.Vector>>(
     lhs: C, rhs: V
 ) -> Bool where C.Domain == V.Domain {
     Int(lhs.cardinal.rawValue) >= rhs.vector.rawValue

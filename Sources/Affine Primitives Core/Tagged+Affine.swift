@@ -9,6 +9,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
 public import Ordinal_Primitives
 internal import Cardinal_Primitives
 

@@ -37,6 +37,7 @@ let package = Package(
     dependencies: [
         .package(path: "../swift-ordinal-primitives"),
         .package(path: "../swift-cardinal-primitives"),
+        .package(path: "../swift-carrier-primitives"),
         .package(path: "../swift-equation-primitives"),
         .package(path: "../swift-comparison-primitives"),
         .package(path: "../swift-property-primitives"),
@@ -56,6 +57,7 @@ let package = Package(
                 "Affine Namespace",
                 .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
+                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
