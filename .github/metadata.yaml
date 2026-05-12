@@ -1,0 +1,11 @@
+# .github/metadata.yaml
+# Updated 2026-05-09 — Phase 1 fix dispatch, cohort-wide topic expansion per amendment C7.
+description: "Affine types for Swift — signed displacement, cross-domain ratios, and the typed-offset surface for the cardinal/ordinal/affine trichotomy."
+topics:
+  - primitives
+  - affine
+  - type-safety
+  - data-structures
+homepage: "https://swift-institute.org"
+readme:
+  family: E
