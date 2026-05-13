@@ -28,27 +28,10 @@ public func + <O: Ordinal.`Protocol`>(
     rhs: some Carrier.`Protocol`<Affine.Discrete.Vector>
 ) throws(Ordinal.Error) -> O {
     guard rhs.vector.rawValue >= 0 else {
-        // reason: typed-system bottom-out — same `O: Ordinal.Protocol` `+`
-        // operator implementation; the underflow branch extracts rhs's
-        // unsigned magnitude via stdlib `Int.magnitude` to guard and
-        // perform the subtraction in stdlib UInt. [INFRA-103] / [CONV-016]
-        // options (i)–(iv) circular. Same wave-2a / wave-2c-rerun pattern.
-        // swiftlint:disable:next chained_rawvalue_access_anti_pattern
         let magnitude = rhs.vector.rawValue.magnitude
         guard lhs.ordinal.rawValue >= magnitude else { throw .underflow }
         return O(Ordinal(lhs.ordinal.rawValue - magnitude))
     }
-    // reason: typed-system bottom-out — `O: Ordinal.Protocol` (with
-    // Carrier-of-Vector rhs) IS the wrapper implementing this `+`
-    // operator; lhs.ordinal and rhs.vector are accessed through the
-    // underlying typed wrappers, with the call to stdlib UInt
-    // overflow-aware addition as the necessary grounding into stdlib
-    // arithmetic. [INFRA-103] / [CONV-016] options (i)–(iv) circular
-    // here. Direct analog of wave-2a cardinal `+`
-    // (swift-cardinal-primitives abd750b) and wave-2c-rerun
-    // algebra-modular `*` (swift-algebra-modular-primitives c359228)
-    // typed-arithmetic-operator pattern.
-    // swiftlint:disable:next chained_rawvalue_access_anti_pattern
     let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(UInt(rhs.vector.rawValue))
     guard !overflow else { throw .overflow }
     return O(Ordinal(result))
@@ -85,16 +68,6 @@ public func - <O: Ordinal.`Protocol`>(
         guard lhs.ordinal.rawValue >= magnitude else { throw .underflow }
         return O(Ordinal(lhs.ordinal.rawValue - magnitude))
     }
-    // reason: typed-system bottom-out — `O: Ordinal.Protocol` (with
-    // Carrier-of-Vector rhs) IS the wrapper implementing this `-`
-    // operator; the negative-rhs branch extracts the unsigned
-    // magnitude and adds (since `−(−x) = +x`) via stdlib UInt
-    // overflow-aware addition. Both `.rawValue` chains on this line
-    // (LHS receiver and RHS argument-magnitude) are the necessary
-    // grounding into stdlib arithmetic. [INFRA-103] / [CONV-016]
-    // options (i)–(iv) circular. Same wave-2a / wave-2c-rerun
-    // typed-arithmetic-operator bottom-out pattern.
-    // swiftlint:disable:next chained_rawvalue_access_anti_pattern
     let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(rhs.vector.rawValue.magnitude)
     guard !overflow else { throw .overflow }
     return O(Ordinal(result))
