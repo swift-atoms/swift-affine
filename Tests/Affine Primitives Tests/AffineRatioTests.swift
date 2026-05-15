@@ -13,13 +13,13 @@ struct AffineRatioTests {
     // MARK: - Construction
 
     @Test
-    func constructionFromInt() {
+    func `construction from int`() {
         let r = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         #expect(r.factor == 8)
     }
 
     @Test
-    func constructionFromTaggedCardinal() {
+    func `construction from tagged cardinal`() {
         let count: Tagged<Bit, Cardinal> = 64
         let r = Affine.Discrete.Ratio<Word, Bit>(count)
         #expect(r.factor == 64)
@@ -28,19 +28,19 @@ struct AffineRatioTests {
     // MARK: - Same-Domain (Endomorphism) Operations
 
     @Test
-    func identityFactor() {
+    func `identity factor`() {
         let identity = Affine.Discrete.Ratio<Byte, Byte>.identity
         #expect(identity.factor == 1)
     }
 
     @Test
-    func negateFactor() {
+    func `negate factor`() {
         let negate = Affine.Discrete.Ratio<Byte, Byte>.negate
         #expect(negate.factor == -1)
     }
 
     @Test
-    func sameDomainExpressibleByIntegerLiteral() {
+    func `same domain expressible by integer literal`() {
         let r: Affine.Discrete.Ratio<Byte, Byte> = 3
         #expect(r.factor == 3)
     }
@@ -48,7 +48,7 @@ struct AffineRatioTests {
     // MARK: - Composition
 
     @Test
-    func ratioComposition() {
+    func `ratio composition`() {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let bytesPerWord = Affine.Discrete.Ratio<Word, Byte>.init(8)
         let bitsPerWord: Affine.Discrete.Ratio<Word, Bit> = bytesPerWord * bitsPerByte
@@ -56,7 +56,7 @@ struct AffineRatioTests {
     }
 
     @Test
-    func compositionWithIdentity() {
+    func `composition with identity`() {
         let r = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let identity = Affine.Discrete.Ratio<Bit, Bit>.identity
         let composed: Affine.Discrete.Ratio<Byte, Bit> = r * identity
@@ -64,7 +64,7 @@ struct AffineRatioTests {
     }
 
     @Test
-    func compositionWithNegate() {
+    func `composition with negate`() {
         let r = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let negate = Affine.Discrete.Ratio<Bit, Bit>.negate
         let composed: Affine.Discrete.Ratio<Byte, Bit> = r * negate
@@ -74,7 +74,7 @@ struct AffineRatioTests {
     // MARK: - Quotient and Remainder (Tagged Cardinal)
 
     @Test
-    func quotientAndRemainderCardinalEvenDivision() {
+    func `quotient and remainder cardinal even division`() {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let count: Tagged<Bit, Cardinal> = 64
         let (quotient, remainder) = bitsPerByte.quotientAndRemainder(dividing: count)
@@ -83,7 +83,7 @@ struct AffineRatioTests {
     }
 
     @Test
-    func quotientAndRemainderCardinalWithRemainder() {
+    func `quotient and remainder cardinal with remainder`() {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let count: Tagged<Bit, Cardinal> = 100
         let (quotient, remainder) = bitsPerByte.quotientAndRemainder(dividing: count)
@@ -94,7 +94,7 @@ struct AffineRatioTests {
     // MARK: - Quotient and Remainder (Tagged Ordinal)
 
     @Test
-    func quotientAndRemainderOrdinalEvenDivision() {
+    func `quotient and remainder ordinal even division`() {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let index: Tagged<Bit, Ordinal> = 64
         let (quotient, remainder) = bitsPerByte.quotientAndRemainder(dividing: index)
@@ -103,7 +103,7 @@ struct AffineRatioTests {
     }
 
     @Test
-    func quotientAndRemainderOrdinalWithRemainder() {
+    func `quotient and remainder ordinal with remainder`() {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let index: Tagged<Bit, Ordinal> = 100
         let (quotient, remainder) = bitsPerByte.quotientAndRemainder(dividing: index)
@@ -114,7 +114,7 @@ struct AffineRatioTests {
     // MARK: - Description
 
     @Test
-    func descriptionContainsFactor() {
+    func `description contains factor`() {
         let r = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         #expect(r.description.contains("8"))
     }
@@ -122,7 +122,7 @@ struct AffineRatioTests {
     // MARK: - Hashable / Sendable conformances
 
     @Test
-    func hashableConformance() {
+    func `hashable conformance`() {
         let a = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let b = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let c = Affine.Discrete.Ratio<Byte, Bit>.init(16)

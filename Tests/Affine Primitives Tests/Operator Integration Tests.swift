@@ -612,7 +612,7 @@
 //struct `Type Safety - Operator Return Types` {
 ////
 //   @Test
-//   func `All coordinate/displacement operators preserve types correctly`() {
+//   func `all coordinate/displacement operators preserve types correctly`() {
 //       // These assignments verify compile-time type correctness
 //       let x: A.X = 10
 //       let dx: A.Dx = 5

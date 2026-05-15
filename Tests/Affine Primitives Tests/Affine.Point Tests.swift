@@ -416,7 +416,7 @@
 //   @Suite
 //   struct `Zip` {
 //       @Test
-//       func `Zip combines points component-wise`() {
+//       func `zip combines points component-wise`() {
 //           let a = Point2(x: 1, y: 2)
 //           let b = Point2(x: 10, y: 20)
 //           let result = Point2.zip(a, b) { $0 + $1 }

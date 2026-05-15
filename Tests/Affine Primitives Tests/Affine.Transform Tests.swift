@@ -663,7 +663,7 @@
 //       }
 ////
 //       @Test
-//       func `Different transforms are not equal`() {
+//       func `different transforms are not equal`() {
 //           let scale = Transform.scale(2)
 //           let rotate = Transform.rotation(Degree(45))
 //           #expect(scale != rotate)

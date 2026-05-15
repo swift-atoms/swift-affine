@@ -167,7 +167,7 @@
 //       }
 ////
 //       @Test
-//       func `Z equality`() {
+//       func `z equality`() {
 //           let a = Z(3)
 //           let b = Z(3)
 //           let c = Z(4)

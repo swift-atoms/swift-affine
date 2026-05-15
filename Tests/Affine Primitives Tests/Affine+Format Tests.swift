@@ -53,7 +53,7 @@
 //       }
 ////
 //       @Test
-//       func `Negative coordinate`() {
+//       func `negative coordinate`() {
 //           let x = X(-5.5)
 //           #expect(x == -5.5)
 //       }

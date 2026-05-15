@@ -271,7 +271,7 @@
 //       }
 ////
 //       @Test
-//       func `AdditiveArithmetic zero`() {
+//       func `additive arithmetic zero`() {
 //           let z: Translation = .zero
 //           #expect(z.dx == 0)
 //           #expect(z.dy == 0)

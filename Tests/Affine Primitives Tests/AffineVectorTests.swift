@@ -8,25 +8,25 @@ struct AffineVectorTests {
     // MARK: - Construction
 
     @Test
-    func constructionFromInt() {
+    func `construction from int`() {
         let v = Affine.Discrete.Vector(5)
         #expect(v.rawValue == 5)
     }
 
     @Test
-    func constructionFromNegativeInt() {
+    func `construction from negative int`() {
         let v = Affine.Discrete.Vector(-3)
         #expect(v.rawValue == -3)
     }
 
     @Test
-    func constructionFromIntegerLiteral() {
+    func `construction from integer literal`() {
         let v: Affine.Discrete.Vector = 7
         #expect(v.rawValue == 7)
     }
 
     @Test
-    func constructionFromNegativeIntegerLiteral() {
+    func `construction from negative integer literal`() {
         let v: Affine.Discrete.Vector = -2
         #expect(v.rawValue == -2)
     }
@@ -34,61 +34,61 @@ struct AffineVectorTests {
     // MARK: - Constants
 
     @Test
-    func zeroConstant() {
+    func `zero constant`() {
         #expect(Affine.Discrete.Vector.zero.rawValue == 0)
     }
 
     @Test
-    func oneConstant() {
+    func `one constant`() {
         #expect(Affine.Discrete.Vector.one.rawValue == 1)
     }
 
     // MARK: - Arithmetic
 
     @Test
-    func additionOperator() {
+    func `addition operator`() {
         let a: Affine.Discrete.Vector = 5
         let b: Affine.Discrete.Vector = 3
         #expect((a + b).rawValue == 8)
     }
 
     @Test
-    func additionOfOpposingSigns() {
+    func `addition of opposing signs`() {
         let a: Affine.Discrete.Vector = 5
         let b: Affine.Discrete.Vector = -3
         #expect((a + b).rawValue == 2)
     }
 
     @Test
-    func subtractionOperator() {
+    func `subtraction operator`() {
         let a: Affine.Discrete.Vector = 5
         let b: Affine.Discrete.Vector = 3
         #expect((a - b).rawValue == 2)
     }
 
     @Test
-    func subtractionYieldingNegative() {
+    func `subtraction yielding negative`() {
         let a: Affine.Discrete.Vector = 3
         let b: Affine.Discrete.Vector = 5
         #expect((a - b).rawValue == -2)
     }
 
     @Test
-    func compoundAddition() {
+    func `compound addition`() {
         var a: Affine.Discrete.Vector = 5
         a += Affine.Discrete.Vector(3)
         #expect(a.rawValue == 8)
     }
 
     @Test
-    func compoundSubtraction() {
+    func `compound subtraction`() {
         var a: Affine.Discrete.Vector = 5
         a -= Affine.Discrete.Vector(3)
         #expect(a.rawValue == 2)
     }
 
     @Test
-    func unaryMinus() {
+    func `unary minus`() {
         let v: Affine.Discrete.Vector = 5
         let negated: Affine.Discrete.Vector = -v
         #expect(negated.rawValue == -5)
@@ -97,19 +97,19 @@ struct AffineVectorTests {
     // MARK: - Magnitude
 
     @Test
-    func magnitudeOfPositive() {
+    func `magnitude of positive`() {
         let v: Affine.Discrete.Vector = 5
         #expect(v.magnitude == Cardinal(5))
     }
 
     @Test
-    func magnitudeOfNegative() {
+    func `magnitude of negative`() {
         let v: Affine.Discrete.Vector = -5
         #expect(v.magnitude == Cardinal(5))
     }
 
     @Test
-    func magnitudeOfZero() {
+    func `magnitude of zero`() {
         let v: Affine.Discrete.Vector = .zero
         #expect(v.magnitude == .zero)
     }
@@ -117,7 +117,7 @@ struct AffineVectorTests {
     // MARK: - Comparison
 
     @Test
-    func comparison() {
+    func `comparison`() {
         let a: Affine.Discrete.Vector = 3
         let b: Affine.Discrete.Vector = 5
         #expect(a < b)
@@ -129,7 +129,7 @@ struct AffineVectorTests {
     }
 
     @Test
-    func negativeBeforePositive() {
+    func `negative before positive`() {
         let neg: Affine.Discrete.Vector = -5
         let pos: Affine.Discrete.Vector = 5
         #expect(neg < pos)
@@ -138,13 +138,13 @@ struct AffineVectorTests {
     // MARK: - Description
 
     @Test
-    func descriptionContainsRawValue() {
+    func `description contains raw value`() {
         let v = Affine.Discrete.Vector(42)
         #expect(v.description == "Vector(42)")
     }
 
     @Test
-    func descriptionOfNegative() {
+    func `description of negative`() {
         let v = Affine.Discrete.Vector(-7)
         #expect(v.description == "Vector(-7)")
     }
@@ -152,7 +152,7 @@ struct AffineVectorTests {
     // MARK: - Conformances
 
     @Test
-    func hashableConformance() {
+    func `hashable conformance`() {
         let a: Affine.Discrete.Vector = 5
         let b: Affine.Discrete.Vector = 5
         let c: Affine.Discrete.Vector = 6
@@ -165,7 +165,7 @@ struct AffineVectorTests {
     // MARK: - Errors
 
     @Test
-    func errorUnrepresentable() {
+    func `error unrepresentable`() {
         let error: Affine.Discrete.Vector.Error = .unrepresentable
         #expect(error == .unrepresentable)
     }

@@ -20,19 +20,19 @@ struct AffineSLITests {
     // MARK: - Int(bitPattern:) — bare Vector
 
     @Test
-    func intBitPatternFromVectorPositive() {
+    func `int bit pattern from vector positive`() {
         let v = Affine.Discrete.Vector(5)
         #expect(Int(bitPattern: v) == 5)
     }
 
     @Test
-    func intBitPatternFromVectorNegative() {
+    func `int bit pattern from vector negative`() {
         let v = Affine.Discrete.Vector(-3)
         #expect(Int(bitPattern: v) == -3)
     }
 
     @Test
-    func intBitPatternFromVectorZero() {
+    func `int bit pattern from vector zero`() {
         let v = Affine.Discrete.Vector.zero
         #expect(Int(bitPattern: v) == 0)
     }
@@ -40,13 +40,13 @@ struct AffineSLITests {
     // MARK: - Int(bitPattern:) — Tagged offset
 
     @Test
-    func intBitPatternFromTaggedOffsetPositive() {
+    func `int bit pattern from tagged offset positive`() {
         let offset: Offset = 7
         #expect(Int(bitPattern: offset) == 7)
     }
 
     @Test
-    func intBitPatternFromTaggedOffsetNegative() {
+    func `int bit pattern from tagged offset negative`() {
         let offset: Offset = -7
         #expect(Int(bitPattern: offset) == -7)
     }
@@ -54,7 +54,7 @@ struct AffineSLITests {
     // MARK: - RandomAccessCollection.index(_:offsetBy:)
 
     @Test
-    func randomAccessCollectionIndexByTypedOffset() {
+    func `random access collection index by typed offset`() {
         let array = [10, 20, 30, 40, 50]
         let offset: Offset = 2
         let index = array.index(array.startIndex, offsetBy: offset)
@@ -62,7 +62,7 @@ struct AffineSLITests {
     }
 
     @Test
-    func randomAccessCollectionIndexByZeroOffset() {
+    func `random access collection index by zero offset`() {
         let array = [10, 20, 30]
         let offset: Offset = .zero
         let index = array.index(array.startIndex, offsetBy: offset)
@@ -72,7 +72,7 @@ struct AffineSLITests {
     // MARK: - UnsafePointer arithmetic
 
     @Test
-    func unsafePointerPlusTypedOffset() {
+    func `unsafe pointer plus typed offset`() {
         let values: [Int] = [0, 10, 20, 30, 40]
         unsafe values.withUnsafeBufferPointer { buf in
             let base = buf.baseAddress!
@@ -83,7 +83,7 @@ struct AffineSLITests {
     }
 
     @Test
-    func unsafePointerMinusUnsafePointerYieldsTypedOffset() {
+    func `unsafe pointer minus unsafe pointer yields typed offset`() {
         let values: [Int] = [0, 1, 2, 3, 4]
         unsafe values.withUnsafeBufferPointer { buf in
             let start = buf.baseAddress!
@@ -96,7 +96,7 @@ struct AffineSLITests {
     // MARK: - UnsafeMutablePointer arithmetic
 
     @Test
-    func unsafeMutablePointerPlusTypedOffset() {
+    func `unsafe mutable pointer plus typed offset`() {
         var values: [Int] = [0, 10, 20, 30, 40]
         unsafe values.withUnsafeMutableBufferPointer { buf in
             let base = buf.baseAddress!

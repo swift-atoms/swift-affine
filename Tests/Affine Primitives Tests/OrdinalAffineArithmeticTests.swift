@@ -13,7 +13,7 @@ struct OrdinalAffineArithmeticTests {
     // MARK: - Bare Ordinal ± Bare Vector
 
     @Test
-    func barePositionPlusVectorPositive() throws(Ordinal.Error) {
+    func `bare position plus vector positive`() throws(Ordinal.Error) {
         let p = Ordinal(UInt(5))
         let v = Affine.Discrete.Vector(3)
         let q: Ordinal = try p + v
@@ -21,7 +21,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func barePositionPlusVectorNegative() throws(Ordinal.Error) {
+    func `bare position plus vector negative`() throws(Ordinal.Error) {
         let p = Ordinal(UInt(5))
         let v = Affine.Discrete.Vector(-3)
         let q: Ordinal = try p + v
@@ -29,7 +29,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func barePositionPlusVectorUnderflow() {
+    func `bare position plus vector underflow`() {
         let p = Ordinal(UInt(2))
         let v = Affine.Discrete.Vector(-5)
         #expect(throws: Ordinal.Error.underflow) {
@@ -38,7 +38,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func barePositionMinusVectorYieldsPosition() throws(Ordinal.Error) {
+    func `bare position minus vector yields position`() throws(Ordinal.Error) {
         let p = Ordinal(UInt(5))
         let v = Affine.Discrete.Vector(3)
         let q: Ordinal = try p - v
@@ -46,7 +46,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func barePositionMinusPositionYieldsVector() throws(Affine.Discrete.Vector.Error) {
+    func `bare position minus position yields vector`() throws(Affine.Discrete.Vector.Error) {
         let p = Ordinal(UInt(8))
         let q = Ordinal(UInt(3))
         let displacement: Affine.Discrete.Vector = try p - q
@@ -54,7 +54,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func barePositionMinusPositionYieldsNegativeVector() throws(Affine.Discrete.Vector.Error) {
+    func `bare position minus position yields negative vector`() throws(Affine.Discrete.Vector.Error) {
         let p = Ordinal(UInt(3))
         let q = Ordinal(UInt(8))
         let displacement: Affine.Discrete.Vector = try p - q
@@ -64,7 +64,7 @@ struct OrdinalAffineArithmeticTests {
     // MARK: - Tagged Position ± Tagged Offset
 
     @Test
-    func taggedPositionPlusOffsetPositive() throws(Ordinal.Error) {
+    func `tagged position plus offset positive`() throws(Ordinal.Error) {
         let p: Position = 5
         let step: Offset = 3
         let q: Position = try p + step
@@ -72,7 +72,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func taggedPositionPlusOffsetNegative() throws(Ordinal.Error) {
+    func `tagged position plus offset negative`() throws(Ordinal.Error) {
         let p: Position = 5
         let stepBack: Offset = -3
         let q: Position = try p + stepBack
@@ -80,7 +80,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func taggedOffsetPlusPositionCommutative() throws(Ordinal.Error) {
+    func `tagged offset plus position commutative`() throws(Ordinal.Error) {
         let p: Position = 5
         let step: Offset = 3
         let q: Position = try step + p
@@ -88,7 +88,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func taggedPositionMinusOffsetYieldsPosition() throws(Ordinal.Error) {
+    func `tagged position minus offset yields position`() throws(Ordinal.Error) {
         let p: Position = 5
         let step: Offset = 3
         let q: Position = try p - step
@@ -96,7 +96,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func compoundAdvanceTagged() throws(Ordinal.Error) {
+    func `compound advance tagged`() throws(Ordinal.Error) {
         var p: Position = 5
         let step: Offset = 3
         try p += step
@@ -104,7 +104,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func compoundRetreatTagged() throws(Ordinal.Error) {
+    func `compound retreat tagged`() throws(Ordinal.Error) {
         var p: Position = 5
         let step: Offset = 3
         try p -= step
@@ -114,7 +114,7 @@ struct OrdinalAffineArithmeticTests {
     // MARK: - Cross-Domain Scaling on Cardinal
 
     @Test
-    func taggedCardinalScalesViaRatio() {
+    func `tagged cardinal scales via ratio`() {
         enum Byte {}
         enum Bit {}
         let bytes: Tagged<Byte, Cardinal> = 4
@@ -124,7 +124,7 @@ struct OrdinalAffineArithmeticTests {
     }
 
     @Test
-    func taggedCardinalScalingCommutative() {
+    func `tagged cardinal scaling commutative`() {
         enum Byte {}
         enum Bit {}
         let bytes: Tagged<Byte, Cardinal> = 4
@@ -136,7 +136,7 @@ struct OrdinalAffineArithmeticTests {
     // MARK: - Cross-Domain Scaling on Vector
 
     @Test
-    func taggedVectorScalesViaRatio() {
+    func `tagged vector scales via ratio`() {
         enum Byte {}
         enum Bit {}
         let byteOffset: Tagged<Byte, Affine.Discrete.Vector> = -2
@@ -148,14 +148,14 @@ struct OrdinalAffineArithmeticTests {
     // MARK: - Ordinal init from Vector
 
     @Test
-    func ordinalFromNonNegativeVector() throws(Ordinal.Error) {
+    func `ordinal from non negative vector`() throws(Ordinal.Error) {
         let v = Affine.Discrete.Vector(5)
         let o = try Ordinal(v)
         #expect(o == Ordinal(UInt(5)))
     }
 
     @Test
-    func ordinalFromNegativeVectorThrows() {
+    func `ordinal from negative vector throws`() {
         let v = Affine.Discrete.Vector(-5)
         #expect(throws: Ordinal.Error.negativeSource(-5)) {
             try Ordinal(v)

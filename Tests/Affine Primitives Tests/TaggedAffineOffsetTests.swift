@@ -16,7 +16,7 @@ struct TaggedAffineOffsetTests {
     // MARK: - Offset Typealias Identity
 
     @Test
-    func offsetIsTaggedVector() {
+    func `offset is tagged vector`() {
         let offset: Offset = 3
         // The typealias resolves to Tagged<Element, Affine.Discrete.Vector>.
         let taggedVector: Tagged<Element, Affine.Discrete.Vector> = offset
@@ -26,40 +26,40 @@ struct TaggedAffineOffsetTests {
     // MARK: - Construction
 
     @Test
-    func constructionFromInt() {
+    func `construction from int`() {
         let offset = Offset(5)
         #expect(offset.underlying == Affine.Discrete.Vector(5))
     }
 
     @Test
-    func constructionFromNegativeInt() {
+    func `construction from negative int`() {
         let offset = Offset(-3)
         #expect(offset.underlying == Affine.Discrete.Vector(-3))
     }
 
     @Test
-    func constructionFromTaggedCardinal() {
+    func `construction from tagged cardinal`() {
         let count: Tagged<Element, Cardinal> = 7
         let offset = Tagged<Element, Affine.Discrete.Vector>(count)
         #expect(offset.underlying == Affine.Discrete.Vector(7))
     }
 
     @Test
-    func constructionFromOrdinalProtocol() throws(Affine.Discrete.Vector.Error) {
+    func `construction from ordinal protocol`() throws(Affine.Discrete.Vector.Error) {
         let position = Ordinal(UInt(5))
         let offset = try Tagged<Element, Affine.Discrete.Vector>(position)
         #expect(offset.underlying == Affine.Discrete.Vector(5))
     }
 
     @Test
-    func constructionFromZero() {
+    func `construction from zero`() {
         let position = Ordinal(UInt(5))
         let offset = Tagged<Element, Affine.Discrete.Vector>(fromZero: position)
         #expect(offset.underlying == Affine.Discrete.Vector(5))
     }
 
     @Test
-    func constructionFromIntegerLiteral() {
+    func `construction from integer literal`() {
         let offset: Offset = 3
         #expect(offset.underlying == Affine.Discrete.Vector(3))
     }
@@ -67,13 +67,13 @@ struct TaggedAffineOffsetTests {
     // MARK: - Constants
 
     @Test
-    func zeroConstant() {
+    func `zero constant`() {
         let offset: Offset = .zero
         #expect(offset.underlying == Affine.Discrete.Vector(0))
     }
 
     @Test
-    func oneConstant() {
+    func `one constant`() {
         let offset: Offset = .one
         #expect(offset.underlying == Affine.Discrete.Vector(1))
     }
@@ -81,7 +81,7 @@ struct TaggedAffineOffsetTests {
     // MARK: - Arithmetic
 
     @Test
-    func additionOnTagged() {
+    func `addition on tagged`() {
         let a: Offset = 3
         let b: Offset = 4
         let sum = a + b
@@ -89,7 +89,7 @@ struct TaggedAffineOffsetTests {
     }
 
     @Test
-    func subtractionOnTagged() {
+    func `subtraction on tagged`() {
         let a: Offset = 5
         let b: Offset = 2
         let diff = a - b
@@ -97,21 +97,21 @@ struct TaggedAffineOffsetTests {
     }
 
     @Test
-    func compoundAdditionOnTagged() {
+    func `compound addition on tagged`() {
         var a: Offset = 5
         a += Offset(3)
         #expect(a.underlying == Affine.Discrete.Vector(8))
     }
 
     @Test
-    func compoundSubtractionOnTagged() {
+    func `compound subtraction on tagged`() {
         var a: Offset = 5
         a -= Offset(3)
         #expect(a.underlying == Affine.Discrete.Vector(2))
     }
 
     @Test
-    func unaryMinusOnTagged() {
+    func `unary minus on tagged`() {
         let v: Offset = 5
         let negated: Offset = -v
         #expect(negated.underlying == Affine.Discrete.Vector(-5))
@@ -120,14 +120,14 @@ struct TaggedAffineOffsetTests {
     // MARK: - Typed Magnitude
 
     @Test
-    func magnitudeOfPositiveTaggedOffset() {
+    func `magnitude of positive tagged offset`() {
         let offset: Offset = 5
         let magnitude: Tagged<Element, Cardinal> = offset.magnitude
         #expect(magnitude.underlying == Cardinal(5))
     }
 
     @Test
-    func magnitudeOfNegativeTaggedOffset() {
+    func `magnitude of negative tagged offset`() {
         let offset: Offset = -5
         let magnitude: Tagged<Element, Cardinal> = offset.magnitude
         #expect(magnitude.underlying == Cardinal(5))
@@ -136,14 +136,14 @@ struct TaggedAffineOffsetTests {
     // MARK: - Tagged<Tag, Cardinal> from Tagged<Tag, Vector>
 
     @Test
-    func taggedCardinalFromNonNegativeTaggedVector() throws(Cardinal.Error) {
+    func `tagged cardinal from non negative tagged vector`() throws(Cardinal.Error) {
         let offset: Offset = 5
         let count: Tagged<Element, Cardinal> = try Tagged<Element, Cardinal>(offset)
         #expect(count.underlying == Cardinal(5))
     }
 
     @Test
-    func taggedCardinalFromNegativeTaggedVectorThrows() {
+    func `tagged cardinal from negative tagged vector throws`() {
         let offset: Offset = -5
         #expect(throws: Cardinal.Error.negativeSource(-5)) {
             try Tagged<Element, Cardinal>(offset)
@@ -153,21 +153,21 @@ struct TaggedAffineOffsetTests {
     // MARK: - Cross-Type Comparisons (Vector ↔ Cardinal, same Domain)
 
     @Test
-    func vectorLessThanCardinalSameDomain() {
+    func `vector less than cardinal same domain`() {
         let offset: Offset = 3
         let count: Tagged<Element, Cardinal> = 5
         #expect(offset < count)
     }
 
     @Test
-    func cardinalLessThanVectorSameDomain() {
+    func `cardinal less than vector same domain`() {
         let count: Tagged<Element, Cardinal> = 3
         let offset: Offset = 5
         #expect(count < offset)
     }
 
     @Test
-    func vectorEqualToCardinalAtZero() {
+    func `vector equal to cardinal at zero`() {
         let offset: Offset = .zero
         let count: Tagged<Element, Cardinal> = .zero
         #expect(offset <= count)
@@ -175,7 +175,7 @@ struct TaggedAffineOffsetTests {
     }
 
     @Test
-    func negativeVectorLessThanAnyCardinal() {
+    func `negative vector less than any cardinal`() {
         let offset: Offset = -1
         let count: Tagged<Element, Cardinal> = .zero
         #expect(offset < count)

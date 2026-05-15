@@ -274,7 +274,7 @@
 //       }
 ////
 //       @Test
-//       func `Multiple rotations compose correctly`() {
+//       func `multiple rotations compose correctly`() {
 //           let p = Point2(x: 1, y: 0)
 //           let rotated1 = Point2.rotated(p, by: Degree(45))
 //           let rotated2 = Point2.rotated(rotated1, by: Degree(45))
