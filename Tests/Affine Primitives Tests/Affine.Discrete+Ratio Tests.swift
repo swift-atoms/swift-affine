@@ -3,14 +3,25 @@ import Testing
 
 @testable import Affine_Primitives
 
-@Suite
-struct AffineRatioTests {
-    // Phantom-tag types for cross-domain ratio tests.
-    enum Byte {}
-    enum Bit {}
-    enum Word {}
+private enum Byte {}
+private enum Bit {}
+private enum Word {}
 
-    // MARK: - Construction
+extension Affine.Discrete {
+    @Suite
+    struct `Ratio Test` {
+        @Suite struct Unit {}
+        @Suite struct `Edge Case` {}
+        @Suite struct Integration {}
+        @Suite struct Performance {}
+    }
+}
+
+// MARK: - Unit
+
+extension Affine.Discrete.`Ratio Test`.Unit {
+
+    // MARK: Construction
 
     @Test
     func `construction from int`() {
@@ -25,7 +36,7 @@ struct AffineRatioTests {
         #expect(r.factor == 64)
     }
 
-    // MARK: - Same-Domain (Endomorphism) Operations
+    // MARK: Same-Domain (Endomorphism) Operations
 
     @Test
     func `identity factor`() {
@@ -45,7 +56,7 @@ struct AffineRatioTests {
         #expect(r.factor == 3)
     }
 
-    // MARK: - Composition
+    // MARK: Composition
 
     @Test
     func `ratio composition`() {
@@ -71,7 +82,7 @@ struct AffineRatioTests {
         #expect(composed.factor == -8)
     }
 
-    // MARK: - Quotient and Remainder (Tagged Cardinal)
+    // MARK: Quotient and Remainder (Tagged Cardinal)
 
     @Test
     func `quotient and remainder cardinal even division`() {
@@ -91,7 +102,7 @@ struct AffineRatioTests {
         #expect(remainder.underlying == Cardinal(4))
     }
 
-    // MARK: - Quotient and Remainder (Tagged Ordinal)
+    // MARK: Quotient and Remainder (Tagged Ordinal)
 
     @Test
     func `quotient and remainder ordinal even division`() {
@@ -110,16 +121,17 @@ struct AffineRatioTests {
         #expect(quotient.underlying == Ordinal(UInt(12)))
         #expect(remainder.underlying == Affine.Discrete.Vector(4))
     }
+}
 
-    // MARK: - Description
+// MARK: - Integration
+
+extension Affine.Discrete.`Ratio Test`.Integration {
 
     @Test
     func `description contains factor`() {
         let r = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         #expect(r.description.contains("8"))
     }
-
-    // MARK: - Hashable / Sendable conformances
 
     @Test
     func `hashable conformance`() {

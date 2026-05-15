@@ -3,9 +3,21 @@ import Testing
 
 @testable import Affine_Primitives
 
-@Suite
-struct AffineVectorTests {
-    // MARK: - Construction
+extension Affine.Discrete.Vector {
+    @Suite
+    struct Test {
+        @Suite struct Unit {}
+        @Suite struct `Edge Case` {}
+        @Suite struct Integration {}
+        @Suite struct Performance {}
+    }
+}
+
+// MARK: - Unit
+
+extension Affine.Discrete.Vector.Test.Unit {
+
+    // MARK: Construction
 
     @Test
     func `construction from int`() {
@@ -31,7 +43,7 @@ struct AffineVectorTests {
         #expect(v.rawValue == -2)
     }
 
-    // MARK: - Constants
+    // MARK: Constants
 
     @Test
     func `zero constant`() {
@@ -43,7 +55,7 @@ struct AffineVectorTests {
         #expect(Affine.Discrete.Vector.one.rawValue == 1)
     }
 
-    // MARK: - Arithmetic
+    // MARK: Arithmetic
 
     @Test
     func `addition operator`() {
@@ -94,7 +106,7 @@ struct AffineVectorTests {
         #expect(negated.rawValue == -5)
     }
 
-    // MARK: - Magnitude
+    // MARK: Magnitude
 
     @Test
     func `magnitude of positive`() {
@@ -114,10 +126,10 @@ struct AffineVectorTests {
         #expect(v.magnitude == .zero)
     }
 
-    // MARK: - Comparison
+    // MARK: Comparison
 
     @Test
-    func `comparison`() {
+    func comparison() {
         let a: Affine.Discrete.Vector = 3
         let b: Affine.Discrete.Vector = 5
         #expect(a < b)
@@ -134,8 +146,22 @@ struct AffineVectorTests {
         let pos: Affine.Discrete.Vector = 5
         #expect(neg < pos)
     }
+}
 
-    // MARK: - Description
+// MARK: - Edge Case
+
+extension Affine.Discrete.Vector.Test.`Edge Case` {
+
+    @Test
+    func `error unrepresentable`() {
+        let error: Affine.Discrete.Vector.Error = .unrepresentable
+        #expect(error == .unrepresentable)
+    }
+}
+
+// MARK: - Integration
+
+extension Affine.Discrete.Vector.Test.Integration {
 
     @Test
     func `description contains raw value`() {
@@ -149,8 +175,6 @@ struct AffineVectorTests {
         #expect(v.description == "Vector(-7)")
     }
 
-    // MARK: - Conformances
-
     @Test
     func `hashable conformance`() {
         let a: Affine.Discrete.Vector = 5
@@ -160,13 +184,5 @@ struct AffineVectorTests {
         seen.insert(a)
         #expect(seen.contains(b))
         #expect(!seen.contains(c))
-    }
-
-    // MARK: - Errors
-
-    @Test
-    func `error unrepresentable`() {
-        let error: Affine.Discrete.Vector.Error = .unrepresentable
-        #expect(error == .unrepresentable)
     }
 }

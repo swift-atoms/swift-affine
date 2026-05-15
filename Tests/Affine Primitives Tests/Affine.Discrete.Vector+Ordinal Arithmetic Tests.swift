@@ -3,14 +3,23 @@ import Testing
 
 @testable import Affine_Primitives
 
-@Suite
-struct OrdinalAffineArithmeticTests {
-    enum Element {}
+private enum Element {}
 
-    typealias Position = Tagged<Element, Ordinal>
-    typealias Offset = Tagged<Element, Ordinal>.Offset
+extension Affine.Discrete.Vector {
+    @Suite
+    struct `Ordinal Arithmetic` {
+        @Suite struct Unit {}
+        @Suite struct `Edge Case` {}
+        @Suite struct Integration {}
+        @Suite struct Performance {}
+    }
+}
 
-    // MARK: - Bare Ordinal ± Bare Vector
+// MARK: - Unit
+
+extension Affine.Discrete.Vector.`Ordinal Arithmetic`.Unit {
+
+    // MARK: Bare Ordinal ± Bare Vector
 
     @Test
     func `bare position plus vector positive`() throws(Ordinal.Error) {
@@ -26,15 +35,6 @@ struct OrdinalAffineArithmeticTests {
         let v = Affine.Discrete.Vector(-3)
         let q: Ordinal = try p + v
         #expect(q == Ordinal(UInt(2)))
-    }
-
-    @Test
-    func `bare position plus vector underflow`() {
-        let p = Ordinal(UInt(2))
-        let v = Affine.Discrete.Vector(-5)
-        #expect(throws: Ordinal.Error.underflow) {
-            let _: Ordinal = try p + v
-        }
     }
 
     @Test
@@ -61,57 +61,57 @@ struct OrdinalAffineArithmeticTests {
         #expect(displacement.rawValue == -5)
     }
 
-    // MARK: - Tagged Position ± Tagged Offset
+    // MARK: Tagged Position ± Tagged Offset
 
     @Test
     func `tagged position plus offset positive`() throws(Ordinal.Error) {
-        let p: Position = 5
-        let step: Offset = 3
-        let q: Position = try p + step
+        let p: Tagged<Element, Ordinal> = 5
+        let step: Tagged<Element, Ordinal>.Offset = 3
+        let q: Tagged<Element, Ordinal> = try p + step
         #expect(q.underlying == Ordinal(UInt(8)))
     }
 
     @Test
     func `tagged position plus offset negative`() throws(Ordinal.Error) {
-        let p: Position = 5
-        let stepBack: Offset = -3
-        let q: Position = try p + stepBack
+        let p: Tagged<Element, Ordinal> = 5
+        let stepBack: Tagged<Element, Ordinal>.Offset = -3
+        let q: Tagged<Element, Ordinal> = try p + stepBack
         #expect(q.underlying == Ordinal(UInt(2)))
     }
 
     @Test
     func `tagged offset plus position commutative`() throws(Ordinal.Error) {
-        let p: Position = 5
-        let step: Offset = 3
-        let q: Position = try step + p
+        let p: Tagged<Element, Ordinal> = 5
+        let step: Tagged<Element, Ordinal>.Offset = 3
+        let q: Tagged<Element, Ordinal> = try step + p
         #expect(q.underlying == Ordinal(UInt(8)))
     }
 
     @Test
     func `tagged position minus offset yields position`() throws(Ordinal.Error) {
-        let p: Position = 5
-        let step: Offset = 3
-        let q: Position = try p - step
+        let p: Tagged<Element, Ordinal> = 5
+        let step: Tagged<Element, Ordinal>.Offset = 3
+        let q: Tagged<Element, Ordinal> = try p - step
         #expect(q.underlying == Ordinal(UInt(2)))
     }
 
     @Test
     func `compound advance tagged`() throws(Ordinal.Error) {
-        var p: Position = 5
-        let step: Offset = 3
+        var p: Tagged<Element, Ordinal> = 5
+        let step: Tagged<Element, Ordinal>.Offset = 3
         try p += step
         #expect(p.underlying == Ordinal(UInt(8)))
     }
 
     @Test
     func `compound retreat tagged`() throws(Ordinal.Error) {
-        var p: Position = 5
-        let step: Offset = 3
+        var p: Tagged<Element, Ordinal> = 5
+        let step: Tagged<Element, Ordinal>.Offset = 3
         try p -= step
         #expect(p.underlying == Ordinal(UInt(2)))
     }
 
-    // MARK: - Cross-Domain Scaling on Cardinal
+    // MARK: Cross-Domain Scaling on Cardinal
 
     @Test
     func `tagged cardinal scales via ratio`() {
@@ -133,7 +133,7 @@ struct OrdinalAffineArithmeticTests {
         #expect(bits.underlying == Cardinal(32))
     }
 
-    // MARK: - Cross-Domain Scaling on Vector
+    // MARK: Cross-Domain Scaling on Vector
 
     @Test
     func `tagged vector scales via ratio`() {
@@ -145,13 +145,27 @@ struct OrdinalAffineArithmeticTests {
         #expect(bitOffset.underlying == Affine.Discrete.Vector(-16))
     }
 
-    // MARK: - Ordinal init from Vector
+    // MARK: Ordinal init from Vector
 
     @Test
     func `ordinal from non negative vector`() throws(Ordinal.Error) {
         let v = Affine.Discrete.Vector(5)
         let o = try Ordinal(v)
         #expect(o == Ordinal(UInt(5)))
+    }
+}
+
+// MARK: - Edge Case
+
+extension Affine.Discrete.Vector.`Ordinal Arithmetic`.`Edge Case` {
+
+    @Test
+    func `bare position plus vector underflow`() {
+        let p = Ordinal(UInt(2))
+        let v = Affine.Discrete.Vector(-5)
+        #expect(throws: Ordinal.Error.underflow) {
+            let _: Ordinal = try p + v
+        }
     }
 
     @Test

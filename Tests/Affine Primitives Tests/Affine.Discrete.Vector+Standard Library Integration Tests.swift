@@ -11,13 +11,29 @@ private let isLinux: Bool = {
     #endif
 }()
 
-@Suite
-struct AffineSLITests {
-    enum Element {}
+private enum Element {}
 
-    typealias Offset = Tagged<Element, Ordinal>.Offset
+extension Affine.Discrete.Vector {
+    @Suite
+    struct `Standard Library Integration` {
+        @Suite struct Unit {}
+        @Suite struct `Edge Case` {}
+        @Suite struct Integration {}
+        @Suite struct Performance {}
+    }
+}
 
-    // MARK: - Int(bitPattern:) — bare Vector
+// MARK: - Integration
+//
+// Whole-file Integration scope: every test exercises an Affine primitive
+// at a stdlib boundary (`Int(bitPattern:)`, `RandomAccessCollection.index`,
+// pointer arithmetic). Unit / Edge Case / Performance sub-suites declared
+// to satisfy the canonical 4-sub-suite shape; they are intentionally
+// empty here per the file's stdlib-integration scope.
+
+extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
+
+    // MARK: Int(bitPattern:) — bare Vector
 
     @Test
     func `int bit pattern from vector positive`() {
@@ -37,26 +53,26 @@ struct AffineSLITests {
         #expect(Int(bitPattern: v) == 0)
     }
 
-    // MARK: - Int(bitPattern:) — Tagged offset
+    // MARK: Int(bitPattern:) — Tagged offset
 
     @Test
     func `int bit pattern from tagged offset positive`() {
-        let offset: Offset = 7
+        let offset: Tagged<Element, Ordinal>.Offset = 7
         #expect(Int(bitPattern: offset) == 7)
     }
 
     @Test
     func `int bit pattern from tagged offset negative`() {
-        let offset: Offset = -7
+        let offset: Tagged<Element, Ordinal>.Offset = -7
         #expect(Int(bitPattern: offset) == -7)
     }
 
-    // MARK: - RandomAccessCollection.index(_:offsetBy:)
+    // MARK: RandomAccessCollection.index(_:offsetBy:)
 
     @Test
     func `random access collection index by typed offset`() {
         let array = [10, 20, 30, 40, 50]
-        let offset: Offset = 2
+        let offset: Tagged<Element, Ordinal>.Offset = 2
         let index = array.index(array.startIndex, offsetBy: offset)
         #expect(array[index] == 30)
     }
@@ -64,12 +80,12 @@ struct AffineSLITests {
     @Test
     func `random access collection index by zero offset`() {
         let array = [10, 20, 30]
-        let offset: Offset = .zero
+        let offset: Tagged<Element, Ordinal>.Offset = .zero
         let index = array.index(array.startIndex, offsetBy: offset)
         #expect(index == array.startIndex)
     }
 
-    // MARK: - UnsafePointer arithmetic
+    // MARK: UnsafePointer arithmetic
 
     @Test
     func `unsafe pointer plus typed offset`() {
@@ -93,7 +109,7 @@ struct AffineSLITests {
         }
     }
 
-    // MARK: - UnsafeMutablePointer arithmetic
+    // MARK: UnsafeMutablePointer arithmetic
 
     @Test
     func `unsafe mutable pointer plus typed offset`() {
