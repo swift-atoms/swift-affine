@@ -117,7 +117,7 @@ struct AffineSLITests {
             "In-tree harness + investigation arc"
         )
     )
-    func unsafeMutablePointerMinusTypedOffset() {
+    func `unsafe mutable pointer minus typed offset`() {
         var values: [Int] = [0, 10, 20, 30, 40]
         unsafe values.withUnsafeMutableBufferPointer { buf in
             let from = unsafe buf.baseAddress!.advanced(by: 4)
