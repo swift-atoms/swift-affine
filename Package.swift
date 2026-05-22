@@ -14,8 +14,8 @@ let package = Package(
     products: [
         // MARK: - Namespace
         .library(
-            name: "Affine Namespace",
-            targets: ["Affine Namespace"]
+            name: "Affine Primitive",
+            targets: ["Affine Primitive"]
         ),
 
         // MARK: - Sub-namespace targets
@@ -91,7 +91,7 @@ let package = Package(
 
         // MARK: - Namespace
         .target(
-            name: "Affine Namespace",
+            name: "Affine Primitive",
             dependencies: []
         ),
 
@@ -99,14 +99,14 @@ let package = Package(
         .target(
             name: "Affine Discrete Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
             ]
         ),
         .target(
             name: "Affine Arithmetic Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 "Affine Carrier Primitives",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
@@ -117,14 +117,14 @@ let package = Package(
         .target(
             name: "Affine Composition Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
             ]
         ),
         .target(
             name: "Affine Quotient Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
@@ -134,7 +134,7 @@ let package = Package(
         .target(
             name: "Affine Carrier Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
             ]
@@ -142,7 +142,7 @@ let package = Package(
         .target(
             name: "Affine Equation Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
             ]
@@ -150,7 +150,7 @@ let package = Package(
         .target(
             name: "Affine Hash Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 .product(name: "Hash Primitives", package: "swift-hash-primitives"),
             ]
@@ -158,7 +158,7 @@ let package = Package(
         .target(
             name: "Affine Comparison Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
             ]
@@ -166,7 +166,7 @@ let package = Package(
         .target(
             name: "Affine Ordinal Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
             ]
@@ -174,7 +174,7 @@ let package = Package(
         .target(
             name: "Affine Tagged Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 "Affine Arithmetic Primitives",
                 "Affine Carrier Primitives",
@@ -189,7 +189,7 @@ let package = Package(
         .target(
             name: "Affine Primitives Standard Library Integration",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 "Affine Carrier Primitives",
                 "Affine Tagged Primitives",
@@ -204,7 +204,7 @@ let package = Package(
         .target(
             name: "Affine Primitives",
             dependencies: [
-                "Affine Namespace",
+                "Affine Primitive",
                 "Affine Discrete Primitives",
                 "Affine Arithmetic Primitives",
                 "Affine Composition Primitives",

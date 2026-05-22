@@ -1,3 +1,3 @@
 // exports.swift
 
-@_exported public import Affine_Namespace
+@_exported public import Affine_Primitive

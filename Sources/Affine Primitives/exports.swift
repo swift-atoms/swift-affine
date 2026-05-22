@@ -10,7 +10,7 @@
 // ===----------------------------------------------------------------------===//
 
 // Umbrella module: re-exports all sub-namespace targets + SLI.
-@_exported public import Affine_Namespace
+@_exported public import Affine_Primitive
 @_exported public import Affine_Discrete_Primitives
 @_exported public import Affine_Arithmetic_Primitives
 @_exported public import Affine_Composition_Primitives
