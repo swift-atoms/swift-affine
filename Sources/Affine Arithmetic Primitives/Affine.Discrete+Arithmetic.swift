@@ -9,6 +9,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Affine_Carrier_Primitives
 public import Affine_Discrete_Primitives
 internal import Cardinal_Primitives
 public import Carrier_Primitives
@@ -28,12 +29,12 @@ public func + <O: Ordinal.`Protocol`>(
     lhs: O,
     rhs: some Carrier.`Protocol`<Affine.Discrete.Vector>
 ) throws(Ordinal.Error) -> O {
-    guard rhs.underlying.rawValue >= 0 else {
-        let magnitude = rhs.underlying.rawValue.magnitude
+    guard rhs.vector.rawValue >= 0 else {
+        let magnitude = rhs.vector.rawValue.magnitude
         guard lhs.ordinal.rawValue >= magnitude else { throw .underflow }
         return O(Ordinal(lhs.ordinal.rawValue - magnitude))
     }
-    let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(UInt(rhs.underlying.rawValue))
+    let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(UInt(rhs.vector.rawValue))
     guard !overflow else { throw .overflow }
     return O(Ordinal(result))
 }
@@ -64,12 +65,12 @@ public func - <O: Ordinal.`Protocol`>(
     lhs: O,
     rhs: some Carrier.`Protocol`<Affine.Discrete.Vector>
 ) throws(Ordinal.Error) -> O {
-    guard rhs.underlying.rawValue <= 0 else {
-        let magnitude = UInt(rhs.underlying.rawValue)
+    guard rhs.vector.rawValue <= 0 else {
+        let magnitude = UInt(rhs.vector.rawValue)
         guard lhs.ordinal.rawValue >= magnitude else { throw .underflow }
         return O(Ordinal(lhs.ordinal.rawValue - magnitude))
     }
-    let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(rhs.underlying.rawValue.magnitude)
+    let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(rhs.vector.rawValue.magnitude)
     guard !overflow else { throw .overflow }
     return O(Ordinal(result))
 }
@@ -154,7 +155,7 @@ where
     C.Underlying == Cardinal,
     V.Domain == C.Domain
 {
-    lhs.underlying.rawValue < Int(rhs.cardinal.rawValue)
+    lhs.vector.rawValue < Int(rhs.cardinal.rawValue)
 }
 
 /// Returns `true` if a same-domain vector is less than or equal to a cardinal.
@@ -171,7 +172,7 @@ where
     C.Underlying == Cardinal,
     V.Domain == C.Domain
 {
-    lhs.underlying.rawValue <= Int(rhs.cardinal.rawValue)
+    lhs.vector.rawValue <= Int(rhs.cardinal.rawValue)
 }
 
 /// Returns `true` if a same-domain vector is greater than a cardinal.
@@ -188,7 +189,7 @@ where
     C.Underlying == Cardinal,
     V.Domain == C.Domain
 {
-    lhs.underlying.rawValue > Int(rhs.cardinal.rawValue)
+    lhs.vector.rawValue > Int(rhs.cardinal.rawValue)
 }
 
 /// Returns `true` if a same-domain vector is greater than or equal to a cardinal.
@@ -205,7 +206,7 @@ where
     C.Underlying == Cardinal,
     V.Domain == C.Domain
 {
-    lhs.underlying.rawValue >= Int(rhs.cardinal.rawValue)
+    lhs.vector.rawValue >= Int(rhs.cardinal.rawValue)
 }
 
 // Reverse direction (Cardinal ↔ Vector)
@@ -224,7 +225,7 @@ where
     V.Underlying == Affine.Discrete.Vector,
     C.Domain == V.Domain
 {
-    Int(lhs.cardinal.rawValue) < rhs.underlying.rawValue
+    Int(lhs.cardinal.rawValue) < rhs.vector.rawValue
 }
 
 /// Returns `true` if a same-domain cardinal is less than or equal to a vector.
@@ -241,7 +242,7 @@ where
     V.Underlying == Affine.Discrete.Vector,
     C.Domain == V.Domain
 {
-    Int(lhs.cardinal.rawValue) <= rhs.underlying.rawValue
+    Int(lhs.cardinal.rawValue) <= rhs.vector.rawValue
 }
 
 /// Returns `true` if a same-domain cardinal is greater than a vector.
@@ -258,7 +259,7 @@ where
     V.Underlying == Affine.Discrete.Vector,
     C.Domain == V.Domain
 {
-    Int(lhs.cardinal.rawValue) > rhs.underlying.rawValue
+    Int(lhs.cardinal.rawValue) > rhs.vector.rawValue
 }
 
 /// Returns `true` if a same-domain cardinal is greater than or equal to a vector.
@@ -275,5 +276,5 @@ where
     V.Underlying == Affine.Discrete.Vector,
     C.Domain == V.Domain
 {
-    Int(lhs.cardinal.rawValue) >= rhs.underlying.rawValue
+    Int(lhs.cardinal.rawValue) >= rhs.vector.rawValue
 }
