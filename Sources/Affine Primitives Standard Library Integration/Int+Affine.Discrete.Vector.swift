@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+
 // MARK: - Vector to Int Conversions
 
 extension Int {
@@ -30,5 +32,19 @@ extension Int {
     @inlinable
     public init<Tag: ~Copyable>(bitPattern offset: Tagged<Tag, Affine.Discrete.Vector>) {
         self.init(bitPattern: offset.underlying)
+    }
+
+    /// Creates an integer from any `Carrier.`Protocol`<Affine.Discrete.Vector>` conformer.
+    ///
+    /// Generic typed-Vector overload covering bare `Affine.Discrete.Vector`
+    /// AND phantom-typed `Tagged<Tag, Affine.Discrete.Vector>` (including
+    /// `Tagged<T, Ordinal>.Offset`, `Memory.Address.Offset`, etc.) without
+    /// requiring callers to unwrap via `.vector` / `.underlying` accessor
+    /// chains at the call site.
+    ///
+    /// - Parameter carrier: Any conformer to `Carrier.`Protocol`<Affine.Discrete.Vector>`.
+    @inlinable
+    public init(bitPattern carrier: some Carrier.`Protocol`<Affine.Discrete.Vector>) {
+        self.init(bitPattern: carrier.underlying)
     }
 }
