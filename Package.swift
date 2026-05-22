@@ -36,10 +36,6 @@ let package = Package(
             targets: ["Affine Quotient Primitives"]
         ),
         .library(
-            name: "Affine Carrier Primitives",
-            targets: ["Affine Carrier Primitives"]
-        ),
-        .library(
             name: "Affine Equation Primitives",
             targets: ["Affine Equation Primitives"]
         ),
@@ -50,14 +46,6 @@ let package = Package(
         .library(
             name: "Affine Comparison Primitives",
             targets: ["Affine Comparison Primitives"]
-        ),
-        .library(
-            name: "Affine Ordinal Primitives",
-            targets: ["Affine Ordinal Primitives"]
-        ),
-        .library(
-            name: "Affine Tagged Primitives",
-            targets: ["Affine Tagged Primitives"]
         ),
 
         // MARK: - StdLib Integration
@@ -108,7 +96,6 @@ let package = Package(
             dependencies: [
                 "Affine Primitive",
                 "Affine Discrete Primitives",
-                "Affine Carrier Primitives",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
                 .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
@@ -129,14 +116,6 @@ let package = Package(
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
-            ]
-        ),
-        .target(
-            name: "Affine Carrier Primitives",
-            dependencies: [
-                "Affine Primitive",
-                "Affine Discrete Primitives",
-                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
             ]
         ),
         .target(
@@ -163,27 +142,6 @@ let package = Package(
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
             ]
         ),
-        .target(
-            name: "Affine Ordinal Primitives",
-            dependencies: [
-                "Affine Primitive",
-                "Affine Discrete Primitives",
-                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
-            ]
-        ),
-        .target(
-            name: "Affine Tagged Primitives",
-            dependencies: [
-                "Affine Primitive",
-                "Affine Discrete Primitives",
-                "Affine Arithmetic Primitives",
-                "Affine Carrier Primitives",
-                .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
-                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
-                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
-                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
-            ]
-        ),
 
         // MARK: - StdLib Integration
         .target(
@@ -191,10 +149,7 @@ let package = Package(
             dependencies: [
                 "Affine Primitive",
                 "Affine Discrete Primitives",
-                "Affine Carrier Primitives",
-                "Affine Tagged Primitives",
                 .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
-                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
                 .product(name: "Tagged Primitives Standard Library Integration", package: "swift-tagged-primitives"),
             ]
@@ -209,12 +164,9 @@ let package = Package(
                 "Affine Arithmetic Primitives",
                 "Affine Composition Primitives",
                 "Affine Quotient Primitives",
-                "Affine Carrier Primitives",
                 "Affine Equation Primitives",
                 "Affine Hash Primitives",
                 "Affine Comparison Primitives",
-                "Affine Ordinal Primitives",
-                "Affine Tagged Primitives",
                 "Affine Primitives Standard Library Integration",
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
             ]
