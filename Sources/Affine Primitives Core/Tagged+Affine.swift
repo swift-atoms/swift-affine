@@ -97,7 +97,7 @@ extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable {
     public init<T: ~Copyable>(
         _ count: Tagged<T, Cardinal>
     ) {
-        self.init(_unchecked: Affine.Discrete.Vector(Int(bitPattern: count.cardinal)))
+        self.init(_unchecked: Affine.Discrete.Vector(Int(bitPattern: count)))
     }
 
     /// Creates a tagged vector representing the displacement from origin to position.
@@ -130,7 +130,7 @@ extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable {
             ordinal.ordinal.rawValue <= UInt(Int.max),
             "Ordinal exceeds Int.max; cannot represent as signed Vector"
         )
-        self.init(_unchecked: Affine.Discrete.Vector(Int(bitPattern: ordinal.ordinal)))
+        self.init(_unchecked: Affine.Discrete.Vector(Int(bitPattern: ordinal)))
     }
 
     /// Creates an offset representing the distance from zero to the given position.
@@ -155,7 +155,7 @@ extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable {
     /// - Parameter position: The ordinal position to convert to an offset from zero.
     @inlinable
     public init(fromZero position: some Ordinal.`Protocol`) {
-        self.init(Affine.Discrete.Vector(Int(bitPattern: position.ordinal)))
+        self.init(Affine.Discrete.Vector(Int(bitPattern: position)))
     }
 }
 
@@ -248,7 +248,7 @@ public func * <From: ~Copyable, To: ~Copyable>(
     // Boundary conversion isolated from the arithmetic per [CONV-010] /
     // [IMPL-010] — `Int(bitPattern:)` grounds the unsigned receiver into
     // stdlib signed arithmetic; the `*` then operates on already-signed Ints.
-    let signedLHS = Int(bitPattern: lhs.cardinal)
+    let signedLHS = Int(bitPattern: lhs)
     let result = signedLHS * rhs.factor
     precondition(result >= 0, "Scaled cardinal must be non-negative")
     return Tagged<To, Cardinal>(_unchecked: Cardinal(UInt(result)))
