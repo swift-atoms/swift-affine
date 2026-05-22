@@ -9,4 +9,11 @@
 // `Affine.Discrete.Vector.swift` is guarded `#if swift(<6.4)` to avoid
 // duplicate-conformance.
 
+public import Affine_Discrete_Primitives
+public import Comparison_Primitives
+
+#if swift(<6.4)
+    extension Affine.Discrete.Vector: Comparable {}
+#endif
+
 extension Affine.Discrete.Vector: Comparison.`Protocol` {}

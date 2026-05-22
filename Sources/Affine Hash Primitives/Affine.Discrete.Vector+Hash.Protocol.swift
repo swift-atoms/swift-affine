@@ -14,6 +14,13 @@
 // the same file as the type. The single-property hash collapses to a single
 // `combine` over `rawValue`.
 
+public import Affine_Discrete_Primitives
+public import Hash_Primitives
+
+#if swift(<6.4)
+    extension Affine.Discrete.Vector: Hashable {}
+#endif
+
 extension Affine.Discrete.Vector: Hash.`Protocol` {
     /// Feeds the underlying value into the given hasher.
     @inlinable

@@ -9,6 +9,17 @@
 //
 // ===----------------------------------------------------------------------===//
 
-// Umbrella module: re-exports Core and Standard Library Integration
-@_exported public import Affine_Primitives_Core
+// Umbrella module: re-exports all sub-namespace targets + SLI.
+@_exported public import Affine_Namespace
+@_exported public import Affine_Discrete_Primitives
+@_exported public import Affine_Arithmetic_Primitives
+@_exported public import Affine_Composition_Primitives
+@_exported public import Affine_Quotient_Primitives
+@_exported public import Affine_Carrier_Primitives
+@_exported public import Affine_Equation_Primitives
+@_exported public import Affine_Hash_Primitives
+@_exported public import Affine_Comparison_Primitives
+@_exported public import Affine_Ordinal_Primitives
+@_exported public import Affine_Tagged_Primitives
 @_exported public import Affine_Primitives_Standard_Library_Integration
+@_exported public import Tagged_Primitives

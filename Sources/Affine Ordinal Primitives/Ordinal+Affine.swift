@@ -9,6 +9,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Affine_Discrete_Primitives
+public import Ordinal_Primitives
+
 extension Ordinal {
     /// Creates an ordinal from a non-negative vector.
     ///

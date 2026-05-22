@@ -3,6 +3,7 @@
 // per-type accessor + arithmetic + constants live as constrained extensions on
 // `Carrier.`Protocol` where Underlying == Affine.Discrete.Vector`.
 
+public import Affine_Discrete_Primitives
 public import Carrier_Primitives
 
 // MARK: - Carrier Conformance (trivial self-carrier)

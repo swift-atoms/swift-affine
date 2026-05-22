@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Affine_Discrete_Primitives
+
 // MARK: - Ratio Composition
 
 /// Composes two ratios by multiplying their factors.

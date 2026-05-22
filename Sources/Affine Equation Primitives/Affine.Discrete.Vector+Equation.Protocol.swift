@@ -8,4 +8,7 @@
 // `extension Affine.Discrete.Vector: Hashable {}` in `Affine.Discrete.Vector.swift`
 // is guarded `#if swift(<6.4)` to avoid duplicate-conformance.
 
+public import Affine_Discrete_Primitives
+public import Equation_Primitives
+
 extension Affine.Discrete.Vector: Equation.`Protocol` {}

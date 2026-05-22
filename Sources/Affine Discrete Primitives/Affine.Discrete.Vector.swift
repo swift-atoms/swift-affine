@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Cardinal_Primitives
+
 extension Affine.Discrete {
     /// A signed vector (displacement) in discrete affine space.
     ///
@@ -48,17 +50,11 @@ extension Affine.Discrete {
     public typealias Displacement = Vector
 }
 
-// Stdlib Hashable / Comparable conformances are gated `#if swift(<6.4)` only.
-// On Swift 6.4+ each institute `*.Protocol` is a typealias to its stdlib
-// counterpart per SE-0499, so the unconditional institute conformance in the
-// per-protocol files (`Affine.Discrete.Vector+Hash.Protocol.swift`,
-// `Affine.Discrete.Vector+Comparison.Protocol.swift`) IS the stdlib
-// conformance. Both lines would error as duplicate conformance on 6.4.
-// Pattern matches swift-pair-primitives / swift-either-primitives.
-#if swift(<6.4)
-    extension Affine.Discrete.Vector: Hashable {}
-    extension Affine.Discrete.Vector: Comparable {}
-#endif
+// Stdlib `Hashable` / `Comparable` conformances on Swift <6.4 live in the
+// Affine Hash Primitives + Affine Comparison Primitives sub-namespace targets
+// (post-[MOD-031] split, 2026-05-22) so the explicit `hash(into:)` /
+// `<` declarations satisfy the synthesis requirement at the same module.
+// Pattern matches cardinal Wave 7 + ordinal Wave 8 split precedents.
 extension Affine.Discrete.Vector: Sendable {}
 
 extension Affine.Discrete.Vector {

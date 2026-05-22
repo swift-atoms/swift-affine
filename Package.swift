@@ -17,18 +17,62 @@ let package = Package(
             name: "Affine Namespace",
             targets: ["Affine Namespace"]
         ),
+
+        // MARK: - Sub-namespace targets
         .library(
-            name: "Affine Primitives",
-            targets: ["Affine Primitives"]
+            name: "Affine Discrete Primitives",
+            targets: ["Affine Discrete Primitives"]
         ),
         .library(
-            name: "Affine Primitives Core",
-            targets: ["Affine Primitives Core"]
+            name: "Affine Arithmetic Primitives",
+            targets: ["Affine Arithmetic Primitives"]
         ),
+        .library(
+            name: "Affine Composition Primitives",
+            targets: ["Affine Composition Primitives"]
+        ),
+        .library(
+            name: "Affine Quotient Primitives",
+            targets: ["Affine Quotient Primitives"]
+        ),
+        .library(
+            name: "Affine Carrier Primitives",
+            targets: ["Affine Carrier Primitives"]
+        ),
+        .library(
+            name: "Affine Equation Primitives",
+            targets: ["Affine Equation Primitives"]
+        ),
+        .library(
+            name: "Affine Hash Primitives",
+            targets: ["Affine Hash Primitives"]
+        ),
+        .library(
+            name: "Affine Comparison Primitives",
+            targets: ["Affine Comparison Primitives"]
+        ),
+        .library(
+            name: "Affine Ordinal Primitives",
+            targets: ["Affine Ordinal Primitives"]
+        ),
+        .library(
+            name: "Affine Tagged Primitives",
+            targets: ["Affine Tagged Primitives"]
+        ),
+
+        // MARK: - StdLib Integration
         .library(
             name: "Affine Primitives Standard Library Integration",
             targets: ["Affine Primitives Standard Library Integration"]
         ),
+
+        // MARK: - Umbrella
+        .library(
+            name: "Affine Primitives",
+            targets: ["Affine Primitives"]
+        ),
+
+        // MARK: - Test Support
         .library(
             name: "Affine Primitives Test Support",
             targets: ["Affine Primitives Test Support"]
@@ -41,6 +85,7 @@ let package = Package(
         .package(url: "https://github.com/swift-primitives/swift-equation-primitives.git", branch: "main"),
         .package(url: "https://github.com/swift-primitives/swift-hash-primitives.git", branch: "main"),
         .package(url: "https://github.com/swift-primitives/swift-comparison-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-tagged-primitives.git", branch: "main"),
     ],
     targets: [
 
@@ -50,17 +95,93 @@ let package = Package(
             dependencies: []
         ),
 
-        // MARK: - Core
+        // MARK: - Sub-namespace targets (per [MOD-031])
         .target(
-            name: "Affine Primitives Core",
+            name: "Affine Discrete Primitives",
             dependencies: [
                 "Affine Namespace",
-                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
+                .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
+            ]
+        ),
+        .target(
+            name: "Affine Arithmetic Primitives",
+            dependencies: [
+                "Affine Namespace",
+                "Affine Discrete Primitives",
+                "Affine Carrier Primitives",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
+                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
+            ]
+        ),
+        .target(
+            name: "Affine Composition Primitives",
+            dependencies: [
+                "Affine Namespace",
+                "Affine Discrete Primitives",
+            ]
+        ),
+        .target(
+            name: "Affine Quotient Primitives",
+            dependencies: [
+                "Affine Namespace",
+                "Affine Discrete Primitives",
+                .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
+                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
+            ]
+        ),
+        .target(
+            name: "Affine Carrier Primitives",
+            dependencies: [
+                "Affine Namespace",
+                "Affine Discrete Primitives",
+                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
+            ]
+        ),
+        .target(
+            name: "Affine Equation Primitives",
+            dependencies: [
+                "Affine Namespace",
+                "Affine Discrete Primitives",
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+            ]
+        ),
+        .target(
+            name: "Affine Hash Primitives",
+            dependencies: [
+                "Affine Namespace",
+                "Affine Discrete Primitives",
                 .product(name: "Hash Primitives", package: "swift-hash-primitives"),
+            ]
+        ),
+        .target(
+            name: "Affine Comparison Primitives",
+            dependencies: [
+                "Affine Namespace",
+                "Affine Discrete Primitives",
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
+            ]
+        ),
+        .target(
+            name: "Affine Ordinal Primitives",
+            dependencies: [
+                "Affine Namespace",
+                "Affine Discrete Primitives",
+                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
+            ]
+        ),
+        .target(
+            name: "Affine Tagged Primitives",
+            dependencies: [
+                "Affine Namespace",
+                "Affine Discrete Primitives",
+                "Affine Arithmetic Primitives",
+                "Affine Carrier Primitives",
+                .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
+                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
+                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
             ]
         ),
 
@@ -68,7 +189,14 @@ let package = Package(
         .target(
             name: "Affine Primitives Standard Library Integration",
             dependencies: [
-                "Affine Primitives Core",
+                "Affine Namespace",
+                "Affine Discrete Primitives",
+                "Affine Carrier Primitives",
+                "Affine Tagged Primitives",
+                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
+                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
+                .product(name: "Tagged Primitives Standard Library Integration", package: "swift-tagged-primitives"),
             ]
         ),
 
@@ -77,8 +205,18 @@ let package = Package(
             name: "Affine Primitives",
             dependencies: [
                 "Affine Namespace",
-                "Affine Primitives Core",
+                "Affine Discrete Primitives",
+                "Affine Arithmetic Primitives",
+                "Affine Composition Primitives",
+                "Affine Quotient Primitives",
+                "Affine Carrier Primitives",
+                "Affine Equation Primitives",
+                "Affine Hash Primitives",
+                "Affine Comparison Primitives",
+                "Affine Ordinal Primitives",
+                "Affine Tagged Primitives",
                 "Affine Primitives Standard Library Integration",
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
             ]
         ),
 

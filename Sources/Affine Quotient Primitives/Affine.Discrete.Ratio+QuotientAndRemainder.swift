@@ -9,7 +9,10 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Affine_Discrete_Primitives
 public import Cardinal_Primitives
+public import Ordinal_Primitives
+public import Tagged_Primitives
 
 // MARK: - Typed quotientAndRemainder
 

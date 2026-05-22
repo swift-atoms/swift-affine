@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Affine_Carrier_Primitives
+public import Affine_Discrete_Primitives
 internal import Cardinal_Primitives
 public import Carrier_Primitives
 public import Ordinal_Primitives

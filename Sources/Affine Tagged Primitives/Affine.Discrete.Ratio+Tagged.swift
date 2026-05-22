@@ -9,6 +9,10 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Affine_Discrete_Primitives
+public import Cardinal_Primitives
+public import Tagged_Primitives
+
 extension Affine.Discrete.Ratio where From: ~Copyable, To: ~Copyable {
     /// Creates a ratio from a typed count in the target domain.
     ///
