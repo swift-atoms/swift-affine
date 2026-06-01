@@ -30,7 +30,7 @@ public import Tagged_Primitives
 
 // MARK: - Tagged<Tag, Ordinal>.Offset Typealias
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// The displacement type for this tagged ordinal.
     ///
     /// Wraps `Affine.Discrete.Vector` to maintain phantom type safety.
@@ -63,7 +63,7 @@ extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
 
 // MARK: - Tagged<Tag, Vector> Properties and Constants
 
-extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable {
+extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable & ~Escapable {
     // `var vector: Affine.Discrete.Vector` provided by
     // `extension Carrier.\`Protocol\` where Underlying == Affine.Discrete.Vector`
     // in Affine.Discrete.Vector+Carrier.swift (synonym for `underlying`).
@@ -85,7 +85,7 @@ extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable {
 
 // MARK: - Tagged<Tag, Vector> Construction
 
-extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable {
+extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable & ~Escapable {
     /// Creates a tagged vector with the given signed value.
     @inlinable
     public init(
@@ -98,7 +98,7 @@ extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable {
     ///
     /// This is a total operation since cardinals are always non-negative.
     @inlinable
-    public init<T: ~Copyable>(
+    public init<T: ~Copyable & ~Escapable>(
         _ count: Tagged<T, Cardinal>
     ) {
         self.init(_unchecked: Affine.Discrete.Vector(Int(bitPattern: count)))
@@ -165,7 +165,7 @@ extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable {
 
 // MARK: - Tagged<Tag, Ordinal> - Tagged<Tag, Vector> → Tagged<Tag, Ordinal>
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Retreats a tagged ordinal by a tagged vector.
     ///
     /// This is the concrete operator for the affine retreat `Point - Vector → Point`.
@@ -191,7 +191,7 @@ extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
 
 // MARK: - Tagged<Tag, Cardinal> from Tagged<Tag, Vector> Conversion
 
-extension Tagged where Underlying == Cardinal, Tag: ~Copyable {
+extension Tagged where Underlying == Cardinal, Tag: ~Copyable & ~Escapable {
     /// Creates a tagged cardinal from a non-negative tagged vector.
     ///
     /// - Throws: `Cardinal.Error.negativeSource` if vector is negative.
@@ -227,7 +227,7 @@ extension Tagged where Underlying == Cardinal, Tag: ~Copyable {
 ///
 /// - Throws: `Affine.Discrete.Vector.Error` if the difference is unrepresentable.
 @inlinable
-public func - <Tag: ~Copyable>(
+public func - <Tag: ~Copyable & ~Escapable>(
     lhs: some Ordinal.`Protocol`,
     rhs: some Ordinal.`Protocol`
 ) throws(Affine.Discrete.Vector.Error) -> Tagged<Tag, Affine.Discrete.Vector> {
@@ -245,7 +245,7 @@ public func - <Tag: ~Copyable>(
 ///
 /// - Precondition: The scaled result must be non-negative.
 @inlinable
-public func * <From: ~Copyable, To: ~Copyable>(
+public func * <From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable>(
     lhs: Tagged<From, Cardinal>,
     rhs: Affine.Discrete.Ratio<From, To>
 ) -> Tagged<To, Cardinal> {
@@ -260,7 +260,7 @@ public func * <From: ~Copyable, To: ~Copyable>(
 
 /// Scales a tagged cardinal from one domain to another (commutative).
 @inlinable
-public func * <From: ~Copyable, To: ~Copyable>(
+public func * <From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable>(
     lhs: Affine.Discrete.Ratio<From, To>,
     rhs: Tagged<From, Cardinal>
 ) -> Tagged<To, Cardinal> {
@@ -274,7 +274,7 @@ public func * <From: ~Copyable, To: ~Copyable>(
 /// This is the fundamental action of a ratio on a vector. The magnitude is
 /// multiplied by the ratio's factor, and the domain changes from `From` to `To`.
 @inlinable
-public func * <From: ~Copyable, To: ~Copyable>(
+public func * <From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable>(
     lhs: Tagged<From, Affine.Discrete.Vector>,
     rhs: Affine.Discrete.Ratio<From, To>
 ) -> Tagged<To, Affine.Discrete.Vector> {
@@ -283,7 +283,7 @@ public func * <From: ~Copyable, To: ~Copyable>(
 
 /// Scales a tagged vector from one domain to another (commutative).
 @inlinable
-public func * <From: ~Copyable, To: ~Copyable>(
+public func * <From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable>(
     lhs: Affine.Discrete.Ratio<From, To>,
     rhs: Tagged<From, Affine.Discrete.Vector>
 ) -> Tagged<To, Affine.Discrete.Vector> {

@@ -23,7 +23,7 @@ extension RandomAccessCollection {
     /// - Precondition: The resulting index must be valid.
     /// - Complexity: O(1).
     @inlinable
-    public func index<T: ~Copyable>(
+    public func index<T: ~Copyable & ~Escapable>(
         _ i: Index,
         offsetBy offset: Tagged<T, Ordinal>.Offset
     ) -> Index {
