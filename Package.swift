@@ -101,6 +101,7 @@ let package = Package(
             dependencies: [
                 "Affine Primitive",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
+                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
             ]
         ),
         .target(
