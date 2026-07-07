@@ -11,15 +11,13 @@
 // ===----------------------------------------------------------------------===//
 
 // Shape-γ unified consumer manifest. swift-affine-primitives owns the
-// `Affine.Discrete.Vector` brand-newtype, so the four consumer-side
-// recognizer rules (`raw value access`, `chained rawvalue access`,
-// `int public parameter`, `pointer advanced by`) fire on
-// legitimate-by-construction same-package access. Excluding those four
-// rules locally preserves cross-package strict-superset firing.
-//
-// See `swift-foundations/swift-linter-rules/Research/numerics-rule-recognizer-2026-05-12.md`
-// for the architectural rationale (Option 7: rule decomposition via
-// bundle composition).
+// `Affine.Discrete.Vector` brand-newtype. The numeric-boundary recognizer
+// rules (`raw value access`, `chained rawvalue access`, `int public
+// parameter`, `pointer advanced by`) self-suppress on the brand owner's
+// own surface via the engine's §A brand pre-pass (`Lint.Brand.owned`) —
+// the run declares `Affine` at namespace root — so no per-package
+// `.excluding(rules:)` stopgap is needed, while cross-package strict-
+// superset firing on external consumers is preserved.
 
 import Linter
 import Linter_Primitives_Rules
@@ -31,10 +29,5 @@ Lint.run(dependencies: [
         products: ["Linter Primitives Rules"]
     ),
 ]) {
-    Lint.Rule.Bundle.primitives.excluding(rules: [
-        "raw value access",
-        "chained rawvalue access",
-        "int public parameter",
-        "pointer advanced by",
-    ])
+    Lint.Rule.Bundle.primitives
 }
