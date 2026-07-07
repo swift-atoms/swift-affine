@@ -21,7 +21,7 @@ extension Ordinal {
     ///
     /// - Throws: `Ordinal.Error.negativeSource` if the vector is negative.
     @inlinable
-    public init(_ vector: Affine.Discrete.Vector) throws(Ordinal.Error) {
+    public init(_ vector: Affine.Discrete.Vector) throws(Self.Error) {
         guard vector.rawValue >= 0 else {
             throw .negativeSource(vector.rawValue)
         }

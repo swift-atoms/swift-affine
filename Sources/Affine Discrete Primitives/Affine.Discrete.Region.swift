@@ -43,11 +43,13 @@ extension Affine.Discrete {
 // sub-targets.
 
 extension Affine.Discrete.Region {
+    /// Compares two regions for equality by their start position and count.
     @inlinable
     public static func == (lhs: Affine.Discrete.Region, rhs: Affine.Discrete.Region) -> Bool {
         lhs.start == rhs.start && lhs.count == rhs.count
     }
 
+    /// Feeds this region's start position and count into `hasher`.
     @inlinable
     public func hash(into hasher: inout Hasher) {
         hasher.combine(start.rawValue)
@@ -58,8 +60,10 @@ extension Affine.Discrete.Region {
 // MARK: - Extent
 
 extension Affine.Discrete.Region {
-    /// The position one past the last — `start` advanced by `count` (saturating at the
-    /// maximum representable position). For an empty region this equals `start`.
+    /// The position one past the last.
+    ///
+    /// `start` advanced by `count` (saturating at the maximum representable
+    /// position). For an empty region this equals `start`.
     @inlinable
     public var end: Ordinal {
         start.advance.saturating(by: count)
@@ -97,6 +101,10 @@ extension Affine.Discrete.Region {
 // underlying unsigned values as an unkeyed pair.
 #if !hasFeature(Embedded)
     extension Affine.Discrete.Region: Codable {
+        // reason: signature forced by external protocol Swift.Decodable —
+        // init(from:) requires untyped throws and an existential decoder.
+        // swiftlint:disable no_any_protocol_existential typed_throws_required
+        /// Decodes a region from an unkeyed pair of unsigned values.
         @inlinable
         public init(from decoder: any Decoder) throws {
             var container = try decoder.unkeyedContainer()
@@ -104,12 +112,18 @@ extension Affine.Discrete.Region {
             let count = try container.decode(UInt.self)
             self.init(start: Ordinal(start), count: Cardinal(integerLiteral: count))
         }
+        // swiftlint:enable no_any_protocol_existential typed_throws_required
 
+        // reason: signature forced by external protocol Swift.Encodable —
+        // encode(to:) requires untyped throws and an existential encoder.
+        // swiftlint:disable no_any_protocol_existential typed_throws_required
+        /// Encodes this region as an unkeyed pair of unsigned values.
         @inlinable
         public func encode(to encoder: any Encoder) throws {
             var container = encoder.unkeyedContainer()
             try container.encode(start.rawValue)
             try container.encode(count.rawValue)
         }
+        // swiftlint:enable no_any_protocol_existential typed_throws_required
     }
 #endif

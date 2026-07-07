@@ -6,7 +6,7 @@
 // stdlib `Hashable` shim in the Hash sub-target (which implies Equatable) avoids duplicate
 // conformance.
 
-public import Equation_Primitives
 public import Affine_Discrete_Primitives
+public import Equation_Primitives
 
 extension Affine.Discrete.Region: Equation.`Protocol` {}

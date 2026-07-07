@@ -5,8 +5,8 @@
 // this conformance is empty. `Region` is a struct (not auto-Hashable), so the stdlib
 // `Hashable` conformance is declared here, guarded `#if swift(<6.4)`.
 
-public import Hash_Primitives
 public import Affine_Discrete_Primitives
+public import Hash_Primitives
 
 extension Affine.Discrete.Region: Hash.`Protocol` {}
 
