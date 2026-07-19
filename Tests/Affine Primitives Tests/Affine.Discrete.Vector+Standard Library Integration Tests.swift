@@ -13,9 +13,11 @@ private let isLinux: Bool = {
 
 private enum Element {}
 
-/// A class-bearing pointee used to observe `UnsafeMutablePointer.swap(_:_:)`'s
-/// lifecycle behavior. Reports its deinitialization through a closure rather
-/// than shared static state, so it stays safe under parallel test execution.
+/// A class-bearing pointee used to observe the lifecycle behavior of
+/// `UnsafeMutablePointer.swap(_:_:)`.
+///
+/// Reports its deinitialization through a closure rather than shared static
+/// state, so it stays safe under parallel test execution.
 private final class DeinitProbe {
     private let onDeinit: () -> Void
     init(onDeinit: @escaping () -> Void) { self.onDeinit = onDeinit }
