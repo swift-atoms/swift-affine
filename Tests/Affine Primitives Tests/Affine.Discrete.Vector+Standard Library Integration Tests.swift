@@ -13,6 +13,15 @@ private let isLinux: Bool = {
 
 private enum Element {}
 
+/// A class-bearing pointee used to observe `UnsafeMutablePointer.swap(_:_:)`'s
+/// lifecycle behavior. Reports its deinitialization through a closure rather
+/// than shared static state, so it stays safe under parallel test execution.
+private final class DeinitProbe {
+    private let onDeinit: () -> Void
+    init(onDeinit: @escaping () -> Void) { self.onDeinit = onDeinit }
+    deinit { onDeinit() }
+}
+
 extension Affine.Discrete.Vector {
     @Suite
     struct `Standard Library Integration` {
@@ -141,5 +150,61 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
             let backed = unsafe from - offset
             #expect(unsafe backed.pointee == 20)
         }
+    }
+
+    // MARK: UnsafeMutablePointer.swap(_:_:) — sanity (distinct indices)
+
+    @Test
+    func `swap with distinct typed indices exchanges trivial pointees`() {
+        let buf = unsafe UnsafeMutablePointer<Int>.allocate(capacity: 2)
+        defer {
+            unsafe buf.deinitialize(count: 2)
+            unsafe buf.deallocate()
+        }
+        unsafe buf.initialize(to: 1)
+        unsafe (buf + 1).initialize(to: 2)
+        let i: Tagged<Int, Ordinal> = .zero
+        let j: Tagged<Int, Ordinal> = 1
+        unsafe buf.swap(i, j)
+        #expect(unsafe buf.pointee == 2)
+        #expect(unsafe (buf + 1).pointee == 1)
+    }
+}
+
+// MARK: - Edge Case
+
+extension Affine.Discrete.Vector.`Standard Library Integration`.`Edge Case` {
+
+    // MARK: UnsafeMutablePointer.swap(_:_:) — equal-index regression (F-001)
+    //
+    // `swap(i, i)` must be a no-op. Without an equal-address guard, the
+    // move-based implementation reads back memory it just declared
+    // "moved from" via `.move()`, then initializes it twice — a documented
+    // undefined-behavior pattern (the same one `MutableCollection.swapAt(_:_:)`
+    // guards against with its own `i != j` check).
+
+    @Test
+    func `swap with equal typed indices leaves trivial pointee unchanged`() {
+        let buf = unsafe UnsafeMutablePointer<Int>.allocate(capacity: 1)
+        defer {
+            unsafe buf.deinitialize(count: 1)
+            unsafe buf.deallocate()
+        }
+        unsafe buf.initialize(to: 42)
+        let index: Tagged<Int, Ordinal> = .zero
+        unsafe buf.swap(index, index)
+        #expect(unsafe buf.pointee == 42)
+    }
+
+    @Test
+    func `swap with equal typed indices deinitializes class pointee exactly once`() {
+        var deinitCount = 0
+        let buf = unsafe UnsafeMutablePointer<DeinitProbe>.allocate(capacity: 1)
+        unsafe buf.initialize(to: DeinitProbe(onDeinit: { deinitCount += 1 }))
+        let index: Tagged<DeinitProbe, Ordinal> = .zero
+        unsafe buf.swap(index, index)
+        unsafe buf.deinitialize(count: 1)
+        unsafe buf.deallocate()
+        #expect(deinitCount == 1)
     }
 }

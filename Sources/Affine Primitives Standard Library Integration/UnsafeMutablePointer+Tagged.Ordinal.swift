@@ -97,6 +97,11 @@ extension UnsafeMutablePointer where Pointee: ~Copyable {
     ///   - i: The first typed index.
     ///   - j: The second typed index.
     /// - Precondition: Both indices must point to initialized memory.
+    /// - Note: When `i` and `j` resolve to the same address, this is a no-op
+    ///   (matching `MutableCollection.swapAt(_:_:)` semantics). Without this
+    ///   guard, moving out of and back into the same storage twice is
+    ///   undefined behavior: the second `move()` would read from memory the
+    ///   first `move()` already deinitialized.
     @inlinable
     public func swap(
         _ i: Tagged<Pointee, Ordinal>,
@@ -104,6 +109,7 @@ extension UnsafeMutablePointer where Pointee: ~Copyable {
     ) {
         let ptrI = unsafe self + Tagged<Pointee, Ordinal>.Offset(_unchecked: (), i)
         let ptrJ = unsafe self + Tagged<Pointee, Ordinal>.Offset(_unchecked: (), j)
+        guard unsafe ptrI != ptrJ else { return }
         let temp = unsafe ptrI.move()
         unsafe ptrI.initialize(to: ptrJ.move())
         unsafe ptrJ.initialize(to: temp)
