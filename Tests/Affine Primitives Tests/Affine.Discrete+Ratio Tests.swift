@@ -85,19 +85,19 @@ extension Affine.Discrete.`Ratio Test`.Unit {
     // MARK: Quotient and Remainder (Tagged Cardinal)
 
     @Test
-    func `quotient and remainder cardinal even division`() {
+    func `quotient and remainder cardinal even division`() throws {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let count: Tagged<Bit, Cardinal> = 64
-        let (quotient, remainder) = bitsPerByte.quotientAndRemainder(dividing: count)
+        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: count)
         #expect(quotient.underlying == Cardinal(8))
         #expect(remainder.underlying == .zero)
     }
 
     @Test
-    func `quotient and remainder cardinal with remainder`() {
+    func `quotient and remainder cardinal with remainder`() throws {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let count: Tagged<Bit, Cardinal> = 100
-        let (quotient, remainder) = bitsPerByte.quotientAndRemainder(dividing: count)
+        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: count)
         #expect(quotient.underlying == Cardinal(12))
         #expect(remainder.underlying == Cardinal(4))
     }
@@ -105,21 +105,86 @@ extension Affine.Discrete.`Ratio Test`.Unit {
     // MARK: Quotient and Remainder (Tagged Ordinal)
 
     @Test
-    func `quotient and remainder ordinal even division`() {
+    func `quotient and remainder ordinal even division`() throws {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let index: Tagged<Bit, Ordinal> = 64
-        let (quotient, remainder) = bitsPerByte.quotientAndRemainder(dividing: index)
+        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: index)
         #expect(quotient.underlying == Ordinal(UInt(8)))
         #expect(remainder.underlying == Affine.Discrete.Vector(0))
     }
 
     @Test
-    func `quotient and remainder ordinal with remainder`() {
+    func `quotient and remainder ordinal with remainder`() throws {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
         let index: Tagged<Bit, Ordinal> = 100
-        let (quotient, remainder) = bitsPerByte.quotientAndRemainder(dividing: index)
+        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: index)
         #expect(quotient.underlying == Ordinal(UInt(12)))
         #expect(remainder.underlying == Affine.Discrete.Vector(4))
+    }
+}
+
+// MARK: - Edge Case
+
+extension Affine.Discrete.`Ratio Test`.`Edge Case` {
+
+    // MARK: quotientAndRemainder — Zero Factor (F-002)
+
+    @Test
+    func `quotient and remainder cardinal throws on zero factor`() {
+        let zero = Affine.Discrete.Ratio<Byte, Bit>.init(0)
+        let count: Tagged<Bit, Cardinal> = 64
+        #expect(throws: Affine.Discrete.Ratio<Byte, Bit>.Error.zeroFactor) {
+            try zero.quotientAndRemainder(dividing: count)
+        }
+    }
+
+    @Test
+    func `quotient and remainder ordinal throws on zero factor`() {
+        let zero = Affine.Discrete.Ratio<Byte, Bit>.init(0)
+        let index: Tagged<Bit, Ordinal> = 64
+        #expect(throws: Affine.Discrete.Ratio<Byte, Bit>.Error.zeroFactor) {
+            try zero.quotientAndRemainder(dividing: index)
+        }
+    }
+
+    // MARK: quotientAndRemainder — Negative Factor (F-002)
+
+    @Test
+    func `quotient and remainder cardinal throws on negative factor`() {
+        let negative = Affine.Discrete.Ratio<Byte, Bit>.init(-8)
+        let count: Tagged<Bit, Cardinal> = 64
+        #expect(throws: Affine.Discrete.Ratio<Byte, Bit>.Error.negativeFactor(-8)) {
+            try negative.quotientAndRemainder(dividing: count)
+        }
+    }
+
+    @Test
+    func `quotient and remainder ordinal throws on negative factor`() {
+        let negative = Affine.Discrete.Ratio<Byte, Bit>.init(-8)
+        let index: Tagged<Bit, Ordinal> = 64
+        #expect(throws: Affine.Discrete.Ratio<Byte, Bit>.Error.negativeFactor(-8)) {
+            try negative.quotientAndRemainder(dividing: index)
+        }
+    }
+
+    // MARK: quotientAndRemainder — Above Int.max (F-002)
+
+    @Test
+    func `quotient and remainder cardinal throws when dividend exceeds int max`() {
+        let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
+        let count = Tagged<Bit, Cardinal>(_unchecked: .max)
+        #expect(throws: Affine.Discrete.Ratio<Byte, Bit>.Error.unrepresentable) {
+            try bitsPerByte.quotientAndRemainder(dividing: count)
+        }
+    }
+
+    @Test
+    func `quotient and remainder ordinal throws when dividend exceeds int max`() {
+        let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
+        let index = Tagged<Bit, Ordinal>(_unchecked: Ordinal(UInt.max))
+        #expect(throws: Affine.Discrete.Ratio<Byte, Bit>.Error.unrepresentable) {
+            try bitsPerByte.quotientAndRemainder(dividing: index)
+        }
     }
 }
 

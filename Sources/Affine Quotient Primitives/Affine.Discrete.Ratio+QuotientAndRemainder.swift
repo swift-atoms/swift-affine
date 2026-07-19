@@ -40,11 +40,18 @@ extension Affine.Discrete.Ratio where From: ~Copyable, To: ~Copyable {
     ///
     /// - Parameter count: A cardinal count in the `To` domain.
     /// - Returns: A tuple of (quotient in `From` domain, remainder in `To` domain).
+    /// - Throws: `Error.zeroFactor` if `factor == 0`; `Error.negativeFactor` if
+    ///   `factor < 0` (a negative factor would produce a quotient that cannot be
+    ///   represented by the unsigned `Cardinal` result); `Error.unrepresentable`
+    ///   if `count`'s raw value exceeds `Int.max`.
     @inlinable
     public func quotientAndRemainder(
         dividing count: Tagged<To, Cardinal>
-    ) -> (quotient: Tagged<From, Cardinal>, remainder: Tagged<To, Cardinal>) {
-        let (q, r) = Int(bitPattern: count).quotientAndRemainder(dividingBy: factor)
+    ) throws(Error) -> (quotient: Tagged<From, Cardinal>, remainder: Tagged<To, Cardinal>) {
+        guard factor != 0 else { throw .zeroFactor }
+        guard factor > 0 else { throw .negativeFactor(factor) }
+        guard count.underlying.rawValue <= UInt(Int.max) else { throw .unrepresentable }
+        let (q, r) = Int(count.underlying.rawValue).quotientAndRemainder(dividingBy: factor)
         return (
             quotient: Tagged<From, Cardinal>(_unchecked: Cardinal(UInt(q))),
             remainder: Tagged<To, Cardinal>(_unchecked: Cardinal(UInt(r)))
@@ -74,11 +81,18 @@ extension Affine.Discrete.Ratio where From: ~Copyable, To: ~Copyable {
     ///
     /// - Parameter index: An ordinal position in the `To` domain.
     /// - Returns: A tuple of (ordinal in `From` domain, offset within `From` unit).
+    /// - Throws: `Error.zeroFactor` if `factor == 0`; `Error.negativeFactor` if
+    ///   `factor < 0` (a negative factor would produce a quotient that cannot be
+    ///   represented by the unsigned `Ordinal` result); `Error.unrepresentable`
+    ///   if `index`'s raw value exceeds `Int.max`.
     @inlinable
     public func quotientAndRemainder(
         dividing index: Tagged<To, Ordinal>
-    ) -> (quotient: Tagged<From, Ordinal>, remainder: Tagged<To, Affine.Discrete.Vector>) {
-        let (q, r) = Int(bitPattern: index).quotientAndRemainder(dividingBy: factor)
+    ) throws(Error) -> (quotient: Tagged<From, Ordinal>, remainder: Tagged<To, Affine.Discrete.Vector>) {
+        guard factor != 0 else { throw .zeroFactor }
+        guard factor > 0 else { throw .negativeFactor(factor) }
+        guard index.underlying.rawValue <= UInt(Int.max) else { throw .unrepresentable }
+        let (q, r) = Int(index.underlying.rawValue).quotientAndRemainder(dividingBy: factor)
         return (
             quotient: Tagged<From, Ordinal>(_unchecked: Ordinal(UInt(q))),
             remainder: Tagged<To, Affine.Discrete.Vector>(_unchecked: Affine.Discrete.Vector(r))
