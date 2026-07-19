@@ -192,4 +192,53 @@ extension Affine.Discrete.Vector.`Tagged Offset`.`Edge Case` {
             try Tagged<Element, Cardinal>(offset)
         }
     }
+
+    // MARK: Cross-Type Comparisons at Representable Boundaries (F-004)
+    //
+    // Prior to the fix, every one of these eight operators narrowed the
+    // `Cardinal` side through `Int(rhs.cardinal.rawValue)` (or the mirrored
+    // narrowing on the reverse-direction overloads), which traps for any
+    // cardinal whose raw `UInt` exceeds `Int.max`. `Cardinal.max` (backed by
+    // `UInt.max`) sits exactly past that boundary, so these are the minimal
+    // cases that previously trapped.
+
+    @Test
+    func `vector at int max compares below cardinal at uint max`() {
+        let offset = Tagged<Element, Ordinal>.Offset(Int.max)
+        let count = Tagged<Element, Cardinal>(_unchecked: .max)
+        #expect(offset < count)
+        #expect(offset <= count)
+        #expect(!(offset > count))
+        #expect(!(offset >= count))
+    }
+
+    @Test
+    func `vector at int min compares below cardinal at uint max`() {
+        let offset = Tagged<Element, Ordinal>.Offset(Int.min)
+        let count = Tagged<Element, Cardinal>(_unchecked: .max)
+        #expect(offset < count)
+        #expect(offset <= count)
+        #expect(!(offset > count))
+        #expect(!(offset >= count))
+    }
+
+    @Test
+    func `cardinal at uint max compares above vector at int max`() {
+        let count = Tagged<Element, Cardinal>(_unchecked: .max)
+        let offset = Tagged<Element, Ordinal>.Offset(Int.max)
+        #expect(count > offset)
+        #expect(count >= offset)
+        #expect(!(count < offset))
+        #expect(!(count <= offset))
+    }
+
+    @Test
+    func `cardinal at uint max compares above vector at int min`() {
+        let count = Tagged<Element, Cardinal>(_unchecked: .max)
+        let offset = Tagged<Element, Ordinal>.Offset(Int.min)
+        #expect(count > offset)
+        #expect(count >= offset)
+        #expect(!(count < offset))
+        #expect(!(count <= offset))
+    }
 }

@@ -141,6 +141,13 @@ public func -= <O: Ordinal.`Protocol`>(
 /// (Cardinal < Cardinal, Vector < Vector) are preferred during type inference.
 /// This prevents ambiguity when using integer literals.
 
+// These comparisons deliberately avoid narrowing the `Cardinal` (`UInt`) side
+// into `Int`: a cardinal above `Int.max` makes `Int(rhs.cardinal.rawValue)`
+// trap. Instead they branch on the vector's sign first — a negative vector is
+// always smaller than any (non-negative) cardinal — and only then compare
+// the vector's non-negative magnitude against the cardinal, both as `UInt`,
+// which never traps.
+
 /// Returns `true` if a same-domain vector is less than a cardinal.
 @inlinable
 @_disfavoredOverload
@@ -155,7 +162,8 @@ where
     C.Underlying == Cardinal,
     V.Domain == C.Domain
 {
-    lhs.vector.rawValue < Int(rhs.cardinal.rawValue)
+    guard lhs.vector.rawValue >= 0 else { return true }
+    return UInt(lhs.vector.rawValue) < rhs.cardinal.rawValue
 }
 
 /// Returns `true` if a same-domain vector is less than or equal to a cardinal.
@@ -172,7 +180,8 @@ where
     C.Underlying == Cardinal,
     V.Domain == C.Domain
 {
-    lhs.vector.rawValue <= Int(rhs.cardinal.rawValue)
+    guard lhs.vector.rawValue >= 0 else { return true }
+    return UInt(lhs.vector.rawValue) <= rhs.cardinal.rawValue
 }
 
 /// Returns `true` if a same-domain vector is greater than a cardinal.
@@ -189,7 +198,8 @@ where
     C.Underlying == Cardinal,
     V.Domain == C.Domain
 {
-    lhs.vector.rawValue > Int(rhs.cardinal.rawValue)
+    guard lhs.vector.rawValue >= 0 else { return false }
+    return UInt(lhs.vector.rawValue) > rhs.cardinal.rawValue
 }
 
 /// Returns `true` if a same-domain vector is greater than or equal to a cardinal.
@@ -206,7 +216,8 @@ where
     C.Underlying == Cardinal,
     V.Domain == C.Domain
 {
-    lhs.vector.rawValue >= Int(rhs.cardinal.rawValue)
+    guard lhs.vector.rawValue >= 0 else { return false }
+    return UInt(lhs.vector.rawValue) >= rhs.cardinal.rawValue
 }
 
 // Reverse direction (Cardinal ↔ Vector)
@@ -225,7 +236,8 @@ where
     V.Underlying == Affine.Discrete.Vector,
     C.Domain == V.Domain
 {
-    Int(lhs.cardinal.rawValue) < rhs.vector.rawValue
+    guard rhs.vector.rawValue >= 0 else { return false }
+    return lhs.cardinal.rawValue < UInt(rhs.vector.rawValue)
 }
 
 /// Returns `true` if a same-domain cardinal is less than or equal to a vector.
@@ -242,7 +254,8 @@ where
     V.Underlying == Affine.Discrete.Vector,
     C.Domain == V.Domain
 {
-    Int(lhs.cardinal.rawValue) <= rhs.vector.rawValue
+    guard rhs.vector.rawValue >= 0 else { return false }
+    return lhs.cardinal.rawValue <= UInt(rhs.vector.rawValue)
 }
 
 /// Returns `true` if a same-domain cardinal is greater than a vector.
@@ -259,7 +272,8 @@ where
     V.Underlying == Affine.Discrete.Vector,
     C.Domain == V.Domain
 {
-    Int(lhs.cardinal.rawValue) > rhs.vector.rawValue
+    guard rhs.vector.rawValue >= 0 else { return true }
+    return lhs.cardinal.rawValue > UInt(rhs.vector.rawValue)
 }
 
 /// Returns `true` if a same-domain cardinal is greater than or equal to a vector.
@@ -276,5 +290,6 @@ where
     V.Underlying == Affine.Discrete.Vector,
     C.Domain == V.Domain
 {
-    Int(lhs.cardinal.rawValue) >= rhs.vector.rawValue
+    guard rhs.vector.rawValue >= 0 else { return true }
+    return lhs.cardinal.rawValue >= UInt(rhs.vector.rawValue)
 }
