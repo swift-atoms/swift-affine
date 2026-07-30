@@ -129,17 +129,17 @@ public func -= <O: Ordinal.`Protocol`>(
 
 // MARK: - Vector ↔ Count Comparisons
 
-/// Cross-type comparisons between vectors and cardinals.
-///
-/// Generic over both `Carrier.\`Protocol\`<Affine.Discrete.Vector>` and
-/// `Carrier.\`Protocol\`<Cardinal>` with `V.Domain == C.Domain`, so a single
-/// definition handles:
-/// - Bare: `Affine.Discrete.Vector` ↔ `Cardinal` (Domain = Never)
-/// - Tagged: `Tagged<Tag, Vector>` ↔ `Tagged<Tag, Cardinal>` (Domain = Tag)
-///
-/// These operators are disfavored so that same-type comparisons
-/// (Cardinal < Cardinal, Vector < Vector) are preferred during type inference.
-/// This prevents ambiguity when using integer literals.
+// Cross-type comparisons between vectors and cardinals.
+//
+// Generic over both `Carrier.\`Protocol\`<Affine.Discrete.Vector>` and
+// `Carrier.\`Protocol\`<Cardinal>` with `V.Domain == C.Domain`, so a single
+// definition handles:
+// - Bare: `Affine.Discrete.Vector` ↔ `Cardinal` (Domain = Never)
+// - Tagged: `Tagged<Tag, Vector>` ↔ `Tagged<Tag, Cardinal>` (Domain = Tag)
+//
+// These operators are disfavored so that same-type comparisons
+// (Cardinal < Cardinal, Vector < Vector) are preferred during type inference.
+// This prevents ambiguity when using integer literals.
 
 // These comparisons deliberately avoid narrowing the `Cardinal` (`UInt`) side
 // into `Int`: a cardinal above `Int.max` makes `Int(rhs.cardinal.rawValue)`

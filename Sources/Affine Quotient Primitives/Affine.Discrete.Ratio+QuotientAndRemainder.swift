@@ -51,6 +51,7 @@ extension Affine.Discrete.Ratio where From: ~Copyable, To: ~Copyable {
         guard factor != 0 else { throw .zeroFactor }
         guard factor > 0 else { throw .negativeFactor(factor) }
         guard count.underlying.rawValue <= UInt(Int.max) else { throw .unrepresentable }
+        // swiftlint:disable:next chained_rawvalue_access_paren_evasion - [INFRA-103] this file is the typed quotientAndRemainder wrapper itself (see MARK above), the raw-value bottom-out this site implements, not something for a caller to work around
         let (q, r) = Int(count.underlying.rawValue).quotientAndRemainder(dividingBy: factor)
         return (
             quotient: Tagged<From, Cardinal>(_unchecked: Cardinal(UInt(q))),
@@ -92,6 +93,7 @@ extension Affine.Discrete.Ratio where From: ~Copyable, To: ~Copyable {
         guard factor != 0 else { throw .zeroFactor }
         guard factor > 0 else { throw .negativeFactor(factor) }
         guard index.underlying.rawValue <= UInt(Int.max) else { throw .unrepresentable }
+        // swiftlint:disable:next chained_rawvalue_access_paren_evasion - [INFRA-103] this file is the typed quotientAndRemainder wrapper itself (see MARK above), the raw-value bottom-out this site implements, not something for a caller to work around
         let (q, r) = Int(index.underlying.rawValue).quotientAndRemainder(dividingBy: factor)
         return (
             quotient: Tagged<From, Ordinal>(_unchecked: Ordinal(UInt(q))),
