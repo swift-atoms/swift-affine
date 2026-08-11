@@ -41,7 +41,7 @@ extension Affine.Discrete {
     /// ## See Also
     ///
     /// - ``Vector`` for discrete displacements
-    /// - [Discrete Scaling Morphisms](swift-institute/Research/discrete-scaling-morphisms.md)
+    /// - [Discrete Scaling Morphisms](https://github.com/swift-institute/Research/blob/main/discrete-scaling-morphisms.md)
     public struct Ratio<From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable>: Hashable, Sendable {
         /// The conversion factor (signed, allows direction reversal).
         public let factor: Int
