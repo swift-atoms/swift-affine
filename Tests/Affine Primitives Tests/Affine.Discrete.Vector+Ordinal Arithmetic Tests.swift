@@ -54,7 +54,9 @@ extension Affine.Discrete.Vector.`Ordinal Arithmetic`.Unit {
     }
 
     @Test
-    func `bare position minus position yields negative vector`() throws(Affine.Discrete.Vector.Error) {
+    func `bare position minus position yields negative vector`() throws(Affine.Discrete.Vector
+        .Error)
+    {
         let p = Ordinal(UInt(3))
         let q = Ordinal(UInt(8))
         let displacement: Affine.Discrete.Vector = try p - q

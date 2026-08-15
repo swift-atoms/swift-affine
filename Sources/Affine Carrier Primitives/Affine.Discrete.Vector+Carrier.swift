@@ -69,6 +69,7 @@ extension Carrier.`Protocol` where Underlying == Affine.Discrete.Vector {
 
 /// Negates a vector.
 @inlinable
-public prefix func - <V>(v: V) -> V where V: Carrier.`Protocol`, V.Underlying == Affine.Discrete.Vector {
+public prefix func - <V>(v: V) -> V
+where V: Carrier.`Protocol`, V.Underlying == Affine.Discrete.Vector {
     V(Affine.Discrete.Vector(-v.vector.rawValue))
 }

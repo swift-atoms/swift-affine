@@ -30,7 +30,8 @@ extension Int {
     ///
     /// - Parameter offset: The tagged affine discrete vector.
     @inlinable
-    public init<Tag: ~Copyable & ~Escapable>(bitPattern offset: Tagged<Tag, Affine.Discrete.Vector>) {
+    public init<Tag: ~Copyable & ~Escapable>(bitPattern offset: Tagged<Tag, Affine.Discrete.Vector>)
+    {
         self.init(bitPattern: offset.underlying)
     }
 

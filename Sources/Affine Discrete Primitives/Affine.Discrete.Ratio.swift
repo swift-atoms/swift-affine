@@ -42,7 +42,9 @@ extension Affine.Discrete {
     ///
     /// - ``Vector`` for discrete displacements
     /// - [Discrete Scaling Morphisms](https://github.com/swift-institute/Research/blob/main/discrete-scaling-morphisms.md)
-    public struct Ratio<From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable>: Hashable, Sendable {
+    public struct Ratio<From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable>: Hashable,
+        Sendable
+    {
         /// The conversion factor (signed, allows direction reversal).
         public let factor: Int
 
@@ -79,7 +81,8 @@ extension Affine.Discrete.Ratio where From == To, From: ~Copyable & ~Escapable {
 
 // MARK: - CustomStringConvertible
 
-extension Affine.Discrete.Ratio: CustomStringConvertible where From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable {
+extension Affine.Discrete.Ratio: CustomStringConvertible
+where From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable {
     /// A textual representation of this ratio (e.g., `Ratio<UInt8, Bit>(8)`).
     public var description: String {
         "Ratio<\(From.self), \(To.self)>(\(factor))"
@@ -88,7 +91,8 @@ extension Affine.Discrete.Ratio: CustomStringConvertible where From: ~Copyable &
 
 // MARK: - ExpressibleByIntegerLiteral (same-domain only)
 
-extension Affine.Discrete.Ratio: ExpressibleByIntegerLiteral where From == To, From: ~Copyable & ~Escapable {
+extension Affine.Discrete.Ratio: ExpressibleByIntegerLiteral
+where From == To, From: ~Copyable & ~Escapable {
     /// Creates a same-domain ratio from an integer literal.
     @_disfavoredOverload
     @inlinable

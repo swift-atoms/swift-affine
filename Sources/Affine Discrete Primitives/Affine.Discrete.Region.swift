@@ -87,9 +87,14 @@ extension Affine.Discrete.Region {
     public func translated(by displacement: Affine.Discrete.Vector) -> Affine.Discrete.Region {
         let shifted: Ordinal
         if displacement.rawValue >= 0 {
-            shifted = start.advance.saturating(by: Cardinal(integerLiteral: UInt(displacement.rawValue)))
+            shifted = start.advance.saturating(
+                by: Cardinal(integerLiteral: UInt(displacement.rawValue))
+            )
         } else {
-            shifted = start.retreat.clamped(by: Cardinal(integerLiteral: UInt(-displacement.rawValue)), to: 0)
+            shifted = start.retreat.clamped(
+                by: Cardinal(integerLiteral: UInt(-displacement.rawValue)),
+                to: 0
+            )
         }
         return Affine.Discrete.Region(start: shifted, count: count)
     }
@@ -101,9 +106,8 @@ extension Affine.Discrete.Region {
 // underlying unsigned values as an unkeyed pair.
 #if !hasFeature(Embedded)
     extension Affine.Discrete.Region: Codable {
-        // reason: signature forced by external protocol Swift.Decodable —
+        // WHY: signature forced by external protocol Swift.Decodable —
         // init(from:) requires untyped throws and an existential decoder.
-        // swiftlint:disable no_any_protocol_existential typed_throws_required
         /// Decodes a region from an unkeyed pair of unsigned values.
         @inlinable
         public init(from decoder: any Decoder) throws {
@@ -112,11 +116,9 @@ extension Affine.Discrete.Region {
             let count = try container.decode(UInt.self)
             self.init(start: Ordinal(start), count: Cardinal(integerLiteral: count))
         }
-        // swiftlint:enable no_any_protocol_existential typed_throws_required
 
-        // reason: signature forced by external protocol Swift.Encodable —
+        // WHY: signature forced by external protocol Swift.Encodable —
         // encode(to:) requires untyped throws and an existential encoder.
-        // swiftlint:disable no_any_protocol_existential typed_throws_required
         /// Encodes this region as an unkeyed pair of unsigned values.
         @inlinable
         public func encode(to encoder: any Encoder) throws {
@@ -124,6 +126,5 @@ extension Affine.Discrete.Region {
             try container.encode(start.rawValue)
             try container.encode(count.rawValue)
         }
-        // swiftlint:enable no_any_protocol_existential typed_throws_required
     }
 #endif
