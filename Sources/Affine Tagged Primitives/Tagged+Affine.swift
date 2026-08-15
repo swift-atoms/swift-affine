@@ -175,7 +175,10 @@ extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// - Throws: `Ordinal.Error.underflow` if the result would be negative.
     /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
     @inlinable
-    public static func - (lhs: Self, rhs: Tagged<Tag, Affine.Discrete.Vector>) throws(Ordinal.Error) -> Self {
+    public static func - (
+        lhs: Self,
+        rhs: Tagged<Tag, Affine.Discrete.Vector>
+    ) throws(Ordinal.Error) -> Self {
         try Self(lhs.ordinal - rhs.vector)
     }
 
@@ -184,7 +187,10 @@ extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// - Throws: `Ordinal.Error.underflow` if the result would be negative.
     /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
     @inlinable
-    public static func -= (lhs: inout Self, rhs: Tagged<Tag, Affine.Discrete.Vector>) throws(Ordinal.Error) {
+    public static func -= (
+        lhs: inout Self,
+        rhs: Tagged<Tag, Affine.Discrete.Vector>
+    ) throws(Ordinal.Error) {
         lhs = try lhs - rhs
     }
 }
@@ -214,7 +220,10 @@ extension Tagged where Underlying == Cardinal, Tag: ~Copyable & ~Escapable {
         _unchecked: Void,
         _ offset: Tagged<Tag, Affine.Discrete.Vector>
     ) {
-        assert(offset.vector.rawValue >= 0, "Vector must be non-negative for unchecked Cardinal conversion")
+        assert(
+            offset.vector.rawValue >= 0,
+            "Vector must be non-negative for unchecked Cardinal conversion"
+        )
         self.init(_unchecked: Cardinal(UInt(offset.vector.rawValue)))
     }
 }
@@ -278,7 +287,9 @@ public func * <From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable>(
     lhs: Tagged<From, Affine.Discrete.Vector>,
     rhs: Affine.Discrete.Ratio<From, To>
 ) -> Tagged<To, Affine.Discrete.Vector> {
-    Tagged<To, Affine.Discrete.Vector>(_unchecked: Affine.Discrete.Vector(lhs.vector.rawValue * rhs.factor))
+    Tagged<To, Affine.Discrete.Vector>(
+        _unchecked: Affine.Discrete.Vector(lhs.vector.rawValue * rhs.factor)
+    )
 }
 
 /// Scales a tagged vector from one domain to another (commutative).

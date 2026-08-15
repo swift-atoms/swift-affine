@@ -70,7 +70,9 @@ public func - <O: Ordinal.`Protocol`>(
         guard lhs.ordinal.rawValue >= magnitude else { throw .underflow }
         return O(Ordinal(lhs.ordinal.rawValue - magnitude))
     }
-    let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(rhs.vector.rawValue.magnitude)
+    let (result, overflow) = lhs.ordinal.rawValue.addingReportingOverflow(
+        rhs.vector.rawValue.magnitude
+    )
     guard !overflow else { throw .overflow }
     return O(Ordinal(result))
 }
