@@ -101,7 +101,7 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
     @Test
     func `unsafe pointer plus typed offset`() {
         let values: [Int] = [0, 10, 20, 30, 40]
-        unsafe values.withUnsafeBufferPointer { buf in
+        values.withUnsafeBufferPointer { buf in
             let base = buf.baseAddress!
             let offset: Tagged<Int, Ordinal>.Offset = 2
             let advanced = unsafe base + offset
@@ -112,7 +112,7 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
     @Test
     func `unsafe pointer minus unsafe pointer yields typed offset`() {
         let values: [Int] = [0, 1, 2, 3, 4]
-        unsafe values.withUnsafeBufferPointer { buf in
+        values.withUnsafeBufferPointer { buf in
             let start = buf.baseAddress!
             let end = unsafe start + Tagged<Int, Ordinal>.Offset(3)
             let distance: Tagged<Int, Ordinal>.Offset = unsafe end - start
@@ -125,7 +125,7 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
     @Test
     func `unsafe mutable pointer plus typed offset`() {
         var values: [Int] = [0, 10, 20, 30, 40]
-        unsafe values.withUnsafeMutableBufferPointer { buf in
+        values.withUnsafeMutableBufferPointer { buf in
             let base = buf.baseAddress!
             let offset: Tagged<Int, Ordinal>.Offset = 3
             let advanced = unsafe base + offset
@@ -146,7 +146,7 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
     )
     func `unsafe mutable pointer minus typed offset`() {
         var values: [Int] = [0, 10, 20, 30, 40]
-        unsafe values.withUnsafeMutableBufferPointer { buf in
+        values.withUnsafeMutableBufferPointer { buf in
             let from = unsafe buf.baseAddress!.advanced(by: 4)
             let offset: Tagged<Int, Ordinal>.Offset = 2
             let backed = unsafe from - offset
@@ -158,7 +158,7 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
 
     @Test
     func `swap with distinct typed indices exchanges trivial pointees`() {
-        let buf = unsafe UnsafeMutablePointer<Int>.allocate(capacity: 2)
+        let buf = UnsafeMutablePointer<Int>.allocate(capacity: 2)
         defer {
             unsafe buf.deinitialize(count: 2)
             unsafe buf.deallocate()
@@ -187,7 +187,7 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.`Edge Case` {
 
     @Test
     func `swap with equal typed indices leaves trivial pointee unchanged`() {
-        let buf = unsafe UnsafeMutablePointer<Int>.allocate(capacity: 1)
+        let buf = UnsafeMutablePointer<Int>.allocate(capacity: 1)
         defer {
             unsafe buf.deinitialize(count: 1)
             unsafe buf.deallocate()
@@ -201,7 +201,7 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.`Edge Case` {
     @Test
     func `swap with equal typed indices deinitializes class pointee exactly once`() {
         var deinitCount = 0
-        let buf = unsafe UnsafeMutablePointer<DeinitProbe>.allocate(capacity: 1)
+        let buf = UnsafeMutablePointer<DeinitProbe>.allocate(capacity: 1)
         unsafe buf.initialize(to: DeinitProbe(onDeinit: { deinitCount += 1 }))
         let index: Tagged<DeinitProbe, Ordinal> = .zero
         unsafe buf.swap(index, index)

@@ -13,7 +13,6 @@ public import Affine_Arithmetic_Primitives
 public import Affine_Carrier_Primitives
 public import Affine_Discrete_Primitives
 public import Cardinal_Primitives
-public import Carrier_Primitives
 public import Ordinal_Primitives
 public import Tagged_Primitives
 
