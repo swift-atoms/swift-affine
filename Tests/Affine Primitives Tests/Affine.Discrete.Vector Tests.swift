@@ -13,11 +13,7 @@ extension Affine.Discrete.Vector {
     }
 }
 
-// MARK: - Unit
-
 extension Affine.Discrete.Vector.Test.Unit {
-
-    // MARK: Construction
 
     @Test
     func `construction from int`() {
@@ -43,8 +39,6 @@ extension Affine.Discrete.Vector.Test.Unit {
         #expect(v.rawValue == -2)
     }
 
-    // MARK: Constants
-
     @Test
     func `zero constant`() {
         #expect(Affine.Discrete.Vector.zero.rawValue == 0)
@@ -54,8 +48,6 @@ extension Affine.Discrete.Vector.Test.Unit {
     func `one constant`() {
         #expect(Affine.Discrete.Vector.one.rawValue == 1)
     }
-
-    // MARK: Arithmetic
 
     @Test
     func `addition operator`() {
@@ -106,8 +98,6 @@ extension Affine.Discrete.Vector.Test.Unit {
         #expect(negated.rawValue == -5)
     }
 
-    // MARK: Magnitude
-
     @Test
     func `magnitude of positive`() {
         let v: Affine.Discrete.Vector = 5
@@ -125,8 +115,6 @@ extension Affine.Discrete.Vector.Test.Unit {
         let v: Affine.Discrete.Vector = .zero
         #expect(v.magnitude == .zero)
     }
-
-    // MARK: Comparison
 
     @Test
     func comparison() {
@@ -148,8 +136,6 @@ extension Affine.Discrete.Vector.Test.Unit {
     }
 }
 
-// MARK: - Edge Case
-
 extension Affine.Discrete.Vector.Test.`Edge Case` {
 
     @Test
@@ -158,8 +144,6 @@ extension Affine.Discrete.Vector.Test.`Edge Case` {
         #expect(error == .unrepresentable)
     }
 }
-
-// MARK: - Integration
 
 extension Affine.Discrete.Vector.Test.Integration {
 

@@ -15,11 +15,7 @@ extension Affine.Discrete.Vector {
     }
 }
 
-// MARK: - Unit
-
 extension Affine.Discrete.Vector.`Ordinal Arithmetic`.Unit {
-
-    // MARK: Bare Ordinal ± Bare Vector
 
     @Test
     func `bare position plus vector positive`() throws(Ordinal.Error) {
@@ -62,8 +58,6 @@ extension Affine.Discrete.Vector.`Ordinal Arithmetic`.Unit {
         let displacement: Affine.Discrete.Vector = try p - q
         #expect(displacement.rawValue == -5)
     }
-
-    // MARK: Tagged Position ± Tagged Offset
 
     @Test
     func `tagged position plus offset positive`() throws(Ordinal.Error) {
@@ -113,8 +107,6 @@ extension Affine.Discrete.Vector.`Ordinal Arithmetic`.Unit {
         #expect(p.underlying == Ordinal(UInt(2)))
     }
 
-    // MARK: Cross-Domain Scaling on Cardinal
-
     @Test
     func `tagged cardinal scales via ratio`() {
         enum Byte {}
@@ -135,8 +127,6 @@ extension Affine.Discrete.Vector.`Ordinal Arithmetic`.Unit {
         #expect(bits.underlying == Cardinal(32))
     }
 
-    // MARK: Cross-Domain Scaling on Vector
-
     @Test
     func `tagged vector scales via ratio`() {
         enum Byte {}
@@ -147,8 +137,6 @@ extension Affine.Discrete.Vector.`Ordinal Arithmetic`.Unit {
         #expect(bitOffset.underlying == Affine.Discrete.Vector(-16))
     }
 
-    // MARK: Ordinal init from Vector
-
     @Test
     func `ordinal from non negative vector`() throws(Ordinal.Error) {
         let v = Affine.Discrete.Vector(5)
@@ -156,8 +144,6 @@ extension Affine.Discrete.Vector.`Ordinal Arithmetic`.Unit {
         #expect(o == Ordinal(UInt(5)))
     }
 }
-
-// MARK: - Edge Case
 
 extension Affine.Discrete.Vector.`Ordinal Arithmetic`.`Edge Case` {
 

@@ -1,6 +1,3 @@
-// exports.swift
-// Re-export dependencies for SLI consumers.
-
 @_exported public import Affine_Carrier_Primitives
 @_exported public import Affine_Discrete_Primitives
 @_exported public import Affine_Primitive

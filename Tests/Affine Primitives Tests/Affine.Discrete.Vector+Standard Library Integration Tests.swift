@@ -13,11 +13,6 @@ private let isLinux: Bool = {
 
 private enum Element {}
 
-/// A class-bearing pointee used to observe the lifecycle behavior of
-/// `UnsafeMutablePointer.swap(_:_:)`.
-///
-/// Reports its deinitialization through a closure rather than shared static
-/// state, so it stays safe under parallel test execution.
 private final class DeinitProbe {
     private let onDeinit: () -> Void
     init(onDeinit: @escaping () -> Void) { self.onDeinit = onDeinit }
@@ -34,17 +29,7 @@ extension Affine.Discrete.Vector {
     }
 }
 
-// MARK: - Integration
-//
-// Whole-file Integration scope: every test exercises an Affine primitive
-// at a stdlib boundary (`Int(bitPattern:)`, `RandomAccessCollection.index`,
-// pointer arithmetic). Unit / Edge Case / Performance sub-suites declared
-// to satisfy the canonical 4-sub-suite shape; they are intentionally
-// empty here per the file's stdlib-integration scope.
-
 extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
-
-    // MARK: Int(bitPattern:) — bare Vector
 
     @Test
     func `int bit pattern from vector positive`() {
@@ -64,8 +49,6 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
         #expect(Int(bitPattern: v) == 0)
     }
 
-    // MARK: Int(bitPattern:) — Tagged offset
-
     @Test
     func `int bit pattern from tagged offset positive`() {
         let offset: Tagged<Element, Ordinal>.Offset = 7
@@ -77,8 +60,6 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
         let offset: Tagged<Element, Ordinal>.Offset = -7
         #expect(Int(bitPattern: offset) == -7)
     }
-
-    // MARK: RandomAccessCollection.index(_:offsetBy:)
 
     @Test
     func `random access collection index by typed offset`() {
@@ -95,8 +76,6 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
         let index = array.index(array.startIndex, offsetBy: offset)
         #expect(index == array.startIndex)
     }
-
-    // MARK: UnsafePointer arithmetic
 
     @Test
     func `unsafe pointer plus typed offset`() {
@@ -119,8 +98,6 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
             #expect(distance.underlying == Affine.Discrete.Vector(3))
         }
     }
-
-    // MARK: UnsafeMutablePointer arithmetic
 
     @Test
     func `unsafe mutable pointer plus typed offset`() {
@@ -154,8 +131,6 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
         }
     }
 
-    // MARK: UnsafeMutablePointer.swap(_:_:) — sanity (distinct indices)
-
     @Test
     func `swap with distinct typed indices exchanges trivial pointees`() {
         let buf = UnsafeMutablePointer<Int>.allocate(capacity: 2)
@@ -173,17 +148,7 @@ extension Affine.Discrete.Vector.`Standard Library Integration`.Integration {
     }
 }
 
-// MARK: - Edge Case
-
 extension Affine.Discrete.Vector.`Standard Library Integration`.`Edge Case` {
-
-    // MARK: UnsafeMutablePointer.swap(_:_:) — equal-index regression (F-001)
-    //
-    // `swap(i, i)` must be a no-op. Without an equal-address guard, the
-    // move-based implementation reads back memory it just declared
-    // "moved from" via `.move()`, then initializes it twice — a documented
-    // undefined-behavior pattern (the same one `MutableCollection.swapAt(_:_:)`
-    // guards against with its own `i != j` check).
 
     @Test
     func `swap with equal typed indices leaves trivial pointee unchanged`() {

@@ -16,21 +16,15 @@ extension Affine.Discrete.Vector {
     }
 }
 
-// MARK: - Unit
-
 extension Affine.Discrete.Vector.`Tagged Offset`.Unit {
-
-    // MARK: Offset Typealias Identity
 
     @Test
     func `offset is tagged vector`() {
         let offset: Tagged<Element, Ordinal>.Offset = 3
-        // The typealias resolves to Tagged<Element, Affine.Discrete.Vector>.
+
         let taggedVector: Tagged<Element, Affine.Discrete.Vector> = offset
         #expect(taggedVector.underlying == Affine.Discrete.Vector(3))
     }
-
-    // MARK: Construction
 
     @Test
     func `construction from int`() {
@@ -71,8 +65,6 @@ extension Affine.Discrete.Vector.`Tagged Offset`.Unit {
         #expect(offset.underlying == Affine.Discrete.Vector(3))
     }
 
-    // MARK: Constants
-
     @Test
     func `zero constant`() {
         let offset: Tagged<Element, Ordinal>.Offset = .zero
@@ -84,8 +76,6 @@ extension Affine.Discrete.Vector.`Tagged Offset`.Unit {
         let offset: Tagged<Element, Ordinal>.Offset = .one
         #expect(offset.underlying == Affine.Discrete.Vector(1))
     }
-
-    // MARK: Arithmetic
 
     @Test
     func `addition on tagged`() {
@@ -124,8 +114,6 @@ extension Affine.Discrete.Vector.`Tagged Offset`.Unit {
         #expect(negated.underlying == Affine.Discrete.Vector(-5))
     }
 
-    // MARK: Typed Magnitude
-
     @Test
     func `magnitude of positive tagged offset`() {
         let offset: Tagged<Element, Ordinal>.Offset = 5
@@ -140,16 +128,12 @@ extension Affine.Discrete.Vector.`Tagged Offset`.Unit {
         #expect(magnitude.underlying == Cardinal(5))
     }
 
-    // MARK: Tagged<Tag, Cardinal> from Tagged<Tag, Vector>
-
     @Test
     func `tagged cardinal from non negative tagged vector`() throws(Cardinal.Error) {
         let offset: Tagged<Element, Ordinal>.Offset = 5
         let count: Tagged<Element, Cardinal> = try Tagged<Element, Cardinal>(offset)
         #expect(count.underlying == Cardinal(5))
     }
-
-    // MARK: Cross-Type Comparisons (Vector ↔ Cardinal, same Domain)
 
     @Test
     func `vector less than cardinal same domain`() {
@@ -181,8 +165,6 @@ extension Affine.Discrete.Vector.`Tagged Offset`.Unit {
     }
 }
 
-// MARK: - Edge Case
-
 extension Affine.Discrete.Vector.`Tagged Offset`.`Edge Case` {
 
     @Test
@@ -192,15 +174,6 @@ extension Affine.Discrete.Vector.`Tagged Offset`.`Edge Case` {
             try Tagged<Element, Cardinal>(offset)
         }
     }
-
-    // MARK: Cross-Type Comparisons at Representable Boundaries (F-004)
-    //
-    // Prior to the fix, every one of these eight operators narrowed the
-    // `Cardinal` side through `Int(rhs.cardinal.rawValue)` (or the mirrored
-    // narrowing on the reverse-direction overloads), which traps for any
-    // cardinal whose raw `UInt` exceeds `Int.max`. `Cardinal.max` (backed by
-    // `UInt.max`) sits exactly past that boundary, so these are the minimal
-    // cases that previously trapped.
 
     @Test
     func `vector at int max compares below cardinal at uint max`() {

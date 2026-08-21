@@ -12,13 +12,12 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        // MARK: - Namespace
+
         .library(
             name: "Affine Primitive",
             targets: ["Affine Primitive"]
         ),
 
-        // MARK: - Sub-namespace targets
         .library(
             name: "Affine Discrete Primitives",
             targets: ["Affine Discrete Primitives"]
@@ -60,19 +59,16 @@ let package = Package(
             targets: ["Affine Tagged Primitives"]
         ),
 
-        // MARK: - StdLib Integration
         .library(
             name: "Affine Primitives Standard Library Integration",
             targets: ["Affine Primitives Standard Library Integration"]
         ),
 
-        // MARK: - Umbrella
         .library(
             name: "Affine Primitives",
             targets: ["Affine Primitives"]
         ),
 
-        // MARK: - Test Support
         .library(
             name: "Affine Primitives Test Support",
             targets: ["Affine Primitives Test Support"]
@@ -110,13 +106,11 @@ let package = Package(
     ],
     targets: [
 
-        // MARK: - Namespace
         .target(
             name: "Affine Primitive",
             dependencies: []
         ),
 
-        // MARK: - Sub-namespace targets (per [MOD-031])
         .target(
             name: "Affine Discrete Primitives",
             dependencies: [
@@ -207,7 +201,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - StdLib Integration
         .target(
             name: "Affine Primitives Standard Library Integration",
             dependencies: [
@@ -225,7 +218,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Umbrella
         .target(
             name: "Affine Primitives",
             dependencies: [
@@ -245,7 +237,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Test Support
         .target(
             name: "Affine Primitives Test Support",
             dependencies: [
@@ -262,7 +253,6 @@ let package = Package(
             path: "Tests/Support"
         ),
 
-        // MARK: - Tests
         .testTarget(
             name: "Affine Primitives Tests",
             dependencies: [
@@ -285,13 +275,6 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
 
-    // Platforms whose Swift SDK can compile the `Synchronization` module.
-    // Android is excluded because the swift-android-sdk artifact bundle's
-    // `SwiftOverlayShims/LibcOverlayShims.h` includes `<semaphore.h>`, which
-    // Bionic libc does not ship as a standalone header (upstream gap in the
-    // community Android Swift SDK). Embedded targets lack Synchronization
-    // entirely. Source files that import Synchronization should guard with
-    // `#if SYNCHRONIZATION_AVAILABLE`.
     let package: [SwiftSetting] = [
         .define(
             "SYNCHRONIZATION_AVAILABLE",

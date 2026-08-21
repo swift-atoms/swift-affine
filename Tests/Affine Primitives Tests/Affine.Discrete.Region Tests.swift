@@ -1,5 +1,3 @@
-// Affine.Discrete.Region Tests.swift
-
 import Affine_Primitives_Test_Support
 import Testing
 
@@ -24,7 +22,7 @@ extension Affine.Discrete.Region.Test.Unit {
 
     @Test
     func `contains the half-open run`() {
-        let region = Affine.Discrete.Region(start: 3, count: 4)  // 3, 4, 5, 6
+        let region = Affine.Discrete.Region(start: 3, count: 4)
         #expect(region.contains(3))
         #expect(region.contains(6))
         #expect(!region.contains(7))
@@ -45,7 +43,7 @@ extension Affine.Discrete.Region.Test.Unit {
         #expect(region.translated(by: 2).start == 5)
         #expect(region.translated(by: 2).count == 4)
         #expect(region.translated(by: -1).start == 2)
-        #expect(region.translated(by: -10).start == 0)  // clamps at zero
+        #expect(region.translated(by: -10).start == 0)
     }
 
     @Test

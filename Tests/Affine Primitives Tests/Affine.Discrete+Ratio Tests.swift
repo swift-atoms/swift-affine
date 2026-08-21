@@ -17,11 +17,7 @@ extension Affine.Discrete {
     }
 }
 
-// MARK: - Unit
-
 extension Affine.Discrete.`Ratio Test`.Unit {
-
-    // MARK: Construction
 
     @Test
     func `construction from int`() {
@@ -35,8 +31,6 @@ extension Affine.Discrete.`Ratio Test`.Unit {
         let r = Affine.Discrete.Ratio<Word, Bit>(count)
         #expect(r.factor == 64)
     }
-
-    // MARK: Same-Domain (Endomorphism) Operations
 
     @Test
     func `identity factor`() {
@@ -55,8 +49,6 @@ extension Affine.Discrete.`Ratio Test`.Unit {
         let r: Affine.Discrete.Ratio<Byte, Byte> = 3
         #expect(r.factor == 3)
     }
-
-    // MARK: Composition
 
     @Test
     func `ratio composition`() {
@@ -82,8 +74,6 @@ extension Affine.Discrete.`Ratio Test`.Unit {
         #expect(composed.factor == -8)
     }
 
-    // MARK: Quotient and Remainder (Tagged Cardinal)
-
     @Test
     func `quotient and remainder cardinal even division`() throws {
         let bitsPerByte = Affine.Discrete.Ratio<Byte, Bit>.init(8)
@@ -101,8 +91,6 @@ extension Affine.Discrete.`Ratio Test`.Unit {
         #expect(quotient.underlying == Cardinal(12))
         #expect(remainder.underlying == Cardinal(4))
     }
-
-    // MARK: Quotient and Remainder (Tagged Ordinal)
 
     @Test
     func `quotient and remainder ordinal even division`() throws {
@@ -123,11 +111,7 @@ extension Affine.Discrete.`Ratio Test`.Unit {
     }
 }
 
-// MARK: - Edge Case
-
 extension Affine.Discrete.`Ratio Test`.`Edge Case` {
-
-    // MARK: quotientAndRemainder — Zero Factor (F-002)
 
     @Test
     func `quotient and remainder cardinal throws on zero factor`() {
@@ -147,8 +131,6 @@ extension Affine.Discrete.`Ratio Test`.`Edge Case` {
         }
     }
 
-    // MARK: quotientAndRemainder — Negative Factor (F-002)
-
     @Test
     func `quotient and remainder cardinal throws on negative factor`() {
         let negative = Affine.Discrete.Ratio<Byte, Bit>.init(-8)
@@ -166,8 +148,6 @@ extension Affine.Discrete.`Ratio Test`.`Edge Case` {
             try negative.quotientAndRemainder(dividing: index)
         }
     }
-
-    // MARK: quotientAndRemainder — Above Int.max (F-002)
 
     @Test
     func `quotient and remainder cardinal throws when dividend exceeds int max`() {
@@ -187,8 +167,6 @@ extension Affine.Discrete.`Ratio Test`.`Edge Case` {
         }
     }
 }
-
-// MARK: - Integration
 
 extension Affine.Discrete.`Ratio Test`.Integration {
 
