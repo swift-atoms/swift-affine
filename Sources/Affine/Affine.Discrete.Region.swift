@@ -35,12 +35,8 @@ extension Affine.Discrete.Region {
 
     @inlinable
     public var end: Ordinal {
-        start.advance.saturating(by: count)
-    }
-
-    @inlinable
-    public var range: Range<Ordinal> {
-        start..<end
+        let (sum, overflow) = start.rawValue.addingReportingOverflow(count.rawValue)
+        return Ordinal(overflow ? UInt.max : sum)
     }
 
     @inlinable
@@ -52,14 +48,12 @@ extension Affine.Discrete.Region {
     public func translated(by displacement: Affine.Discrete.Vector) -> Affine.Discrete.Region {
         let shifted: Ordinal
         if displacement.rawValue >= 0 {
-            shifted = start.advance.saturating(
-                by: Cardinal(integerLiteral: UInt(displacement.rawValue))
-            )
+            let magnitude = UInt(displacement.rawValue)
+            let (sum, overflow) = start.rawValue.addingReportingOverflow(magnitude)
+            shifted = Ordinal(overflow ? UInt.max : sum)
         } else {
-            shifted = start.retreat.clamped(
-                by: Cardinal(integerLiteral: UInt(-displacement.rawValue)),
-                to: 0
-            )
+            let magnitude = UInt(-displacement.rawValue)
+            shifted = Ordinal(start.rawValue >= magnitude ? start.rawValue - magnitude : 0)
         }
         return Affine.Discrete.Region(start: shifted, count: count)
     }
@@ -73,7 +67,7 @@ extension Affine.Discrete.Region {
             var container = try decoder.unkeyedContainer()
             let start = try container.decode(UInt.self)
             let count = try container.decode(UInt.self)
-            self.init(start: Ordinal(start), count: Cardinal(integerLiteral: count))
+            self.init(start: Ordinal(start), count: Cardinal(count))
         }
 
         @inlinable
