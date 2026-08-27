@@ -1,4 +1,3 @@
-public import Affine_Discrete
 public import Ordinal
 
 extension Ordinal {

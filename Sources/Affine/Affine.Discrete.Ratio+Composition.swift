@@ -1,4 +1,3 @@
-public import Affine_Discrete
 
 @inlinable
 public func * <A: ~Copyable, B: ~Copyable, C: ~Copyable>(
