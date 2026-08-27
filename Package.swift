@@ -34,6 +34,22 @@ let package = Package(
             url: "https://github.com/swift-atoms/swift-cardinal.git",
             branch: "main"
         ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-linear.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-dimension.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-numeric.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-tagged.git",
+            branch: "main"
+        ),
     ],
     targets: [
         .target(
@@ -41,6 +57,9 @@ let package = Package(
             dependencies: [
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Linear", package: "swift-linear"),
+                .product(name: "Dimension", package: "swift-dimension"),
+                .product(name: "Numeric", package: "swift-numeric"),
             ]
         ),
         .target(
@@ -56,7 +75,13 @@ let package = Package(
         ),
         .testTarget(
             name: "Affine Tests",
-            dependencies: ["Affine"]
+            dependencies: [
+                "Affine",
+                .product(
+                    name: "Tagged Standard Library Integration",
+                    package: "swift-tagged"
+                ),
+            ]
         ),
     ],
     swiftLanguageModes: [.v6]
