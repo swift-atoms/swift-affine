@@ -1,4 +1,4 @@
-import Linear
+public import Linear
 
 extension Affine.Continuous.Point where Scalar: AdditiveArithmetic {
 

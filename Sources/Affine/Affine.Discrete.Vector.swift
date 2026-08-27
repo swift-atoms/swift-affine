@@ -66,3 +66,42 @@ extension Affine.Discrete.Vector: ExpressibleByIntegerLiteral {
         self.init(value)
     }
 }
+
+extension Affine.Discrete.Vector: Equatable {}
+extension Affine.Discrete.Vector: Hashable {}
+
+extension Affine.Discrete.Vector: Comparable {}
+
+extension Affine.Discrete.Vector {
+
+    @inlinable
+    public static var zero: Self { Self(0) }
+
+    @inlinable
+    public static var one: Self { Self(1) }
+
+    @inlinable
+    public static func + (lhs: Self, rhs: Self) -> Self {
+        Self(lhs.rawValue + rhs.rawValue)
+    }
+
+    @inlinable
+    public static func - (lhs: Self, rhs: Self) -> Self {
+        Self(lhs.rawValue - rhs.rawValue)
+    }
+
+    @inlinable
+    public static func += (lhs: inout Self, rhs: Self) {
+        lhs = lhs + rhs
+    }
+
+    @inlinable
+    public static func -= (lhs: inout Self, rhs: Self) {
+        lhs = lhs - rhs
+    }
+
+    @inlinable
+    public static prefix func - (value: Self) -> Self {
+        Self(-value.rawValue)
+    }
+}

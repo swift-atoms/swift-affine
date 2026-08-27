@@ -1,5 +1,6 @@
 public import Dimension
 public import Linear
+public import Tagged
 
 extension Affine.Continuous {
 
@@ -284,8 +285,8 @@ extension Affine.Continuous.Point where N == 2, Scalar: FloatingPoint {
     public static func midpoint(from point: Self, to other: Self) -> Self {
 
         Self(
-            x: point.x + (other.x - point.x) / 2,
-            y: point.y + (other.y - point.y) / 2
+            x: point.x + (other.x - point.x) / Scale(2),
+            y: point.y + (other.y - point.y) / Scale(2)
         )
     }
 

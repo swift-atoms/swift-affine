@@ -1,5 +1,6 @@
 public import Dimension
 public import Linear
+public import Tagged
 
 extension Affine.Continuous {
 
@@ -22,7 +23,25 @@ extension Affine.Continuous.Translation: Equatable where Scalar: Equatable {}
 extension Affine.Continuous.Translation: Hashable where Scalar: Hashable {}
 
 #if !hasFeature(Embedded)
-    extension Affine.Continuous.Translation: Codable where Scalar: Codable {}
+    extension Affine.Continuous.Translation: Codable where Scalar: Codable {
+
+        private enum CodingKeys: String, CodingKey {
+            case dx
+            case dy
+        }
+
+        public init(from decoder: any Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dx = .init(_unchecked: try container.decode(Scalar.self, forKey: .dx))
+            self.dy = .init(_unchecked: try container.decode(Scalar.self, forKey: .dy))
+        }
+
+        public func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(dx.underlying, forKey: .dx)
+            try container.encode(dy.underlying, forKey: .dy)
+        }
+    }
 #endif
 
 extension Affine.Continuous.Translation {

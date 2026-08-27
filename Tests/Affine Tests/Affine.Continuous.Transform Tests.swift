@@ -1,4 +1,7 @@
 import Dimension
+import Tagged
+import Dimension_Standard_Library_Integration
+import Numeric_Standard_Library_Integration
 import Tagged_Standard_Library_Integration
 import Testing
 
@@ -180,7 +183,7 @@ struct `Affine_Continuous_Transform Tests` {
             (Point2(x: 5, y: 0), 180.0),
         ])
         func `Rotation preserves distance`(p: Point2, degrees: Double) {
-            let t = Transform.rotation(Degree(degrees))
+            let t = Transform.rotation(Degree(_unchecked: degrees))
             let result = Transform.apply(t, to: p)
             let originalDist = p.distance(to: .zero)
             let resultDist = result.distance(to: .zero)

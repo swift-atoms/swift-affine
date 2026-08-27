@@ -1,6 +1,6 @@
 public import Dimension
 public import Linear
-public import Numeric
+public import Tagged
 
 extension Affine.Continuous {
 
@@ -34,17 +34,17 @@ extension Affine.Continuous.Transform: Hashable where Scalar: Hashable {}
             let b = try container.decode(Scalar.self, forKey: .b)
             let c = try container.decode(Scalar.self, forKey: .c)
             let d = try container.decode(Scalar.self, forKey: .d)
-            let tx = try container.decode(Linear<Scalar, Space>.Dx.self, forKey: .tx)
-            let ty = try container.decode(Linear<Scalar, Space>.Dy.self, forKey: .ty)
+            let tx = Linear<Scalar, Space>.Dx(_unchecked: try container.decode(Scalar.self, forKey: .tx))
+            let ty = Linear<Scalar, Space>.Dy(_unchecked: try container.decode(Scalar.self, forKey: .ty))
             self.init(a: a, b: b, c: c, d: d, tx: tx, ty: ty)
         }
 
         public func encode(to encoder: any Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(a, forKey: .a)
-            try container.encode(b, forKey: .b)
-            try container.encode(c, forKey: .c)
-            try container.encode(d, forKey: .d)
+            try container.encode(a.value, forKey: .a)
+            try container.encode(b.value, forKey: .b)
+            try container.encode(c.value, forKey: .c)
+            try container.encode(d.value, forKey: .d)
             try container.encode(tx.underlying, forKey: .tx)
             try container.encode(ty.underlying, forKey: .ty)
         }
@@ -224,10 +224,7 @@ extension Affine.Continuous.Transform where Scalar == Double {
     @inlinable
     public static func rotation(_ angle: Radian<Scalar>) -> Self {
         Self(
-            linear: Linear<Scalar, Space>.Matrix.rotation(
-                cos: angle.cos.value,
-                sin: angle.sin.value
-            ),
+            linear: Linear<Scalar, Space>.Matrix.rotation(angle),
             translation: .zero
         )
     }
@@ -243,10 +240,7 @@ extension Affine.Continuous.Transform where Scalar == Float {
     @inlinable
     public static func rotation(_ angle: Radian<Scalar>) -> Self {
         Self(
-            linear: Linear<Scalar, Space>.Matrix.rotation(
-                cos: angle.cos.value,
-                sin: angle.sin.value
-            ),
+            linear: Linear<Scalar, Space>.Matrix.rotation(angle),
             translation: .zero
         )
     }

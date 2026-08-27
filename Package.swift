@@ -60,6 +60,7 @@ let package = Package(
                 .product(name: "Linear", package: "swift-linear"),
                 .product(name: "Dimension", package: "swift-dimension"),
                 .product(name: "Numeric", package: "swift-numeric"),
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
         .target(
@@ -77,9 +78,31 @@ let package = Package(
             name: "Affine Tests",
             dependencies: [
                 "Affine",
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(
+                    name: "Cardinal Standard Library Integration",
+                    package: "swift-cardinal"
+                ),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(
+                    name: "Ordinal Standard Library Integration",
+                    package: "swift-ordinal"
+                ),
+                .product(name: "Tagged", package: "swift-tagged"),
                 .product(
                     name: "Tagged Standard Library Integration",
                     package: "swift-tagged"
+                ),
+                .product(name: "Linear", package: "swift-linear"),
+                .product(name: "Dimension", package: "swift-dimension"),
+                .product(
+                    name: "Dimension Standard Library Integration",
+                    package: "swift-dimension"
+                ),
+                .product(name: "Numeric", package: "swift-numeric"),
+                .product(
+                    name: "Numeric Standard Library Integration",
+                    package: "swift-numeric"
                 ),
             ]
         ),

@@ -17,7 +17,7 @@ extension Affine.Discrete {
     }
 }
 
-extension Affine.Discrete.Region {
+extension Affine.Discrete.Region: Hashable {
 
     @inlinable
     public static func == (lhs: Affine.Discrete.Region, rhs: Affine.Discrete.Region) -> Bool {

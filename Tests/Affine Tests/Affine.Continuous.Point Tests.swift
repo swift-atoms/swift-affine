@@ -1,4 +1,6 @@
 import Dimension
+import Dimension_Standard_Library_Integration
+import Numeric_Standard_Library_Integration
 import Tagged_Standard_Library_Integration
 import Testing
 

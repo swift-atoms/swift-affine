@@ -1,6 +1,6 @@
 public import Dimension
-import Linear
-import Numeric
+public import Linear
+public import Numeric
 
 extension Affine.Continuous.Point
 where N == 2, Scalar: BinaryFloatingPoint & Numeric.Transcendental {
