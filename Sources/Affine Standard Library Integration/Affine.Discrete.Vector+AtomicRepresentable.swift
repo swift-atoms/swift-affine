@@ -1,5 +1,3 @@
-public import Affine
-
 #if SYNCHRONIZATION_AVAILABLE
     public import Synchronization
 

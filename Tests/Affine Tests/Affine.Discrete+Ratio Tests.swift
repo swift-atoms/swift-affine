@@ -1,9 +1,4 @@
-import Cardinal
-import Cardinal_Standard_Library_Integration
-import Ordinal
-import Ordinal_Standard_Library_Integration
-import Tagged
-import Tagged_Standard_Library_Integration
+import Affine_Test_Support
 import Testing
 
 @testable import Affine
@@ -85,7 +80,7 @@ extension Affine.Discrete.`Ratio Test`.Unit {
         let count: Tagged<Bit, Cardinal> = 64
         let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: count)
         #expect(quotient.underlying == Cardinal(8))
-        #expect(remainder.underlying == Cardinal(0))
+        #expect(remainder.underlying == .zero)
     }
 
     @Test

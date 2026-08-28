@@ -1,6 +1,5 @@
+import Affine_Test_Support
 import Testing
-import Cardinal
-import Cardinal_Standard_Library_Integration
 
 @testable import Affine
 
@@ -114,7 +113,7 @@ extension Affine.Discrete.Vector.Test.Unit {
     @Test
     func `magnitude of zero`() {
         let v: Affine.Discrete.Vector = .zero
-        #expect(v.magnitude == Cardinal(0))
+        #expect(v.magnitude == .zero)
     }
 
     @Test
