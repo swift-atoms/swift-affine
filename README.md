@@ -1,10 +1,10 @@
-# Affine
+# Affine Primitives
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
 A typed affine-displacement primitive — `Affine.Discrete.Vector`, a signed offset between positions, plus `Affine.Discrete.Ratio<From, To>` for typed cross-domain scaling and a phantom-tagged `Tagged<Tag, Ordinal>.Offset` typealias for per-domain offset types.
 
-`Affine.Discrete.Vector` separates *signed offset* from the two other things stdlib calls `Int`: **count** (see [`swift-cardinal`](https://github.com/swift-molecules/swift-cardinal)) and **position** (see [`swift-ordinal`](https://github.com/swift-molecules/swift-ordinal)).
+`Affine.Discrete.Vector` separates *signed offset* from the two other things stdlib calls `Int`: **count** (see [`swift-cardinal`](https://github.com/swift-atoms/swift-cardinal)) and **position** (see [`swift-ordinal`](https://github.com/swift-atoms/swift-ordinal)).
 
 ---
 
@@ -49,7 +49,7 @@ let bits = bytes * bitsPerByte                             // Tagged<Bit, Cardin
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-molecules/swift-affine.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-affine.git", branch: "main")
 ]
 ```
 
@@ -72,13 +72,13 @@ Five library products covering the namespace, the bare types, the standard-libra
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Affine` | `Sources/Affine/` | Umbrella — re-exports Core and Standard Library Integration; the default import for application code. |
-| `Affine Core` | `Sources/Affine Core/` | The `Affine.Discrete.Vector` and `Affine.Discrete.Ratio<From, To>` types — backing `Int` storage, generic `Position ± Vector` and `Position − Position` operators with typed throws, the `Tagged<Tag, Ordinal>.Offset` typealias, and `Affine.Discrete.Vector.Error`. |
+| `Affine Primitives` | `Sources/Affine Primitives/` | Umbrella — re-exports and Standard Library Integration; the default import for application code. |
+| `Affine Primitives Core` | `Sources/Affine Primitives Core/` | The `Affine.Discrete.Vector` and `Affine.Discrete.Ratio<From, To>` types — backing `Int` storage, generic `Position ± Vector` and `Position − Position` operators with typed throws, the `Tagged<Tag, Ordinal>.Offset` typealias, and `Affine.Discrete.Vector.Error`. |
 | `Affine Standard Library Integration` | `Sources/Affine Standard Library Integration/` | Conformances and integration overloads bridging Affine into the standard library: `Int(bitPattern:)` for both bare `Vector` and `Tagged<Tag, Vector>`, `RandomAccessCollection.index(_:offsetBy:)` accepting typed offsets, and `UnsafePointer` / `UnsafeMutablePointer` arithmetic (`+`, `-`) typed by `Tagged<Pointee, Ordinal>.Offset`. |
-| `Affine Namespace` | `Sources/Affine Namespace/` | Empty `public enum Affine {}` namespace — separated so a consumer that only needs the namespace declaration (e.g., for cross-package extensions) does not pull the Core arithmetic surface. |
+| `Affine Namespace` | `Sources/Affine Namespace/` | Empty `public enum Affine {}` namespace — separated so a consumer that only needs the namespace declaration (e.g., for cross-package extensions) does not pull the arithmetic surface. |
 | `Affine Test Support` | `Tests/Support/` | Re-exports the umbrella + cardinal / ordinal Test Support fixtures for downstream test consumers. |
 
-Import the narrowest product you need: `Affine Core` for just the types, `Affine` (the umbrella) for the full surface including Standard Library Integration bridges and re-exported Cardinal / Ordinal / Carrier / Equation / Comparison.
+Import the narrowest product you need: `Affine Primitives Core` for just the types, `Affine Primitives` (the umbrella) for the full surface including Standard Library Integration bridges and re-exported Cardinal / Ordinal / Carrier / Equation / Comparison.
 
 The package depends on five primitives — `swift-ordinal`, `swift-cardinal`, `swift-carrier`, `swift-equation`, `swift-comparison`. See [Related Packages](#related-packages).
 
@@ -102,16 +102,16 @@ Foundation-free.
 
 Direct dependencies:
 
-- [swift-ordinal](https://github.com/swift-molecules/swift-ordinal) — cohort sibling, providing `Ordinal` (position). Position ± Vector arithmetic is the central affine operation; the generic `Ordinal.\`Protocol\` ± Carrier.\`Protocol\`<Affine.Discrete.Vector>` operators dispatch through `Ordinal.\`Protocol\``.
-- [swift-cardinal](https://github.com/swift-molecules/swift-cardinal) — cohort sibling, providing `Cardinal` (count). Vector magnitude is a Cardinal; cross-domain ratio scaling on Tagged Cardinals goes through `Affine.Discrete.Ratio<From, To>`.
-- [swift-carrier](https://github.com/swift-molecules/swift-carrier) — provides `Carrier.\`Protocol\`<Underlying>`, the unified super-protocol `Affine.Discrete.Vector` conforms to as a trivial self-carrier (`Underlying = Affine.Discrete.Vector`). The carrier conformance is the bridge that lets a `Tagged<Tag, Affine.Discrete.Vector>` reuse Vector's arithmetic uniformly.
-- [swift-equation](https://github.com/swift-molecules/swift-equation) — provides `Equation.\`Protocol\``, the `Equatable`-shape conformance Vector exposes.
-- [swift-comparison](https://github.com/swift-molecules/swift-comparison) — provides `Comparison.\`Protocol\``, the `Comparable`-shape conformance Vector exposes.
+- [swift-ordinal](https://github.com/swift-atoms/swift-ordinal) — cohort sibling, providing `Ordinal` (position). Position ± Vector arithmetic is the central affine operation; the generic `Ordinal.\`Protocol\` ± Carrier.\`Protocol\`<Affine.Discrete.Vector>` operators dispatch through `Ordinal.\`Protocol\``.
+- [swift-cardinal](https://github.com/swift-atoms/swift-cardinal) — cohort sibling, providing `Cardinal` (count). Vector magnitude is a Cardinal; cross-domain ratio scaling on Tagged Cardinals goes through `Affine.Discrete.Ratio<From, To>`.
+- [swift-carrier](https://github.com/swift-atoms/swift-carrier) — provides `Carrier.\`Protocol\`<Underlying>`, the unified super-protocol `Affine.Discrete.Vector` conforms to as a trivial self-carrier (`Underlying = Affine.Discrete.Vector`). The carrier conformance is the bridge that lets a `Tagged<Tag, Affine.Discrete.Vector>` reuse Vector's arithmetic uniformly.
+- [swift-equation](https://github.com/swift-atoms/swift-equation) — provides `Equation.\`Protocol\``, the `Equatable`-shape conformance Vector exposes.
+- [swift-comparison](https://github.com/swift-atoms/swift-comparison) — provides `Comparison.\`Protocol\``, the `Comparable`-shape conformance Vector exposes.
 
 Companion primitives covering the other two things stdlib calls `Int`:
 
-- [swift-cardinal](https://github.com/swift-molecules/swift-cardinal) — `Cardinal`, a non-negative count.
-- [swift-ordinal](https://github.com/swift-molecules/swift-ordinal) — `Ordinal`, a non-negative position in a 0-indexed sequence.
+- [swift-cardinal](https://github.com/swift-atoms/swift-cardinal) — `Cardinal`, a non-negative count.
+- [swift-ordinal](https://github.com/swift-atoms/swift-ordinal) — `Ordinal`, a non-negative position in a 0-indexed sequence.
 
 ---
 

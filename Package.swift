@@ -14,11 +14,6 @@ let package = Package(
     products: [
 
         .library(
-            name: "Affine Primitive",
-            targets: ["Affine Primitive"]
-        ),
-
-        .library(
             name: "Affine Discrete",
             targets: ["Affine Discrete"]
         ),
@@ -76,45 +71,45 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-ordinal.git",
+            url: "https://github.com/swift-atoms/swift-ordinal.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-cardinal.git",
+            url: "https://github.com/swift-atoms/swift-cardinal.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-carrier.git",
+            url: "https://github.com/swift-atoms/swift-carrier.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-equation.git",
+            url: "https://github.com/swift-atoms/swift-equation.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-hash.git",
+            url: "https://github.com/swift-atoms/swift-hash.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-comparison.git",
+            url: "https://github.com/swift-atoms/swift-comparison.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-tagged.git",
+            url: "https://github.com/swift-atoms/swift-tagged.git",
             branch: "main"
         ),
     ],
     targets: [
 
         .target(
-            name: "Affine Primitive",
+            name: "Affine",
             dependencies: []
         ),
 
         .target(
             name: "Affine Discrete",
             dependencies: [
-                "Affine Primitive",
+                .target(name: "Affine"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
             ]
@@ -122,9 +117,9 @@ let package = Package(
         .target(
             name: "Affine Arithmetic",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
-                "Affine Carrier",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
+                .target(name: "Affine Carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
@@ -133,15 +128,15 @@ let package = Package(
         .target(
             name: "Affine Composition",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
             ]
         ),
         .target(
             name: "Affine Quotient",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
                 .product(name: "Tagged", package: "swift-tagged"),
@@ -150,50 +145,50 @@ let package = Package(
         .target(
             name: "Affine Carrier",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
                 .product(name: "Carrier", package: "swift-carrier"),
             ]
         ),
         .target(
             name: "Affine Equation",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
                 .product(name: "Equation", package: "swift-equation"),
             ]
         ),
         .target(
             name: "Affine Hash",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
                 .product(name: "Hash", package: "swift-hash"),
             ]
         ),
         .target(
             name: "Affine Comparison",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
                 .product(name: "Comparison", package: "swift-comparison"),
             ]
         ),
         .target(
             name: "Affine Ordinal",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
             ]
         ),
         .target(
             name: "Affine Tagged",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
-                "Affine Arithmetic",
-                "Affine Carrier",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
+                .target(name: "Affine Arithmetic"),
+                .target(name: "Affine Carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
@@ -204,10 +199,10 @@ let package = Package(
         .target(
             name: "Affine Standard Library Integration",
             dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
-                "Affine Carrier",
-                "Affine Tagged",
+                .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
+                .target(name: "Affine Carrier"),
+                .target(name: "Affine Tagged"),
                 .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
                 .product(name: "Tagged", package: "swift-tagged"),
@@ -219,34 +214,15 @@ let package = Package(
         ),
 
         .target(
-            name: "Affine",
-            dependencies: [
-                "Affine Primitive",
-                "Affine Discrete",
-                "Affine Arithmetic",
-                "Affine Composition",
-                "Affine Quotient",
-                "Affine Carrier",
-                "Affine Equation",
-                "Affine Hash",
-                "Affine Comparison",
-                "Affine Ordinal",
-                "Affine Tagged",
-                "Affine Standard Library Integration",
-                .product(name: "Tagged", package: "swift-tagged"),
-            ]
-        ),
-
-        .target(
             name: "Affine Test Support",
             dependencies: [
-                "Affine",
+                .target(name: "Affine"),
                 .product(
                     name: "Ordinal Test Support",
                     package: "swift-ordinal"
                 ),
                 .product(
-                    name: "Cardinal Test Support",
+                    name: "Cardinal Standard Library Integration",
                     package: "swift-cardinal"
                 ),
             ],
@@ -256,8 +232,8 @@ let package = Package(
         .testTarget(
             name: "Affine Tests",
             dependencies: [
-                "Affine",
-                "Affine Test Support",
+                .target(name: "Affine"),
+                .target(name: "Affine Test Support"),
             ]
         ),
     ],
