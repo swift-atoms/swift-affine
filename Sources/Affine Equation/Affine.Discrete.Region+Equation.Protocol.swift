@@ -1,4 +1,4 @@
 public import Affine_Discrete
-public import Equation
+public import Equation_Protocol
 
-extension Affine.Discrete.Region: Equation.`Protocol` {}
+extension Affine.Discrete.Region: Equation::Equation.`Protocol` {}

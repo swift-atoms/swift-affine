@@ -1,4 +1,5 @@
-public import Carrier
+public import Affine_Discrete
+public import Carrier_Protocol
 
 extension Collection {
 

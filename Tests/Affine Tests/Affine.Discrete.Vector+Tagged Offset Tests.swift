@@ -2,6 +2,7 @@ import Affine_Test_Support
 import Testing
 
 @testable import Affine
+internal import Cardinal_Error
 
 private enum Element {}
 private enum Other {}

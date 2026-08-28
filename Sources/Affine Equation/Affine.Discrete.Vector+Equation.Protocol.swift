@@ -1,4 +1,4 @@
 public import Affine_Discrete
-public import Equation
+public import Equation_Protocol
 
-extension Affine.Discrete.Vector: Equation.`Protocol` {}
+extension Affine.Discrete.Vector: Equation::Equation.`Protocol` {}

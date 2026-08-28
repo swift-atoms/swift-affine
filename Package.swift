@@ -111,7 +111,11 @@ let package = Package(
             dependencies: [
                 .target(name: "Affine"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Advance", package: "swift-ordinal"),
+                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
+                .product(name: "Ordinal Retreat", package: "swift-ordinal"),
             ]
         ),
         .target(
@@ -121,8 +125,11 @@ let package = Package(
                 .target(name: "Affine Discrete"),
                 .target(name: "Affine Carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
+                .product(name: "Carrier Protocol", package: "swift-carrier"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Error", package: "swift-ordinal"),
+                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
             ]
         ),
         .target(
@@ -147,7 +154,7 @@ let package = Package(
             dependencies: [
                 .target(name: "Affine"),
                 .target(name: "Affine Discrete"),
-                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Carrier Protocol", package: "swift-carrier"),
             ]
         ),
         .target(
@@ -155,7 +162,7 @@ let package = Package(
             dependencies: [
                 .target(name: "Affine"),
                 .target(name: "Affine Discrete"),
-                .product(name: "Equation", package: "swift-equation"),
+                .product(name: "Equation Protocol", package: "swift-equation"),
             ]
         ),
         .target(
@@ -163,7 +170,7 @@ let package = Package(
             dependencies: [
                 .target(name: "Affine"),
                 .target(name: "Affine Discrete"),
-                .product(name: "Hash", package: "swift-hash"),
+                .product(name: "Hash Protocol", package: "swift-hash"),
             ]
         ),
         .target(
@@ -171,7 +178,7 @@ let package = Package(
             dependencies: [
                 .target(name: "Affine"),
                 .target(name: "Affine Discrete"),
-                .product(name: "Comparison", package: "swift-comparison"),
+                .product(name: "Comparison Protocol", package: "swift-comparison"),
             ]
         ),
         .target(
@@ -180,6 +187,7 @@ let package = Package(
                 .target(name: "Affine"),
                 .target(name: "Affine Discrete"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Error", package: "swift-ordinal"),
             ]
         ),
         .target(
@@ -190,8 +198,10 @@ let package = Package(
                 .target(name: "Affine Arithmetic"),
                 .target(name: "Affine Carrier"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Cardinal Error", package: "swift-cardinal"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Error", package: "swift-ordinal"),
+                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
                 .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
@@ -199,17 +209,14 @@ let package = Package(
         .target(
             name: "Affine Standard Library Integration",
             dependencies: [
-                .target(name: "Affine"),
                 .target(name: "Affine Discrete"),
                 .target(name: "Affine Carrier"),
                 .target(name: "Affine Tagged"),
-                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Carrier Protocol", package: "swift-carrier"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
                 .product(name: "Tagged", package: "swift-tagged"),
-                .product(
-                    name: "Tagged Standard Library Integration",
-                    package: "swift-tagged"
-                ),
             ]
         ),
 
@@ -217,6 +224,17 @@ let package = Package(
             name: "Affine Test Support",
             dependencies: [
                 .target(name: "Affine"),
+                .target(name: "Affine Discrete"),
+                .target(name: "Affine Arithmetic"),
+                .target(name: "Affine Composition"),
+                .target(name: "Affine Quotient"),
+                .target(name: "Affine Carrier"),
+                .target(name: "Affine Equation"),
+                .target(name: "Affine Hash"),
+                .target(name: "Affine Comparison"),
+                .target(name: "Affine Ordinal"),
+                .target(name: "Affine Tagged"),
+                .target(name: "Affine Standard Library Integration"),
                 .product(
                     name: "Ordinal Test Support",
                     package: "swift-ordinal"
@@ -224,6 +242,12 @@ let package = Package(
                 .product(
                     name: "Cardinal Standard Library Integration",
                     package: "swift-cardinal"
+                ),
+                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
+                .product(name: "Tagged", package: "swift-tagged"),
+                .product(
+                    name: "Tagged Standard Library Integration",
+                    package: "swift-tagged"
                 ),
             ],
             path: "Tests/Support"
@@ -234,6 +258,15 @@ let package = Package(
             dependencies: [
                 .target(name: "Affine"),
                 .target(name: "Affine Test Support"),
+                .product(name: "Cardinal Error", package: "swift-cardinal"),
+            ]
+        ),
+        .testTarget(
+            name: "Affine Discrete Canonical Tests",
+            dependencies: [
+                .target(name: "Affine Discrete"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
             ]
         ),
     ],

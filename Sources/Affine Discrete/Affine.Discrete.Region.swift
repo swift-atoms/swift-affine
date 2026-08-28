@@ -1,9 +1,13 @@
 public import Cardinal
+public import Cardinal_Carrier
 public import Ordinal
+public import Ordinal_Advance
+public import Ordinal_Protocol
+public import Ordinal_Retreat
 
 extension Affine.Discrete {
 
-    public struct Region: Sendable {
+    public struct Region: Hashable, Sendable {
 
         public let start: Ordinal
 

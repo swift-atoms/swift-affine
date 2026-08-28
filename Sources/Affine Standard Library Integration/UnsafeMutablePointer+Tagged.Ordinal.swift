@@ -1,3 +1,10 @@
+public import Affine_Discrete
+public import Affine_Tagged
+public import Cardinal
+public import Ordinal
+public import Ordinal_Protocol
+public import Tagged
+
 @_transparent
 public func + <Pointee: ~Copyable>(
     lhs: UnsafeMutablePointer<Pointee>,
@@ -69,7 +76,7 @@ extension UnsafeMutablePointer {
     public static func allocate(
         capacity: Tagged<Pointee, Ordinal>.Count
     ) -> UnsafeMutablePointer {
-        Self.allocate(capacity: Int(bitPattern: capacity.count))
+        Self.allocate(capacity: Int(bitPattern: capacity.underlying.rawValue))
     }
 }
 
@@ -80,7 +87,10 @@ extension UnsafeMutablePointer {
         repeating repeatedValue: Pointee,
         count: Tagged<Pointee, Ordinal>.Count
     ) {
-        unsafe self.initialize(repeating: repeatedValue, count: Int(bitPattern: count.count))
+        unsafe self.initialize(
+            repeating: repeatedValue,
+            count: Int(bitPattern: count.underlying.rawValue)
+        )
     }
 
     @inlinable
@@ -88,7 +98,10 @@ extension UnsafeMutablePointer {
         from source: UnsafePointer<Pointee>,
         count: Tagged<Pointee, Ordinal>.Count
     ) {
-        unsafe self.initialize(from: source, count: Int(bitPattern: count.count))
+        unsafe self.initialize(
+            from: source,
+            count: Int(bitPattern: count.underlying.rawValue)
+        )
     }
 
     @inlinable
@@ -96,7 +109,10 @@ extension UnsafeMutablePointer {
         repeating repeatedValue: Pointee,
         count: Tagged<Pointee, Ordinal>.Count
     ) {
-        unsafe self.update(repeating: repeatedValue, count: Int(bitPattern: count.count))
+        unsafe self.update(
+            repeating: repeatedValue,
+            count: Int(bitPattern: count.underlying.rawValue)
+        )
     }
 }
 
@@ -107,6 +123,6 @@ extension UnsafeMutablePointer where Pointee: ~Copyable {
     public func deinitialize(
         count: Tagged<Pointee, Ordinal>.Count
     ) -> UnsafeMutableRawPointer {
-        unsafe self.deinitialize(count: Int(bitPattern: count.count))
+        unsafe self.deinitialize(count: Int(bitPattern: count.underlying.rawValue))
     }
 }

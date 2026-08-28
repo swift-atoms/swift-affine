@@ -1,5 +1,6 @@
 public import Affine_Discrete
 public import Ordinal
+public import Ordinal_Error
 
 extension Ordinal {
 

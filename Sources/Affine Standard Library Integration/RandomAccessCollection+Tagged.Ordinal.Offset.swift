@@ -1,3 +1,9 @@
+public import Affine_Carrier
+public import Affine_Discrete
+public import Affine_Tagged
+public import Ordinal
+public import Tagged
+
 extension RandomAccessCollection {
 
     @inlinable

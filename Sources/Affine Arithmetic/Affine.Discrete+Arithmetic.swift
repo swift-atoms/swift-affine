@@ -1,8 +1,11 @@
 public import Affine_Carrier
 public import Affine_Discrete
 internal import Cardinal
-public import Carrier
+public import Cardinal_Carrier
+public import Carrier_Protocol
 public import Ordinal
+public import Ordinal_Error
+public import Ordinal_Protocol
 
 @inlinable
 public func + <O: Ordinal.`Protocol`>(

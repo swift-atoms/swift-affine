@@ -16,7 +16,13 @@ extension Affine.Discrete {
     public typealias Displacement = Vector
 }
 
-extension Affine.Discrete.Vector: Sendable {}
+extension Affine.Discrete.Vector: Hashable, Comparable, Sendable {
+
+    @inlinable
+    public borrowing func hash(into hasher: inout Hasher) {
+        hasher.combine(rawValue)
+    }
+}
 
 extension Affine.Discrete.Vector {
 

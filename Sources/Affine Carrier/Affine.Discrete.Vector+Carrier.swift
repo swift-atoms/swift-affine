@@ -1,5 +1,5 @@
 public import Affine_Discrete
-public import Carrier
+public import Carrier_Protocol
 
 extension Affine.Discrete.Vector: Carrier.`Protocol` {
 

@@ -2,7 +2,10 @@ public import Affine_Arithmetic
 public import Affine_Carrier
 public import Affine_Discrete
 public import Cardinal
+public import Cardinal_Error
 public import Ordinal
+public import Ordinal_Error
+public import Ordinal_Protocol
 public import Tagged
 
 extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
@@ -31,7 +34,9 @@ extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable & ~E
     public init<T: ~Copyable & ~Escapable>(
         _ count: Tagged<T, Cardinal>
     ) {
-        self.init(_unchecked: Affine.Discrete.Vector(Int(bitPattern: count)))
+        self.init(
+            _unchecked: Affine.Discrete.Vector(Int(bitPattern: count.underlying.rawValue))
+        )
     }
 
     @inlinable
@@ -50,12 +55,16 @@ extension Tagged where Underlying == Affine.Discrete.Vector, Tag: ~Copyable & ~E
             ordinal.ordinal.rawValue <= UInt(Int.max),
             "Ordinal exceeds Int.max; cannot represent as signed Vector"
         )
-        self.init(_unchecked: Affine.Discrete.Vector(Int(bitPattern: ordinal)))
+        self.init(
+            _unchecked: Affine.Discrete.Vector(Int(bitPattern: ordinal.ordinal.rawValue))
+        )
     }
 
     @inlinable
     public init(fromZero position: some Ordinal.`Protocol`) {
-        self.init(Affine.Discrete.Vector(Int(bitPattern: position)))
+        self.init(
+            _unchecked: Affine.Discrete.Vector(Int(bitPattern: position.ordinal.rawValue))
+        )
     }
 }
 
@@ -117,7 +126,7 @@ public func * <From: ~Copyable & ~Escapable, To: ~Copyable & ~Escapable>(
     rhs: Affine.Discrete.Ratio<From, To>
 ) -> Tagged<To, Cardinal> {
 
-    let signedLHS = Int(bitPattern: lhs)
+    let signedLHS = Int(bitPattern: lhs.underlying.rawValue)
     let result = signedLHS * rhs.factor
     precondition(result >= 0, "Scaled cardinal must be non-negative")
     return Tagged<To, Cardinal>(_unchecked: Cardinal(UInt(result)))

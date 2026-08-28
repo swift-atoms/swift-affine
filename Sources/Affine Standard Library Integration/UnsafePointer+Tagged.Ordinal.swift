@@ -1,3 +1,9 @@
+public import Affine_Discrete
+public import Affine_Tagged
+public import Ordinal
+public import Ordinal_Protocol
+public import Tagged
+
 @_transparent
 public func + <Pointee: ~Copyable>(
     lhs: UnsafePointer<Pointee>,
