@@ -1,77 +1,23 @@
 // swift-tools-version: 6.4
-
 import PackageDescription
 
 let package = Package(
     name: "swift-affine",
-    platforms: [
-        .macOS(.v27),
-        .iOS(.v27),
-        .tvOS(.v27),
-        .watchOS(.v27),
-        .visionOS(.v27),
-    ],
+    platforms: [.macOS(.v27), .iOS(.v27), .tvOS(.v27), .watchOS(.v27), .visionOS(.v27)],
     products: [
-
-        .library(
-            name: "Affine Discrete",
-            targets: ["Affine Discrete"]
-        ),
-        .library(
-            name: "Affine Arithmetic",
-            targets: ["Affine Arithmetic"]
-        ),
-        .library(
-            name: "Affine Composition",
-            targets: ["Affine Composition"]
-        ),
-        .library(
-            name: "Affine Quotient",
-            targets: ["Affine Quotient"]
-        ),
-        .library(
-            name: "Affine Carrier",
-            targets: ["Affine Carrier"]
-        ),
-        .library(
-            name: "Affine Equation",
-            targets: ["Affine Equation"]
-        ),
-        .library(
-            name: "Affine Hash",
-            targets: ["Affine Hash"]
-        ),
-        .library(
-            name: "Affine Comparison",
-            targets: ["Affine Comparison"]
-        ),
-        .library(
-            name: "Affine Ordinal",
-            targets: ["Affine Ordinal"]
-        ),
-        .library(
-            name: "Affine Tagged",
-            targets: ["Affine Tagged"]
-        ),
-
-        .library(
-            name: "Affine Standard Library Integration",
-            targets: ["Affine Standard Library Integration"]
-        ),
-
-        .library(
-            name: "Affine",
-            targets: ["Affine"]
-        ),
-
-        .library(
-            name: "Affine Test Support",
-            targets: ["Affine Test Support"]
-        ),
+        .library(name: "Affine", targets: ["Affine"]),
+        .library(name: "Affine Test Support", targets: ["Affine Test Support"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-magnitude.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-polarity.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-rational.git", branch: "main"),
         .package(
-            url: "https://github.com/swift-atoms/swift-ordinal.git",
+            url: "https://github.com/swift-atoms/swift-addition.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-subtraction.git",
             branch: "main"
         ),
         .package(
@@ -79,202 +25,75 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-atoms/swift-carrier.git",
+            url: "https://github.com/swift-atoms/swift-ordinal.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-atoms/swift-equation.git",
+            url: "https://github.com/swift-atoms/swift-difference.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-atoms/swift-hash.git",
+            url: "https://github.com/swift-atoms/swift-ratio.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-atoms/swift-comparison.git",
+            url: "https://github.com/swift-atoms/swift-interval.git",
             branch: "main"
         ),
         .package(
             url: "https://github.com/swift-atoms/swift-tagged.git",
             branch: "main"
         ),
+        .package(
+            url: "https://github.com/swift-molecules/swift-difference-ratio.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-molecules/swift-ordinal-ratio.git",
+            branch: "main"
+        ),
     ],
     targets: [
-
-        .target(
-            name: "Affine",
-            dependencies: []
-        ),
-
-        .target(
-            name: "Affine Discrete",
-            dependencies: [
-                .target(name: "Affine"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Ordinal Advance", package: "swift-ordinal"),
-                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
-                .product(name: "Ordinal Retreat", package: "swift-ordinal"),
-            ]
-        ),
-        .target(
-            name: "Affine Arithmetic",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-                .target(name: "Affine Carrier"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
-                .product(name: "Carrier Protocol", package: "swift-carrier"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Ordinal Error", package: "swift-ordinal"),
-                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
-            ]
-        ),
-        .target(
-            name: "Affine Composition",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-            ]
-        ),
-        .target(
-            name: "Affine Quotient",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Tagged", package: "swift-tagged"),
-            ]
-        ),
-        .target(
-            name: "Affine Carrier",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-                .product(name: "Carrier Protocol", package: "swift-carrier"),
-            ]
-        ),
-        .target(
-            name: "Affine Equation",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-                .product(name: "Equation Protocol", package: "swift-equation"),
-            ]
-        ),
-        .target(
-            name: "Affine Hash",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-                .product(name: "Hash Protocol", package: "swift-hash"),
-            ]
-        ),
-        .target(
-            name: "Affine Comparison",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-                .product(name: "Comparison Protocol", package: "swift-comparison"),
-            ]
-        ),
-        .target(
-            name: "Affine Ordinal",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Ordinal Error", package: "swift-ordinal"),
-            ]
-        ),
-        .target(
-            name: "Affine Tagged",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-                .target(name: "Affine Arithmetic"),
-                .target(name: "Affine Carrier"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Error", package: "swift-cardinal"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Ordinal Error", package: "swift-ordinal"),
-                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
-                .product(name: "Tagged", package: "swift-tagged"),
-            ]
-        ),
-
-        .target(
-            name: "Affine Standard Library Integration",
-            dependencies: [
-                .target(name: "Affine Discrete"),
-                .target(name: "Affine Carrier"),
-                .target(name: "Affine Tagged"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Carrier Protocol", package: "swift-carrier"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
-                .product(name: "Tagged", package: "swift-tagged"),
-            ]
-        ),
-
-        .target(
-            name: "Affine Test Support",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Discrete"),
-                .target(name: "Affine Arithmetic"),
-                .target(name: "Affine Composition"),
-                .target(name: "Affine Quotient"),
-                .target(name: "Affine Carrier"),
-                .target(name: "Affine Equation"),
-                .target(name: "Affine Hash"),
-                .target(name: "Affine Comparison"),
-                .target(name: "Affine Ordinal"),
-                .target(name: "Affine Tagged"),
-                .target(name: "Affine Standard Library Integration"),
-                .product(
-                    name: "Ordinal Test Support",
-                    package: "swift-ordinal"
-                ),
-                .product(
-                    name: "Cardinal Standard Library Integration",
-                    package: "swift-cardinal"
-                ),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
-                .product(name: "Tagged", package: "swift-tagged"),
-                .product(
-                    name: "Tagged Standard Library Integration",
-                    package: "swift-tagged"
-                ),
-            ],
-            path: "Tests/Support"
-        ),
-
-        .testTarget(
-            name: "Affine Tests",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Test Support"),
-                .product(name: "Cardinal Error", package: "swift-cardinal"),
-            ]
-        ),
-        .testTarget(
-            name: "Affine Discrete Canonical Tests",
-            dependencies: [
-                .target(name: "Affine Discrete"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-            ]
-        ),
+        .target(name: "Affine", dependencies: [
+            .product(name: "Magnitude", package: "swift-magnitude"),
+            .product(name: "Polarity", package: "swift-polarity"),
+            .product(name: "Addition", package: "swift-addition"),
+            .product(name: "Subtraction", package: "swift-subtraction"),
+            .product(name: "Cardinal", package: "swift-cardinal"),
+            .product(name: "Difference", package: "swift-difference"),
+            .product(name: "Tagged", package: "swift-tagged"),
+        ]),
+        .target(name: "Affine Test Support", dependencies: [
+            "Affine",
+            .product(name: "Magnitude", package: "swift-magnitude"),
+            .product(name: "Polarity", package: "swift-polarity"),
+            .product(name: "Rational", package: "swift-rational"),
+            .product(name: "Interval", package: "swift-interval"),
+            .product(name: "Cardinal", package: "swift-cardinal"),
+            .product(name: "Cardinal Standard Library Integration", package: "swift-cardinal"),
+            .product(name: "Ordinal", package: "swift-ordinal"),
+            .product(name: "Ordinal Standard Library Integration", package: "swift-ordinal"),
+            .product(name: "Difference", package: "swift-difference"),
+            .product(name: "Difference Standard Library Integration", package: "swift-difference"),
+            .product(name: "Ratio", package: "swift-ratio"),
+            .product(name: "Difference Ratio", package: "swift-difference-ratio"),
+            .product(name: "Ordinal Ratio", package: "swift-ordinal-ratio"),
+            .product(name: "Tagged", package: "swift-tagged"),
+            .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
+        ], path: "Tests/Support"),
+        .testTarget(name: "Affine Tests", dependencies: ["Affine Test Support"]),
+        .testTarget(name: "Arithmetic Integration Tests", dependencies: [
+            "Affine",
+            .product(name: "Interval", package: "swift-interval"),
+            .product(name: "Difference Standard Library Integration", package: "swift-difference"),
+            .product(name: "Cardinal", package: "swift-cardinal"),
+            .product(name: "Ordinal", package: "swift-ordinal"),
+        ]),
     ],
     swiftLanguageModes: [.v6]
 )
-
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -282,14 +101,6 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
+        .define("SYNCHRONIZATION_AVAILABLE", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS, .linux, .windows])),
     ]
-
-    let package: [SwiftSetting] = [
-        .define(
-            "SYNCHRONIZATION_AVAILABLE",
-            .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS, .linux, .windows])
-        )
-    ]
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
