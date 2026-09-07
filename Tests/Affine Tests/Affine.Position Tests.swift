@@ -3,13 +3,25 @@ import Foundation
 import Testing
 
 private final class LocalCoordinateDomain {}
+private struct EphemeralCoordinateDomain: ~Copyable, ~Escapable {}
 private typealias Position = Affine.Position<LocalCoordinateDomain>
 private typealias Translation = Affine.Translation<LocalCoordinateDomain>
 
 private func requireSendable<Value: Sendable>(_ value: Value) {}
 
-@Suite struct SignedPositionTests {
-    @Test func completeCoordinateRangeObeysDisplacementLaws() throws {
+@Suite struct `Signed positions obey affine laws` {
+    @Test func `Nested errors preserve domain ownership and checked conformances`() {
+        typealias EphemeralPosition = Affine.Position<EphemeralCoordinateDomain>
+        let error = EphemeralPosition.Error.overflow
+        requireSendable(error)
+        requireSendable(Position.Error.overflow)
+        #expect(Set([error, error]).count == 1)
+        let erased: any Swift.Error = error
+        #expect(erased is EphemeralPosition.Error)
+        #expect(!(erased is Position.Error))
+    }
+
+    @Test func `Complete coordinate range obeys displacement laws`() throws {
         let coordinates: [Int64] = [.min, .min + 1, -86_400, -1, 0, 1, 86_400, .max - 1, .max]
         for first in coordinates {
             let start = Position(rawValue: first)
@@ -28,7 +40,7 @@ private func requireSendable<Value: Sendable>(_ value: Value) {}
         #expect(fullRange.underlying.polarity == .positive)
     }
 
-    @Test func translationRejectsCoordinateOverflow() throws {
+    @Test func `Translation rejects coordinate overflow`() throws {
         let maximum = Position(rawValue: .max)
         let minimum = Position(rawValue: .min)
         #expect(throws: Position.Error.overflow) { try maximum + Position.Offset(1) }
@@ -38,7 +50,7 @@ private func requireSendable<Value: Sendable>(_ value: Value) {}
         #expect(throws: Position.Error.overflow) { try Position(rawValue: 0) - fullRange }
     }
 
-    @Test func positionTranslationCompositionPreservesItsAction() throws {
+    @Test func `Position translation composition preserves its action`() throws {
         let position = Position(rawValue: -3_600)
         let first = Translation(offset: .init(5_400))
         let next = Translation(offset: .init(-900))
@@ -51,7 +63,7 @@ private func requireSendable<Value: Sendable>(_ value: Value) {}
         #expect(try Position.Offset(5_400) + position == Position(rawValue: 1_800))
     }
 
-    @Test func fullRangeTranslationHasAnExactInverse() throws {
+    @Test func `Full range translation has an exact inverse`() throws {
         let minimum = Position(rawValue: .min)
         let maximum = Position(rawValue: .max)
         let translation = Translation(offset: minimum.distance(to: maximum))
@@ -66,7 +78,7 @@ private func requireSendable<Value: Sendable>(_ value: Value) {}
         }
     }
 
-    @Test func positionAndTranslationDoNotInheritPhantomDomainConformances() throws {
+    @Test func `Position and translation do not inherit phantom domain conformances`() throws {
         let position = Position(rawValue: -1)
         let translation = Translation(offset: .init(30))
         requireSendable(position)

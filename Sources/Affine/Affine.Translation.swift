@@ -2,7 +2,6 @@ public import Difference
 public import Tagged
 
 extension Affine {
-    /// A fixed translation that preserves the coordinate domain and unit.
     public struct Translation<Domain: ~Copyable & ~Escapable>: Sendable, Hashable {
         public typealias Position = Affine.Position<Domain>
         public typealias Offset = Position.Offset
@@ -29,7 +28,6 @@ extension Affine.Translation where Domain: ~Copyable & ~Escapable {
         try position.advanced(by: offset)
     }
 
-    /// Composes two translations, failing if the combined difference cannot fit.
     public func composed(with next: Self) throws(Difference.Error) -> Self {
         Self(offset: Offset(_unchecked: try offset.underlying.add.exact(next.offset.underlying)))
     }

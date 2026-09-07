@@ -10,10 +10,10 @@ private enum Word {}
 extension Affine {
     @Suite
     struct `Ratio Test` {
-        @Suite struct Unit {}
+        @Suite struct `Unit` {}
         @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-        @Suite(.serialized) struct Performance {}
+        @Suite struct `Integration` {}
+        @Suite(.serialized) struct `Performance` {}
     }
 }
 

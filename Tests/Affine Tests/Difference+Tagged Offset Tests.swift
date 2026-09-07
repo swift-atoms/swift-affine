@@ -14,10 +14,10 @@ private func positiveDifference(_ count: Tagged<Element, Cardinal>) -> Tagged<El
 extension Difference {
     @Suite
     struct `Tagged Offset` {
-        @Suite struct Unit {}
+        @Suite struct `Unit` {}
         @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-        @Suite(.serialized) struct Performance {}
+        @Suite struct `Integration` {}
+        @Suite(.serialized) struct `Performance` {}
     }
 }
 

@@ -5,11 +5,11 @@ import Testing
 
 extension Difference {
     @Suite
-    struct Test {
-        @Suite struct Unit {}
+    struct `Test` {
+        @Suite struct `Unit` {}
         @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-        @Suite(.serialized) struct Performance {}
+        @Suite struct `Integration` {}
+        @Suite(.serialized) struct `Performance` {}
     }
 }
 
@@ -117,7 +117,7 @@ extension Difference.Test.Unit {
     }
 
     @Test
-    func comparison() {
+    func `comparison`() {
         let a: Difference = 3
         let b: Difference = 5
         #expect(a < b)

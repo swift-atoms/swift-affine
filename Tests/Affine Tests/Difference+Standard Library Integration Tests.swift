@@ -22,10 +22,10 @@ private final class DeinitProbe {
 extension Difference {
     @Suite
     struct `Standard Library Integration` {
-        @Suite struct Unit {}
+        @Suite struct `Unit` {}
         @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-        @Suite(.serialized) struct Performance {}
+        @Suite struct `Integration` {}
+        @Suite(.serialized) struct `Performance` {}
     }
 }
 

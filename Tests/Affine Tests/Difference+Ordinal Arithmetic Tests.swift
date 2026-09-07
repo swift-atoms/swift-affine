@@ -8,10 +8,10 @@ private enum Element {}
 extension Difference {
     @Suite
     struct `Ordinal Arithmetic` {
-        @Suite struct Unit {}
+        @Suite struct `Unit` {}
         @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-        @Suite(.serialized) struct Performance {}
+        @Suite struct `Integration` {}
+        @Suite(.serialized) struct `Performance` {}
     }
 }
 

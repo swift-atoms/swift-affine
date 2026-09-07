@@ -46,14 +46,6 @@ let package = Package(
             url: "https://github.com/swift-atoms/swift-tagged.git",
             branch: "main"
         ),
-//        .package(
-//            url: "https://github.com/swift-molecules/swift-difference-ratio.git",
-//            branch: "main"
-//        ),
-//        .package(
-//            url: "https://github.com/swift-molecules/swift-ordinal-ratio.git",
-//            branch: "main"
-//        ),
     ],
     targets: [
         .target(

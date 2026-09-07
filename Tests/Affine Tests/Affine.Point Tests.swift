@@ -1,10 +1,10 @@
 import Affine
 import Testing
 
-@Suite struct AffinePointTests {
+@Suite struct `Points obey affine laws` {
     enum Frame {}
 
-    @Test func displacementReconstructsTheOtherPoint() {
+    @Test func `Displacement reconstructs the other point`() {
         let origin = Affine.Point<Frame, Double>(coordinates: 2.5)
         let destination = Affine.Point<Frame, Double>(coordinates: 9.5)
         let displacement = origin.displacement(to: destination)
@@ -12,7 +12,7 @@ import Testing
         #expect(origin.translated(by: displacement) == destination)
     }
 
-    @Test func changingTheOriginPreservesDisplacement() {
+    @Test func `Changing the origin preserves displacement`() {
         let a = Affine.Point<Frame, Int>(coordinates: 2)
         let b = Affine.Point<Frame, Int>(coordinates: 8)
         let shift = Affine.Point<Frame, Int>.Offset(_unchecked: 13)
