@@ -31,3 +31,7 @@ half-open ordinal intervals.
 The calendar-time workspace tests these affine operations and the retained
 integration harness. Compile fixtures verify that positions, offsets, and
 translations from distinct domains cannot be combined.
+
+## Generic affine points
+
+`Affine.Point<Domain, Translation>` models points over an additive translation type, including scalar coordinates or mathematical vectors. Points share a caller-chosen origin. Translating both points by the same offset preserves their displacement. Offsets retain the phantom Domain; coordinates are not absolute locations shared across domains. Scalar arithmetic determines overflow and numerical precision. There is no point-plus-point operation. Existing Affine.Position retains its checked discrete arithmetic.

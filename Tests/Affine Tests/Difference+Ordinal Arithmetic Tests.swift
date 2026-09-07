@@ -132,7 +132,7 @@ extension Difference.`Ordinal Arithmetic`.Unit {
         enum Bit {}
         let byteOffset: Tagged<Byte, Difference> = -2
         let bitsPerByte: Ratio<Byte, Bit> = .init(8)
-        let bitOffset: Tagged<Bit, Difference> = byteOffset * bitsPerByte
+        let bitOffset: Tagged<Bit, Difference> = try bitsPerByte.applying(to: byteOffset)
         #expect(bitOffset.underlying == Difference(-16))
     }
 

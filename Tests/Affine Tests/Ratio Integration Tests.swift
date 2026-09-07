@@ -93,21 +93,21 @@ extension Affine.`Ratio Test`.Unit {
     }
 
     @Test
-    func `quotient and remainder ordinal even division`() throws {
+    func `quotient and remainder count from ordinal origin even division`() throws {
         let bitsPerByte = Ratio<Byte, Bit>.init(8)
         let index: Tagged<Bit, Ordinal> = 64
-        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: index)
-        #expect(quotient.underlying == Ordinal(UInt(8)))
-        #expect(remainder.underlying == Difference(0))
+        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: Tagged<Bit, Cardinal>(_unchecked: Cardinal(index.underlying.rawValue)))
+        #expect(quotient.underlying == Cardinal(8))
+        #expect(remainder.underlying == Cardinal(0))
     }
 
     @Test
-    func `quotient and remainder ordinal with remainder`() throws {
+    func `quotient and remainder count from ordinal origin with remainder`() throws {
         let bitsPerByte = Ratio<Byte, Bit>.init(8)
         let index: Tagged<Bit, Ordinal> = 100
-        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: index)
-        #expect(quotient.underlying == Ordinal(UInt(12)))
-        #expect(remainder.underlying == Difference(4))
+        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: Tagged<Bit, Cardinal>(_unchecked: Cardinal(index.underlying.rawValue)))
+        #expect(quotient.underlying == Cardinal(12))
+        #expect(remainder.underlying == Cardinal(4))
     }
 }
 
@@ -123,11 +123,11 @@ extension Affine.`Ratio Test`.`Edge Case` {
     }
 
     @Test
-    func `quotient and remainder ordinal throws on zero factor`() throws {
+    func `quotient and remainder count from ordinal origin throws on zero factor`() throws {
         let zero = Ratio<Byte, Bit>.init(0)
         let index: Tagged<Bit, Ordinal> = 64
         #expect(throws: Ratio<Byte, Bit>.Error.zeroFactor) {
-            try zero.quotientAndRemainder(dividing: index)
+            try zero.quotientAndRemainder(dividing: Tagged<Bit, Cardinal>(_unchecked: Cardinal(index.underlying.rawValue)))
         }
     }
 
@@ -141,11 +141,11 @@ extension Affine.`Ratio Test`.`Edge Case` {
     }
 
     @Test
-    func `quotient and remainder ordinal throws on negative factor`() throws {
+    func `quotient and remainder count from ordinal origin throws on negative factor`() throws {
         let negative = Ratio<Byte, Bit>.init(-8)
         let index: Tagged<Bit, Ordinal> = 64
         #expect(throws: Ratio<Byte, Bit>.Error.negativeFactor) {
-            try negative.quotientAndRemainder(dividing: index)
+            try negative.quotientAndRemainder(dividing: Tagged<Bit, Cardinal>(_unchecked: Cardinal(index.underlying.rawValue)))
         }
     }
 
@@ -159,12 +159,12 @@ extension Affine.`Ratio Test`.`Edge Case` {
     }
 
     @Test
-    func `quotient and remainder ordinal supports full range`() throws {
+    func `quotient and remainder count from ordinal origin supports full range`() throws {
         let bitsPerByte = Ratio<Byte, Bit>.init(8)
         let index = Tagged<Bit, Ordinal>(_unchecked: Ordinal(UInt.max))
-        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: index)
+        let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: Tagged<Bit, Cardinal>(_unchecked: Cardinal(index.underlying.rawValue)))
         #expect(quotient.underlying.rawValue == UInt.max / 8)
-        #expect(remainder.underlying.magnitude.value.rawValue == UInt.max % 8)
+        #expect(remainder.underlying.rawValue == UInt.max % 8)
     }
 }
 
