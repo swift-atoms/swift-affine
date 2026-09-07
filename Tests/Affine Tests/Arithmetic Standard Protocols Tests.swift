@@ -1,5 +1,4 @@
 import Difference
-import Difference_Standard_Library_Integration
 import Interval
 import Cardinal
 import Ordinal

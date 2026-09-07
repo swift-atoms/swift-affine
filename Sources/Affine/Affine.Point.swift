@@ -22,6 +22,8 @@ extension Affine {
     }
 }
 
-extension Affine.Point: Equatable where Translation: Equatable {}
-extension Affine.Point: Hashable where Translation: Hashable {}
-extension Affine.Point: Sendable where Translation: Sendable {}
+extension Affine.Point: Swift.Equatable where Translation: Swift.Equatable {}
+
+extension Affine.Point: Swift.Hashable where Translation: Swift.Hashable {}
+
+extension Affine.Point: Swift.Sendable where Translation: Swift.Sendable {}

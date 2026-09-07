@@ -52,15 +52,6 @@ extension Affine.Position where Domain: ~Copyable & ~Escapable {
     }
 }
 
-extension Affine.Position: Comparable where Domain: ~Copyable & ~Escapable {
-    @inlinable
-    public static func < (lhs: Self, rhs: Self) -> Bool {
-        lhs.rawValue < rhs.rawValue
-    }
-}
-
-extension Affine.Position: RawRepresentable where Domain: ~Copyable & ~Escapable {}
-
 extension Affine.Position where Domain: ~Copyable & ~Escapable {
     public static func + (lhs: Self, rhs: Offset) throws(Error) -> Self {
         try lhs.advanced(by: rhs)
@@ -80,5 +71,5 @@ extension Affine.Position where Domain: ~Copyable & ~Escapable {
 }
 
 #if !hasFeature(Embedded)
-    extension Affine.Position: Codable where Domain: ~Copyable & ~Escapable {}
+extension Affine.Position: Swift.Codable where Domain: ~Copyable & ~Escapable {}
 #endif

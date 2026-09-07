@@ -6,8 +6,8 @@ let package = Package(
     platforms: [.macOS(.v27), .iOS(.v27), .tvOS(.v27), .watchOS(.v27), .visionOS(.v27)],
     products: [
         .library(name: "Affine", targets: ["Affine"]),
-        .library(name: "Affine Standard Library Integration", targets: ["Affine Standard Library Integration"]),
-        .library(name: "Affine Foundation Library Integration", targets: ["Affine Foundation Library Integration"]),
+
+        .library(name: "Affine Foundation Integration", targets: ["Affine Foundation Integration"]),
         .library(name: "Affine Test Support", targets: ["Affine Test Support"]),
     ],
     dependencies: [
@@ -69,20 +69,13 @@ let package = Package(
             ],
             path: "Sources/Affine"
         ),
+        
         .target(
-            name: "Affine Standard Library Integration",
+            name: "Affine Foundation Integration",
             dependencies: [
                 .target(name: "Affine"),
             ],
-            path: "Sources/Affine Standard Library Integration"
-        ),
-        .target(
-            name: "Affine Foundation Library Integration",
-            dependencies: [
-                .target(name: "Affine"),
-                .target(name: "Affine Standard Library Integration"),
-            ],
-            path: "Sources/Affine Foundation Library Integration"
+            path: "Sources/Affine Foundation Integration"
         ),
         .target(
             name: "Affine Test Support",
@@ -93,14 +86,10 @@ let package = Package(
                 .product(name: "Rational", package: "swift-rational"),
                 .product(name: "Interval", package: "swift-interval"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Standard Library Integration", package: "swift-cardinal"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Ordinal Standard Library Integration", package: "swift-ordinal"),
                 .product(name: "Difference", package: "swift-difference"),
-                .product(name: "Difference Standard Library Integration", package: "swift-difference"),
                 .product(name: "Ratio", package: "swift-ratio"),
                 .product(name: "Tagged", package: "swift-tagged"),
-                .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
             ],
             path: "Tests/Support"
         ),
@@ -110,11 +99,10 @@ let package = Package(
                 .target(name: "Affine Test Support"),
                 .target(name: "Affine"),
                 .product(name: "Interval", package: "swift-interval"),
-                .product(name: "Difference Standard Library Integration", package: "swift-difference"),
+                .product(name: "Difference", package: "swift-difference"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
-                .target(name: "Affine Standard Library Integration"),
-                .target(name: "Affine Foundation Library Integration"),
+                .target(name: "Affine Foundation Integration"),
             ],
             path: "Tests/Affine Tests"
         ),

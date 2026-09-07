@@ -36,5 +36,5 @@ extension Affine.Translation where Domain: ~Copyable & ~Escapable {
 }
 
 #if !hasFeature(Embedded)
-    extension Affine.Translation: Codable where Domain: ~Copyable & ~Escapable {}
+extension Affine.Translation: Swift.Codable where Domain: ~Copyable & ~Escapable {}
 #endif
