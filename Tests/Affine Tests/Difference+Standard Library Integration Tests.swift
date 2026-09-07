@@ -21,48 +21,48 @@ private final class DeinitProbe {
 
 extension Difference {
     @Suite
-    struct `Standard Library Integration` {
-        @Suite struct `Unit` {}
-        @Suite struct `Edge Case` {}
-        @Suite struct `Integration` {}
-        @Suite(.serialized) struct `Performance` {}
+    struct `Typed offsets preserve integer collection and pointer semantics` {
+        @Suite struct `No typed offset adapter unit cases are defined` {}
+        @Suite struct `Equal typed swap indices preserve values and destruction counts` {}
+        @Suite struct `Typed offsets convert exactly and move through collections and pointers` {}
+        @Suite(.serialized) struct `No typed offset adapter performance cases are defined` {}
     }
 }
 
-extension Difference.`Standard Library Integration`.Integration {
+extension Difference.`Typed offsets preserve integer collection and pointer semantics`.`Typed offsets convert exactly and move through collections and pointers` {
 
     @Test
-    func `int bit pattern from vector positive`() {
+    func `Positive differences convert exactly to Int`() {
         let v = Difference(5)
         #expect(Int(exactly: v) == 5)
     }
 
     @Test
-    func `int bit pattern from vector negative`() {
+    func `Negative differences convert exactly to Int`() {
         let v = Difference(-3)
         #expect(Int(exactly: v) == -3)
     }
 
     @Test
-    func `int bit pattern from vector zero`() {
+    func `Zero differences convert exactly to Int zero`() {
         let v = Difference.zero
         #expect(Int(exactly: v) == 0)
     }
 
     @Test
-    func `int bit pattern from tagged offset positive`() {
+    func `Positive tagged offsets retain their exact Int representation`() {
         let offset: Tagged<Element, Ordinal>.Offset = 7
         #expect(Int(exactly: offset.underlying) == 7)
     }
 
     @Test
-    func `int bit pattern from tagged offset negative`() {
+    func `Negative tagged offsets retain their exact Int representation`() {
         let offset: Tagged<Element, Ordinal>.Offset = -7
         #expect(Int(exactly: offset.underlying) == -7)
     }
 
     @Test
-    func `random access collection index by typed offset`() {
+    func `Typed offsets advance random access collection indices`() {
         let array = [10, 20, 30, 40, 50]
         let offset: Tagged<Element, Ordinal>.Offset = 2
         let index = array.index(array.startIndex, offsetBy: offset)
@@ -70,7 +70,7 @@ extension Difference.`Standard Library Integration`.Integration {
     }
 
     @Test
-    func `random access collection index by zero offset`() {
+    func `Zero typed offsets preserve collection indices`() {
         let array = [10, 20, 30]
         let offset: Tagged<Element, Ordinal>.Offset = .zero
         let index = array.index(array.startIndex, offsetBy: offset)
@@ -78,7 +78,7 @@ extension Difference.`Standard Library Integration`.Integration {
     }
 
     @Test
-    func `unsafe pointer plus typed offset`() {
+    func `Typed offsets advance immutable pointers by element positions`() {
         let values: [Int] = [0, 10, 20, 30, 40]
         values.withUnsafeBufferPointer { buf in
             let base = buf.baseAddress!
@@ -89,7 +89,7 @@ extension Difference.`Standard Library Integration`.Integration {
     }
 
     @Test
-    func `unsafe pointer minus unsafe pointer yields typed offset`() {
+    func `Pointer subtraction yields a typed element displacement`() {
         let values: [Int] = [0, 1, 2, 3, 4]
         values.withUnsafeBufferPointer { buf in
             let start = buf.baseAddress!
@@ -100,7 +100,7 @@ extension Difference.`Standard Library Integration`.Integration {
     }
 
     @Test
-    func `unsafe mutable pointer plus typed offset`() {
+    func `Typed offsets advance mutable pointers by element positions`() {
         var values: [Int] = [0, 10, 20, 30, 40]
         values.withUnsafeMutableBufferPointer { buf in
             let base = buf.baseAddress!
@@ -121,7 +121,7 @@ extension Difference.`Standard Library Integration`.Integration {
             "In-tree harness + investigation arc"
         )
     )
-    func `unsafe mutable pointer minus typed offset`() {
+    func `Subtracting typed offsets retreats mutable pointers`() {
         var values: [Int] = [0, 10, 20, 30, 40]
         values.withUnsafeMutableBufferPointer { buf in
             let from = unsafe buf.baseAddress!.advanced(by: 4)
@@ -148,7 +148,7 @@ extension Difference.`Standard Library Integration`.Integration {
     }
 }
 
-extension Difference.`Standard Library Integration`.`Edge Case` {
+extension Difference.`Typed offsets preserve integer collection and pointer semantics`.`Equal typed swap indices preserve values and destruction counts` {
 
     @Test
     func `swap with equal typed indices leaves trivial pointee unchanged`() {

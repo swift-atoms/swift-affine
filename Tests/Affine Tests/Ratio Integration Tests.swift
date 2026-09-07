@@ -9,49 +9,49 @@ private enum Word {}
 
 extension Affine {
     @Suite
-    struct `Ratio Test` {
-        @Suite struct `Unit` {}
-        @Suite struct `Edge Case` {}
-        @Suite struct `Integration` {}
-        @Suite(.serialized) struct `Performance` {}
+    struct `Affine ratios convert counts across domains with exact quotient semantics` {
+        @Suite struct `Affine ratio construction composition and division preserve factors and domains` {}
+        @Suite struct `Affine ratio division validates factors and supports the full count range` {}
+        @Suite struct `Affine ratio descriptions and hashing preserve their factor` {}
+        @Suite(.serialized) struct `No affine ratio performance cases are defined` {}
     }
 }
 
-extension Affine.`Ratio Test`.Unit {
+extension Affine.`Affine ratios convert counts across domains with exact quotient semantics`.`Affine ratio construction composition and division preserve factors and domains` {
 
     @Test
-    func `construction from int`() throws {
+    func `Affine ratio construction preserves its integer factor`() throws {
         let r = Ratio<Byte, Bit>.init(8)
         #expect(try r.intValue() == 8)
     }
 
     @Test
-    func `construction from tagged cardinal`() throws {
+    func `Tagged counts provide the magnitude of a positive ratio`() throws {
         let count: Tagged<Bit, Cardinal> = 64
         let r = Ratio<Word, Bit>.positive(Rational(Int128(count.underlying.rawValue)).magnitude)
         #expect(try r.intValue() == 64)
     }
 
     @Test
-    func `identity factor`() throws {
+    func `The identity ratio has a factor of one`() throws {
         let identity = Ratio<Byte, Byte>.identity
         #expect(try identity.intValue() == 1)
     }
 
     @Test
-    func `negate factor`() throws {
+    func `The negating ratio has a factor of negative one`() throws {
         let negate = Ratio<Byte, Byte>.negate
         #expect(try negate.intValue() == -1)
     }
 
     @Test
-    func `same domain expressible by integer literal`() throws {
+    func `Integer literals construct ratios within the same domain`() throws {
         let r: Ratio<Byte, Byte> = 3
         #expect(try r.intValue() == 3)
     }
 
     @Test
-    func `ratio composition`() throws {
+    func `Ratio composition multiplies factors across matching domains`() throws {
         let bitsPerByte = Ratio<Byte, Bit>.init(8)
         let bytesPerWord = Ratio<Word, Byte>.init(8)
         let bitsPerWord: Ratio<Word, Bit> = bytesPerWord * bitsPerByte
@@ -59,7 +59,7 @@ extension Affine.`Ratio Test`.Unit {
     }
 
     @Test
-    func `composition with identity`() throws {
+    func `Composing with the identity ratio preserves the factor`() throws {
         let r = Ratio<Byte, Bit>.init(8)
         let identity = Ratio<Bit, Bit>.identity
         let composed: Ratio<Byte, Bit> = r * identity
@@ -67,7 +67,7 @@ extension Affine.`Ratio Test`.Unit {
     }
 
     @Test
-    func `composition with negate`() throws {
+    func `Composing with a negating ratio reverses the factor sign`() throws {
         let r = Ratio<Byte, Bit>.init(8)
         let negate = Ratio<Bit, Bit>.negate
         let composed: Ratio<Byte, Bit> = r * negate
@@ -75,7 +75,7 @@ extension Affine.`Ratio Test`.Unit {
     }
 
     @Test
-    func `quotient and remainder cardinal even division`() throws {
+    func `Ratio division of an exact count produces no remainder`() throws {
         let bitsPerByte = Ratio<Byte, Bit>.init(8)
         let count: Tagged<Bit, Cardinal> = 64
         let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: count)
@@ -84,7 +84,7 @@ extension Affine.`Ratio Test`.Unit {
     }
 
     @Test
-    func `quotient and remainder cardinal with remainder`() throws {
+    func `Ratio division preserves the count quotient and remainder`() throws {
         let bitsPerByte = Ratio<Byte, Bit>.init(8)
         let count: Tagged<Bit, Cardinal> = 100
         let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: count)
@@ -93,7 +93,7 @@ extension Affine.`Ratio Test`.Unit {
     }
 
     @Test
-    func `quotient and remainder count from ordinal origin even division`() throws {
+    func `Exact counts derived from ordinal positions divide without a remainder`() throws {
         let bitsPerByte = Ratio<Byte, Bit>.init(8)
         let index: Tagged<Bit, Ordinal> = 64
         let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: Tagged<Bit, Cardinal>(_unchecked: Cardinal(index.underlying.rawValue)))
@@ -102,7 +102,7 @@ extension Affine.`Ratio Test`.Unit {
     }
 
     @Test
-    func `quotient and remainder count from ordinal origin with remainder`() throws {
+    func `Counts derived from ordinal positions retain their quotient and remainder`() throws {
         let bitsPerByte = Ratio<Byte, Bit>.init(8)
         let index: Tagged<Bit, Ordinal> = 100
         let (quotient, remainder) = try bitsPerByte.quotientAndRemainder(dividing: Tagged<Bit, Cardinal>(_unchecked: Cardinal(index.underlying.rawValue)))
@@ -111,7 +111,7 @@ extension Affine.`Ratio Test`.Unit {
     }
 }
 
-extension Affine.`Ratio Test`.`Edge Case` {
+extension Affine.`Affine ratios convert counts across domains with exact quotient semantics`.`Affine ratio division validates factors and supports the full count range` {
 
     @Test
     func `quotient and remainder cardinal throws on zero factor`() throws {
@@ -168,7 +168,7 @@ extension Affine.`Ratio Test`.`Edge Case` {
     }
 }
 
-extension Affine.`Ratio Test`.Integration {
+extension Affine.`Affine ratios convert counts across domains with exact quotient semantics`.`Affine ratio descriptions and hashing preserve their factor` {
 
     @Test
     func `description contains factor`() throws {
@@ -177,7 +177,7 @@ extension Affine.`Ratio Test`.Integration {
     }
 
     @Test
-    func `hashable conformance`() throws {
+    func `Sets deduplicate ratios with equal factors`() throws {
         let a = Ratio<Byte, Bit>.init(8)
         let b = Ratio<Byte, Bit>.init(8)
         let c = Ratio<Byte, Bit>.init(16)

@@ -2,7 +2,7 @@ import Affine_Test_Support
 import Testing
 
 @Suite
-struct `Interval Integration Tests` {
+struct `Affine regions preserve half open extents through translation and comparison` {
     @Test
     func `extent is half-open start ..< start + count`() throws {
         let region = try Interval.Discrete<Ordinal>(start: 3, count: 4)
@@ -13,7 +13,7 @@ struct `Interval Integration Tests` {
     }
 
     @Test
-    func `contains the half-open run`() throws {
+    func `Affine regions contain exactly their half open range`() throws {
         let region = try Interval.Discrete<Ordinal>(start: 3, count: 4)
         #expect(region.contains(3))
         #expect(region.contains(6))
@@ -39,7 +39,7 @@ struct `Interval Integration Tests` {
     }
 
     @Test
-    func `Equatable and Hashable`() throws {
+    func `Affine region equality and hashing distinguish their extent`() throws {
         let a = try Interval.Discrete<Ordinal>(start: 1, count: 2)
         let b = try Interval.Discrete<Ordinal>(start: 1, count: 2)
         let c = try Interval.Discrete<Ordinal>(start: 1, count: 3)

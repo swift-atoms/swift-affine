@@ -13,15 +13,15 @@ private func positiveDifference(_ count: Tagged<Element, Cardinal>) -> Tagged<El
 
 extension Difference {
     @Suite
-    struct `Tagged Offset` {
-        @Suite struct `Unit` {}
-        @Suite struct `Edge Case` {}
-        @Suite struct `Integration` {}
-        @Suite(.serialized) struct `Performance` {}
+    struct `Tagged offsets preserve their domains through signed arithmetic` {
+        @Suite struct `Tagged offsets retain signed values magnitudes and comparisons` {}
+        @Suite struct `Tagged displacement comparisons preserve the full signed and unsigned ranges` {}
+        @Suite struct `No tagged displacement integration cases are defined` {}
+        @Suite(.serialized) struct `No tagged displacement performance cases are defined` {}
     }
 }
 
-extension Difference.`Tagged Offset`.Unit {
+extension Difference.`Tagged offsets preserve their domains through signed arithmetic`.`Tagged offsets retain signed values magnitudes and comparisons` {
 
     @Test
     func `offset is tagged vector`() {
@@ -32,58 +32,58 @@ extension Difference.`Tagged Offset`.Unit {
     }
 
     @Test
-    func `construction from int`() {
+    func `Tagged offset construction preserves a positive integer`() {
         let offset = Tagged<Element, Ordinal>.Offset(5)
         #expect(offset.underlying == Difference(5))
     }
 
     @Test
-    func `construction from negative int`() {
+    func `Tagged offset construction preserves a negative integer`() {
         let offset = Tagged<Element, Ordinal>.Offset(-3)
         #expect(offset.underlying == Difference(-3))
     }
 
     @Test
-    func `construction from tagged cardinal`() {
+    func `Positive tagged counts construct offsets in the same domain`() {
         let count: Tagged<Element, Cardinal> = 7
         let offset = positiveDifference(count)
         #expect(offset.underlying == Difference(7))
     }
 
     @Test
-    func `construction from ordinal protocol`() throws(Difference.Error) {
+    func `Tagged ordinal conversion preserves its position as a difference`() throws(Difference.Error) {
         let position = Tagged<Element, Ordinal>(Ordinal(UInt(5)))
         let offset = Tagged<Element, Difference>(position)
         #expect(offset.underlying == Difference(5))
     }
 
     @Test
-    func `construction from zero`() {
+    func `Differences measured from zero retain the tagged ordinal position`() {
         let position = Tagged<Element, Ordinal>(Ordinal(UInt(5)))
         let offset = Tagged<Element, Difference>(fromZero: position)
         #expect(offset.underlying == Difference(5))
     }
 
     @Test
-    func `construction from integer literal`() {
+    func `Integer literals construct tagged offsets in their declared domain`() {
         let offset: Tagged<Element, Ordinal>.Offset = 3
         #expect(offset.underlying == Difference(3))
     }
 
     @Test
-    func `zero constant`() {
+    func `The tagged zero offset preserves its domain and zero value`() {
         let offset: Tagged<Element, Ordinal>.Offset = .zero
         #expect(offset.underlying == Difference(0))
     }
 
     @Test
-    func `one constant`() {
+    func `The tagged unit offset preserves its domain and one value`() {
         let offset: Tagged<Element, Ordinal>.Offset = .one
         #expect(offset.underlying == Difference(1))
     }
 
     @Test
-    func `addition on tagged`() {
+    func `Tagged offset addition preserves the domain and signed sum`() {
         let a: Tagged<Element, Ordinal>.Offset = 3
         let b: Tagged<Element, Ordinal>.Offset = 4
         let sum = a + b
@@ -91,7 +91,7 @@ extension Difference.`Tagged Offset`.Unit {
     }
 
     @Test
-    func `subtraction on tagged`() {
+    func `Tagged offset subtraction preserves the domain and signed difference`() {
         let a: Tagged<Element, Ordinal>.Offset = 5
         let b: Tagged<Element, Ordinal>.Offset = 2
         let diff = a - b
@@ -99,35 +99,35 @@ extension Difference.`Tagged Offset`.Unit {
     }
 
     @Test
-    func `compound addition on tagged`() {
+    func `Compound tagged offset addition updates the signed value`() {
         var a: Tagged<Element, Ordinal>.Offset = 5
         a += Tagged<Element, Ordinal>.Offset(3)
         #expect(a.underlying == Difference(8))
     }
 
     @Test
-    func `compound subtraction on tagged`() {
+    func `Compound tagged offset subtraction updates the signed value`() {
         var a: Tagged<Element, Ordinal>.Offset = 5
         a -= Tagged<Element, Ordinal>.Offset(3)
         #expect(a.underlying == Difference(2))
     }
 
     @Test
-    func `unary minus on tagged`() {
+    func `Tagged offset negation reverses the sign within its domain`() {
         let v: Tagged<Element, Ordinal>.Offset = 5
         let negated: Tagged<Element, Ordinal>.Offset = -v
         #expect(negated.underlying == Difference(-5))
     }
 
     @Test
-    func `magnitude of positive tagged offset`() {
+    func `Positive tagged offsets expose their domain preserving magnitude`() {
         let offset: Tagged<Element, Ordinal>.Offset = 5
         let magnitude: Tagged<Element, Difference.Magnitude> = offset.magnitude
         #expect(magnitude.underlying == Difference.Magnitude(Cardinal(5)))
     }
 
     @Test
-    func `magnitude of negative tagged offset`() {
+    func `Negative tagged offsets expose their domain preserving magnitude`() {
         let offset: Tagged<Element, Ordinal>.Offset = -5
         let magnitude: Tagged<Element, Difference.Magnitude> = offset.magnitude
         #expect(magnitude.underlying == Difference.Magnitude(Cardinal(5)))
@@ -142,21 +142,21 @@ extension Difference.`Tagged Offset`.Unit {
     }
 
     @Test
-    func `vector less than cardinal same domain`() {
+    func `Tagged offsets compare below larger counts in the same domain`() {
         let offset: Tagged<Element, Ordinal>.Offset = 3
         let count: Tagged<Element, Cardinal> = 5
         #expect(offset < positiveDifference(count))
     }
 
     @Test
-    func `cardinal less than vector same domain`() {
+    func `Tagged counts compare below larger offsets in the same domain`() {
         let count: Tagged<Element, Cardinal> = 3
         let offset: Tagged<Element, Ordinal>.Offset = 5
         #expect(positiveDifference(count) < offset)
     }
 
     @Test
-    func `vector equal to cardinal at zero`() {
+    func `Tagged counts and offsets compare equally at zero`() {
         let offset: Tagged<Element, Ordinal>.Offset = .zero
         let count: Tagged<Element, Cardinal> = .zero
         #expect(offset <= positiveDifference(count))
@@ -164,14 +164,14 @@ extension Difference.`Tagged Offset`.Unit {
     }
 
     @Test
-    func `negative vector less than any cardinal`() {
+    func `Negative tagged offsets compare below nonnegative counts`() {
         let offset: Tagged<Element, Ordinal>.Offset = -1
         let count: Tagged<Element, Cardinal> = .zero
         #expect(offset < positiveDifference(count))
     }
 }
 
-extension Difference.`Tagged Offset`.`Edge Case` {
+extension Difference.`Tagged offsets preserve their domains through signed arithmetic`.`Tagged displacement comparisons preserve the full signed and unsigned ranges` {
 
     @Test
     func `negative tagged offset cannot become an unsigned position`() {
