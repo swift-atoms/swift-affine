@@ -10,7 +10,5 @@
 @_exported public import Difference
 @_exported public import Difference_Standard_Library_Integration
 @_exported public import Ratio
-@_exported public import Difference_Ratio
-@_exported public import Ordinal_Ratio
 @_exported public import Tagged
 @_exported public import Tagged_Standard_Library_Integration

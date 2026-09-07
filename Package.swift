@@ -44,14 +44,14 @@ let package = Package(
             url: "https://github.com/swift-atoms/swift-tagged.git",
             branch: "main"
         ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-difference-ratio.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-ordinal-ratio.git",
-            branch: "main"
-        ),
+//        .package(
+//            url: "https://github.com/swift-molecules/swift-difference-ratio.git",
+//            branch: "main"
+//        ),
+//        .package(
+//            url: "https://github.com/swift-molecules/swift-ordinal-ratio.git",
+//            branch: "main"
+//        ),
     ],
     targets: [
         .target(name: "Affine", dependencies: [
@@ -76,8 +76,8 @@ let package = Package(
             .product(name: "Difference", package: "swift-difference"),
             .product(name: "Difference Standard Library Integration", package: "swift-difference"),
             .product(name: "Ratio", package: "swift-ratio"),
-            .product(name: "Difference Ratio", package: "swift-difference-ratio"),
-            .product(name: "Ordinal Ratio", package: "swift-ordinal-ratio"),
+//            .product(name: "Difference Ratio", package: "swift-difference-ratio"),
+//            .product(name: "Ordinal Ratio", package: "swift-ordinal-ratio"),
             .product(name: "Tagged", package: "swift-tagged"),
             .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
         ], path: "Tests/Support"),
