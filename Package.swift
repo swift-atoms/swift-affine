@@ -11,9 +11,18 @@ let package = Package(
         .library(name: "Affine Test Support", targets: ["Affine Test Support"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-atoms/swift-magnitude.git", branch: "main"),
-        .package(url: "https://github.com/swift-atoms/swift-polarity.git", branch: "main"),
-        .package(url: "https://github.com/swift-atoms/swift-rational.git", branch: "main"),
+        .package(
+            url: "https://github.com/swift-atoms/swift-magnitude.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-polarity.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-rational.git",
+            branch: "main"
+        ),
         .package(
             url: "https://github.com/swift-atoms/swift-addition.git",
             branch: "main"
