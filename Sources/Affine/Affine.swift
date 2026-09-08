@@ -23,5 +23,4 @@ public struct Affine<Point, Displacement, Failure: Swift.Error> {
     public func displacement(from start: Point, to end: Point) throws(Failure) -> Displacement {
         try difference(start, end)
     }
-
 }
