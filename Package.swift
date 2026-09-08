@@ -6,107 +6,10 @@ let package = Package(
     platforms: [.macOS(.v27), .iOS(.v27), .tvOS(.v27), .watchOS(.v27), .visionOS(.v27)],
     products: [
         .library(name: "Affine", targets: ["Affine"]),
-
-        .library(name: "Affine Foundation Integration", targets: ["Affine Foundation Integration"]),
-        .library(name: "Affine Test Support", targets: ["Affine Test Support"]),
-    ],
-    dependencies: [
-        .package(
-            url: "https://github.com/swift-atoms/swift-magnitude.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-polarity.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-rational.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-addition.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-subtraction.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-cardinal.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-ordinal.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-difference.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-ratio.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-interval.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-atoms/swift-tagged.git",
-            branch: "main"
-        ),
     ],
     targets: [
-        .target(
-            name: "Affine",
-            dependencies: [
-                .product(name: "Magnitude", package: "swift-magnitude"),
-                .product(name: "Polarity", package: "swift-polarity"),
-                .product(name: "Addition", package: "swift-addition"),
-                .product(name: "Subtraction", package: "swift-subtraction"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Difference", package: "swift-difference"),
-                .product(name: "Tagged", package: "swift-tagged"),
-            ],
-            path: "Sources/Affine"
-        ),
-        
-        .target(
-            name: "Affine Foundation Integration",
-            dependencies: [
-                .target(name: "Affine"),
-            ],
-            path: "Sources/Affine Foundation Integration"
-        ),
-        .target(
-            name: "Affine Test Support",
-            dependencies: [
-                .target(name: "Affine"),
-                .product(name: "Magnitude", package: "swift-magnitude"),
-                .product(name: "Polarity", package: "swift-polarity"),
-                .product(name: "Rational", package: "swift-rational"),
-                .product(name: "Interval", package: "swift-interval"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Difference", package: "swift-difference"),
-                .product(name: "Ratio", package: "swift-ratio"),
-                .product(name: "Tagged", package: "swift-tagged"),
-            ],
-            path: "Tests/Support"
-        ),
-        .testTarget(
-            name: "Affine Tests",
-            dependencies: [
-                .target(name: "Affine Test Support"),
-                .target(name: "Affine"),
-                .product(name: "Interval", package: "swift-interval"),
-                .product(name: "Difference", package: "swift-difference"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .target(name: "Affine Foundation Integration"),
-            ],
-            path: "Tests/Affine Tests"
-        ),
+        .target(name: "Affine"),
+        .testTarget(name: "Affine Tests", dependencies: ["Affine"]),
     ],
     swiftLanguageModes: [.v6]
 )
@@ -120,6 +23,5 @@ for target in package.targets {
         .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
-        .define("SYNCHRONIZATION_AVAILABLE", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS, .linux, .windows])),
     ]
 }
