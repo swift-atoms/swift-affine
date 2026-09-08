@@ -2,8 +2,8 @@ internal import Addition
 internal import Cardinal
 internal import Magnitude
 internal import Polarity
-public import Difference
+import Difference
 internal import Subtraction
-public import Tagged
+import Tagged
 
 extension Affine.Position: Swift.RawRepresentable where Domain: ~Copyable & ~Escapable {}
