@@ -1,9 +1,3 @@
-/// Affine translation and displacement operations over independently owned types.
-///
-/// Implementations must satisfy identity, composition, and point/displacement
-/// round-trip laws wherever their representation admits the operations. Failure
-/// is explicit: bounded representations need not pretend to be total spaces.
-/// No origin, coordinate storage, ordering, or point arithmetic is imposed.
 public struct Affine<Point, Displacement, Failure: Swift.Error> {
     private let translate: (Point, Displacement) throws(Failure) -> Point
     private let difference: (Point, Point) throws(Failure) -> Displacement
