@@ -7,9 +7,25 @@ let package = Package(
     products: [
         .library(name: "Affine", targets: ["Affine"]),
     ],
+    traits: [
+        .trait(name: "Tagged", description: "Tagged point representations"),
+        .trait(name: "Vector", description: "Componentwise vector representations"),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-tagged.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-vector.git", branch: "main"),
+    ],
     targets: [
-        .target(name: "Affine"),
+        .target(name: "Affine", dependencies: [
+            .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Tagged"])),
+            .product(name: "Vector", package: "swift-vector", condition: .when(traits: ["Vector"])),
+        ]),
         .testTarget(name: "Affine Tests", dependencies: ["Affine"]),
+        .testTarget(name: "Affine Representations Tests", dependencies: [
+            .target(name: "Affine"),
+            .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Tagged"])),
+            .product(name: "Vector", package: "swift-vector", condition: .when(traits: ["Vector"])),
+        ]),
     ],
     swiftLanguageModes: [.v6]
 )
