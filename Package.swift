@@ -17,14 +17,14 @@ let package = Package(
     ],
     targets: [
         .target(name: "Affine", dependencies: [
-            .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Tagged"])),
-            .product(name: "Vector", package: "swift-vector", condition: .when(traits: ["Vector"])),
+            .product(name: "Tagged", package: "swift-tagged"),
+            .product(name: "Vector", package: "swift-vector"),
         ]),
         .testTarget(name: "Affine Tests", dependencies: ["Affine"]),
         .testTarget(name: "Affine Representations Tests", dependencies: [
             .target(name: "Affine"),
-            .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Tagged"])),
-            .product(name: "Vector", package: "swift-vector", condition: .when(traits: ["Vector"])),
+            .product(name: "Tagged", package: "swift-tagged"),
+            .product(name: "Vector", package: "swift-vector"),
         ]),
     ],
     swiftLanguageModes: [.v6]
