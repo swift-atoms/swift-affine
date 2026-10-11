@@ -52,13 +52,13 @@ import Testing
     }
 
     @Test func `Native durations need no displacement wrapper`() {
-        struct Sample: Equatable { let value: Swift.Duration }
-        let relation = Affine<Sample, Swift.Duration, Never>(
+        struct Sample: Equatable { let value: Swift::Duration }
+        let relation = Affine<Sample, Swift::Duration, Never>(
             translating: { Sample(value: $0.value + $1) },
             displacement: { $1.value - $0.value }
         )
         let start = Sample(value: .seconds(7))
-        let delta = Swift.Duration(attoseconds: 1)
+        let delta = Swift::Duration(attoseconds: 1)
         let end = relation.translated(start, by: delta)
         #expect(relation.displacement(from: start, to: end) == delta)
     }
@@ -87,7 +87,7 @@ import Testing
 }
 
 @Suite struct `Affine relationships preserve typed failures` {
-    private enum Failure: Swift.Error, Equatable {
+    private enum Failure: Swift::Error, Equatable {
         case translation(Int)
         case displacement(Int, Int)
     }

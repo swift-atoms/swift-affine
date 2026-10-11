@@ -1,4 +1,4 @@
-public struct Affine<Point, Displacement, Failure: Swift.Error> {
+public struct Affine<Point, Displacement, Failure: Swift::Error> {
     private let translate: (Point, Displacement) throws(Failure) -> Point
     private let difference: (Point, Point) throws(Failure) -> Displacement
 
@@ -9,6 +9,9 @@ public struct Affine<Point, Displacement, Failure: Swift.Error> {
         self.translate = translating
         self.difference = displacement
     }
+}
+
+extension Affine {
 
     public func translated(_ point: Point, by displacement: Displacement) throws(Failure) -> Point {
         try translate(point, displacement)

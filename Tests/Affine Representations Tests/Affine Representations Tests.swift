@@ -13,8 +13,8 @@ private enum World {}
 @Suite struct `Affine composition preserves independently owned representations` {
     #if Tagged
     @Test func `Affine relationships compose independently owned point and displacement types`() {
-        struct Reading: Equatable { let time: Swift.Duration }
-        let affine = Affine<Reading, Swift.Duration, Never>(
+        struct Reading: Equatable { let time: Swift::Duration }
+        let affine = Affine<Reading, Swift::Duration, Never>(
             translating: { Reading(time: $0.time + $1) },
             displacement: { $1.time - $0.time }
         )
@@ -25,7 +25,7 @@ private enum World {}
         let tagged = affine.tagged(Screen.self)
         let p = Tagged<Screen, Reading>(_unchecked: start)
         let q = tagged.translated(p, by: .seconds(3))
-        let duration: Swift.Duration = tagged.displacement(from: p, to: q)
+        let duration: Swift::Duration = tagged.displacement(from: p, to: q)
         #expect(duration == .seconds(3))
     }
 
