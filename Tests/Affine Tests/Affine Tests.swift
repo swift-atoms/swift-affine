@@ -36,7 +36,10 @@ import Testing
         let start = Reading(value: value)
         let end = relationship.translated(start, by: delta)
         #expect(relationship.displacement(from: start, to: end) == delta)
-        #expect(relationship.translated(start, by: relationship.displacement(from: start, to: end)) == end)
+        #expect(
+            relationship.translated(start, by: relationship.displacement(from: start, to: end))
+                == end
+        )
         #expect(relationship.translated(end, by: -delta) == start)
     }
 
@@ -46,9 +49,12 @@ import Testing
         let middle = relationship.translated(start, by: first)
         let end = relationship.translated(middle, by: second)
         #expect(end == relationship.translated(start, by: first + second))
-        #expect(relationship.displacement(from: start, to: end) ==
-            relationship.displacement(from: start, to: middle) +
-            relationship.displacement(from: middle, to: end))
+        #expect(
+            relationship.displacement(from: start, to: end) == relationship.displacement(
+                from: start,
+                to: middle
+            ) + relationship.displacement(from: middle, to: end)
+        )
     }
 
     @Test func `Native durations need no displacement wrapper`() {
@@ -63,7 +69,8 @@ import Testing
         #expect(relation.displacement(from: start, to: end) == delta)
     }
 
-    @Test func `Closures can capture local state without imposing sendability or numeric protocols`() {
+    @Test
+    func `Closures can capture local state without imposing sendability or numeric protocols`() {
         final class Context { var calls: [String] = [] }
         final class Position {}
         struct Shift { let destination: Position }
