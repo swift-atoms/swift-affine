@@ -19,8 +19,8 @@ let package = Package(
         .target(
             name: "Affine",
             dependencies: [
-                .product(name: "Tagged", package: "swift-tagged"),
-                .product(name: "Vector", package: "swift-vector"),
+                .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Tagged"])),
+                .product(name: "Vector", package: "swift-vector", condition: .when(traits: ["Vector"])),
             ]
         ),
         .testTarget(name: "Affine Tests", dependencies: [.target(name: "Affine")]),
