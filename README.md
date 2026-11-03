@@ -22,7 +22,7 @@ A relationship you build must satisfy these; the package's tests check them for 
 ## Variants
 
 - `tagged(Tag.self)`, with trait `Tagged`: the same relationship over `Tagged<Tag, Point>`, so points from different domains can't be mixed while displacements stay plain.
-- `Affine.componentwise(...)`, with trait `Vector`: an N-dimensional relationship built from a per-component one, through `Vector<N, Scalar>`.
+- `Affine.componentwise(...)`, with trait `Vector`: an N-dimensional relationship built from a per-component one: each point and displacement converts to and from a `Vector` of N scalars.
 
 ## Example
 
