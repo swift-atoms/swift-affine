@@ -1,6 +1,6 @@
 # swift-affine
 
-Use this package when two types you do not own, or do not want to change, stand in a point–displacement relation (a reading and a change, an instant and a `Swift::Duration`, a position and an offset) and you need to move a point by a displacement or measure the displacement between two points. Start from `Affine<Point, Displacement, Failure>`: it is a value holding the two operations, not a protocol the types conform to, so one pair of types can carry several relationships and neither type knows about any of them.
+Use this package when two types you do not own, or do not want to change, stand in a point-displacement relation (a reading and a change, an instant and a `Swift::Duration`, a position and an offset) and you need to move a point by a displacement or measure the displacement between two points. Start from `Affine<Point, Displacement, Failure>`: it is a value holding the two operations, not a protocol the types conform to, so one pair of types can carry several relationships and neither type knows about any of them.
 
 ## Laws
 
