@@ -34,7 +34,7 @@ private enum World {}
 
     #if Vector
         @Test func `Positions and displacements can use different scalar representations`() throws {
-            enum Failure: Error { case overflow }
+            enum Failure: Swift.Error { case overflow }
             let affine = Affine<Vector<3, Int64>, Vector<3, Int128>, Failure>.componentwise(
                 coordinates: { $0 },
                 point: { $0 },
